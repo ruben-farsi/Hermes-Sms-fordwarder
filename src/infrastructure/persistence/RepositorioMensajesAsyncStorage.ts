@@ -1,0 +1,33 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { MensajeSms } from '../../domain/entities/MensajeSms';
+import { IRepositorioMensajes } from '../../domain/ports/IRepositorioMensajes';
+
+const CLAVE = '@sms_forwarder/mensajes';
+
+export class RepositorioMensajesAsyncStorage implements IRepositorioMensajes {
+  async guardar(mensaje: MensajeSms): Promise<void> {
+    const mensajes = await this.obtenerTodos();
+    mensajes.push(mensaje);
+    await AsyncStorage.setItem(CLAVE, JSON.stringify(mensajes));
+  }
+
+  async obtenerTodos(): Promise<MensajeSms[]> {
+    const datos = await AsyncStorage.getItem(CLAVE);
+    if (!datos) return [];
+
+    const registros = JSON.parse(datos) as Array<Record<string, unknown>>;
+    return registros.map((registro) => ({
+      ...registro,
+      fechaHora: new Date(registro.fechaHora as string),
+    })) as MensajeSms[];
+  }
+
+  async actualizar(mensaje: MensajeSms): Promise<void> {
+    const mensajes = await this.obtenerTodos();
+    const indice = mensajes.findIndex((m) => m.id === mensaje.id);
+    if (indice >= 0) {
+      mensajes[indice] = mensaje;
+      await AsyncStorage.setItem(CLAVE, JSON.stringify(mensajes));
+    }
+  }
+}

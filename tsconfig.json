@@ -1,0 +1,25 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "lib": ["ES2015", "ES2017", "DOM"],
+    "types": ["jest"],
+    "ignoreDeprecations": "5.0",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@dominio/*": ["src/domain/*"],
+      "@aplicacion/*": ["src/application/*"],
+      "@infraestructura/*": ["src/infrastructure/*"],
+      "@presentacion/*": ["src/presentation/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "App.tsx", "index.ts"],
+  "exclude": ["node_modules"]
+}
