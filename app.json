@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "SMS_Forwarder",
-    "slug": "sms-forwarder",
+    "name": "Mi_SMS_Forwarder",
+    "slug": "mi-sms-forwarder",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,7 +16,7 @@
     },
     "android": {
       "newArchEnabled": true,
-      "package": "com.smsforwarder.app",
+      "package": "com.rlanza.smsforwarder",
       "permissions": [
         "android.permission.RECEIVE_SMS",
         "android.permission.READ_SMS"
@@ -32,12 +32,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "extra": {
-      "eas": {
-        "projectId": "93b32858-af43-492e-9bce-de69c676e06d"
-      }
-    },
-    "owner": "gersonl504s-organization",
+    "extra": {},
     "plugins": [
       "./plugins/withSmsListener"
     ]
