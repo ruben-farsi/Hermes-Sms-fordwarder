@@ -10,7 +10,7 @@ import { ReintentarMensaje } from '../../application/ReintentarMensaje';
 import { GestionarAutoRespuestas } from '../../application/GestionarAutoRespuestas';
 import { RepositorioMensajesAsyncStorage } from '../persistence/RepositorioMensajesAsyncStorage';
 import { RepositorioReglasAsyncStorage } from '../persistence/RepositorioReglasAsyncStorage';
-import { RepositorioConfigTelegramAsyncStorage } from '../persistence/RepositorioConfigTelegramAsyncStorage';
+import { RepositorioConfigTelegramSecureStore } from '../persistence/RepositorioConfigTelegramAsyncStorage';
 import { RepositorioAjustesAsyncStorage } from '../persistence/RepositorioAjustesAsyncStorage';
 import { RepositorioPendientesAsyncStorage } from '../persistence/RepositorioPendientesAsyncStorage';
 import { RepositorioAutoRespuestasAsyncStorage } from '../persistence/RepositorioAutoRespuestasAsyncStorage';
@@ -43,7 +43,7 @@ export class ContenedorDeDependencias {
   private constructor() {
     const repositorioMensajes = new RepositorioMensajesAsyncStorage();
     const repositorioReglas = new RepositorioReglasAsyncStorage();
-    const repositorioConfig = new RepositorioConfigTelegramAsyncStorage();
+    const repositorioConfig = new RepositorioConfigTelegramSecureStore();
     const repositorioAjustes = new RepositorioAjustesAsyncStorage();
     const repositorioPendientes = new RepositorioPendientesAsyncStorage();
     const enviadorTelegram = new EnviadorTelegramApi();
