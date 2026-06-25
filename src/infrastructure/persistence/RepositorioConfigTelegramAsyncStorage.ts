@@ -1,10 +1,10 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
 import { ConfiguracionTelegram } from '../../domain/entities/ConfiguracionTelegram';
 import { IRepositorioConfigTelegram } from '../../domain/ports/IRepositorioConfigTelegram';
 
-const CLAVE = '@sms_forwarder/configs_telegram';
+const CLAVE = 'sms_forwarder_configs_telegram';
 
-export class RepositorioConfigTelegramAsyncStorage
+export class RepositorioConfigTelegramSecureStore
   implements IRepositorioConfigTelegram
 {
   async guardar(configuracion: ConfiguracionTelegram): Promise<void> {
@@ -24,16 +24,9 @@ export class RepositorioConfigTelegramAsyncStorage
   }
 
   async obtenerTodas(): Promise<ConfiguracionTelegram[]> {
-    const datos = await AsyncStorage.getItem(CLAVE);
+    const datos = await SecureStore.getItemAsync(CLAVE);
     if (!datos) return [];
-    const lista = JSON.parse(datos) as Array<Record<string, unknown>>;
-    return lista.map((c) => ({
-      id: c.id as string,
-      nombre: c.nombre as string,
-      botToken: this.desofuscar(c.botToken as string),
-      chatId: c.chatId as string,
-      esPredeterminada: c.esPredeterminada as boolean,
-    }));
+    return JSON.parse(datos) as ConfiguracionTelegram[];
   }
 
   async obtenerPorId(id: string): Promise<ConfiguracionTelegram | null> {
@@ -48,21 +41,6 @@ export class RepositorioConfigTelegramAsyncStorage
   }
 
   private async guardarTodas(configs: ConfiguracionTelegram[]): Promise<void> {
-    const ofuscadas = configs.map((c) => ({
-      id: c.id,
-      nombre: c.nombre,
-      botToken: this.ofuscar(c.botToken),
-      chatId: c.chatId,
-      esPredeterminada: c.esPredeterminada,
-    }));
-    await AsyncStorage.setItem(CLAVE, JSON.stringify(ofuscadas));
-  }
-
-  private ofuscar(valor: string): string {
-    return btoa(valor);
-  }
-
-  private desofuscar(valor: string): string {
-    return atob(valor);
+    await SecureStore.setItemAsync(CLAVE, JSON.stringify(configs));
   }
 }
