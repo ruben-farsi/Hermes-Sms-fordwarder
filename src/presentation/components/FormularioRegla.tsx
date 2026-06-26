@@ -9,7 +9,6 @@ import {
   Modal,
   ScrollView,
   KeyboardAvoidingView,
-  Keyboard,
   Platform,
   LayoutAnimation,
   UIManager,
@@ -53,7 +52,6 @@ export const FormularioRegla: React.FC<Props> = ({
   } = useFormularioRegla(visible, reglaExistente);
 
   const manejarGuardado = () => {
-    Keyboard.dismiss();
     const datos = obtenerDatos();
     if (datos) onGuardar(datos);
   };
@@ -236,7 +234,6 @@ export const FormularioRegla: React.FC<Props> = ({
                       accessibilityRole="button"
                       accessibilityLabel={`${dia} ${diasActivos.includes(indice) ? 'seleccionado' : 'no seleccionado'}`}
                       accessibilityState={{ selected: diasActivos.includes(indice) }}
-                      hitSlop={{ top: 6, bottom: 6, left: 4, right: 4 }}
                     >
                       <Text
                         style={[

@@ -12,14 +12,12 @@ import {
   Platform,
   UIManager,
   KeyboardAvoidingView,
-  Keyboard,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAjustes } from '../hooks/useAjustes';
 import { Ajustes } from '../../domain/entities/Ajustes';
 import { FondoGradiente } from '../components/FondoGradiente';
 import { COLORES, SOMBRAS, BORDES, GRADIENTES } from '../theme/colores';
-import { FUENTES } from '../theme/tipografia';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -93,7 +91,6 @@ export const PantallaAjustes: React.FC = () => {
   };
 
   const manejarGuardado = () => {
-    Keyboard.dismiss();
     const nuevosAjustes: Ajustes = {
       prefijoMensaje: prefijoMensaje.trim(),
       reintentoAutomatico,
@@ -295,19 +292,19 @@ const estilos = StyleSheet.create({
     flex: 1,
   },
   seccionTitulo: {
-    fontSize: FUENTES.tamano.md,
-    fontWeight: FUENTES.peso.bold,
+    fontSize: 15,
+    fontWeight: '700',
     color: COLORES.texto,
   },
   seccionDescripcion: {
-    fontSize: FUENTES.tamano.xs,
+    fontSize: 12,
     color: COLORES.textoSecundario,
     marginTop: 2,
   },
   seccionFlecha: {
-    fontSize: FUENTES.tamano.xs,
+    fontSize: 12,
     color: COLORES.primario,
-    fontWeight: FUENTES.peso.bold,
+    fontWeight: '700',
     marginLeft: 8,
   },
   seccionContenido: {
@@ -321,7 +318,7 @@ const estilos = StyleSheet.create({
     borderColor: COLORES.inputBorde,
     borderRadius: BORDES.radio.sm,
     padding: 12,
-    fontSize: FUENTES.tamano.md,
+    fontSize: 15,
     backgroundColor: COLORES.inputFondo,
     color: COLORES.texto,
     marginTop: 12,
@@ -337,15 +334,15 @@ const estilos = StyleSheet.create({
     borderLeftColor: COLORES.primario,
   },
   prevLabel: {
-    fontSize: FUENTES.tamano.xs,
+    fontSize: 11,
     color: COLORES.primario,
-    fontWeight: FUENTES.peso.bold,
+    fontWeight: '700',
     marginBottom: 6,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
   prevTexto: {
-    fontSize: FUENTES.tamano.sm,
+    fontSize: 13,
     color: COLORES.textoSecundario,
     lineHeight: 20,
   },
@@ -360,12 +357,12 @@ const estilos = StyleSheet.create({
     marginRight: 12,
   },
   etiquetaSwitch: {
-    fontSize: FUENTES.tamano.md,
-    fontWeight: FUENTES.peso.semibold,
+    fontSize: 14,
+    fontWeight: '600',
     color: COLORES.texto,
   },
   ayudaSwitch: {
-    fontSize: FUENTES.tamano.xs,
+    fontSize: 11,
     color: COLORES.textoSutil,
     marginTop: 2,
   },
@@ -378,8 +375,8 @@ const estilos = StyleSheet.create({
   },
   textoAlertaExito: {
     color: COLORES.exito,
-    fontSize: FUENTES.tamano.md,
-    fontWeight: FUENTES.peso.medio,
+    fontSize: 14,
+    fontWeight: '500',
   },
   botonGuardar: {
     marginHorizontal: 16,
@@ -391,7 +388,7 @@ const estilos = StyleSheet.create({
   },
   textoBotonGuardar: {
     color: '#FFFFFF',
-    fontSize: FUENTES.tamano.lg,
-    fontWeight: FUENTES.peso.bold,
+    fontSize: 16,
+    fontWeight: '700',
   },
 });

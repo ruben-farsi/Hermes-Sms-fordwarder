@@ -15,7 +15,6 @@ import { FormularioRegla } from '../components/FormularioRegla';
 import { FondoGradiente } from '../components/FondoGradiente';
 import { ReglaDeReenvio, CampoObjetivo } from '../../domain/entities/ReglaDeReenvio';
 import { COLORES, SOMBRAS, BORDES, GRADIENTES } from '../theme/colores';
-import { FUENTES } from '../theme/tipografia';
 
 export const PantallaReglas: React.FC = () => {
   const { reglas, cargando, crear, editar, eliminar, alternarEstado } =
@@ -108,10 +107,6 @@ export const PantallaReglas: React.FC = () => {
           <TouchableOpacity
             onPress={() => confirmarEliminacion(item)}
             style={estilos.botonEliminar}
-            hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-            accessible={true}
-            accessibilityRole="button"
-            accessibilityLabel={`Eliminar regla ${item.nombre}`}
             activeOpacity={0.6}
           >
             <Text style={estilos.textoEliminar}>🗑️</Text>
@@ -207,8 +202,8 @@ const estilos = StyleSheet.create({
     alignItems: 'center',
   },
   textoResumen: {
-    fontSize: FUENTES.tamano.sm,
-    fontWeight: FUENTES.peso.semibold,
+    fontSize: 13,
+    fontWeight: '600',
     color: COLORES.primario,
   },
   lista: {
@@ -246,8 +241,8 @@ const estilos = StyleSheet.create({
     borderRadius: 4,
   },
   nombreRegla: {
-    fontSize: FUENTES.tamano.lg,
-    fontWeight: FUENTES.peso.bold,
+    fontSize: 16,
+    fontWeight: '700',
     color: COLORES.texto,
   },
   insigniaInactiva: {
@@ -257,8 +252,8 @@ const estilos = StyleSheet.create({
     borderRadius: 10,
   },
   textoInactiva: {
-    fontSize: FUENTES.tamano.xs,
-    fontWeight: FUENTES.peso.bold,
+    fontSize: 10,
+    fontWeight: '700',
     color: COLORES.advertencia,
   },
   filaDetalle: {
@@ -267,11 +262,11 @@ const estilos = StyleSheet.create({
     marginTop: 6,
   },
   iconoCampo: {
-    fontSize: FUENTES.tamano.sm,
+    fontSize: 13,
     marginRight: 6,
   },
   detalleRegla: {
-    fontSize: FUENTES.tamano.sm,
+    fontSize: 13,
     color: COLORES.textoSecundario,
     flex: 1,
   },
@@ -284,7 +279,7 @@ const estilos = StyleSheet.create({
     padding: 6,
   },
   textoEliminar: {
-    fontSize: FUENTES.tamano.xl,
+    fontSize: 18,
   },
   contenedorBotonAgregar: {
     marginHorizontal: 16,
@@ -300,8 +295,8 @@ const estilos = StyleSheet.create({
   },
   textoAgregar: {
     color: '#FFFFFF',
-    fontSize: FUENTES.tamano.lg,
-    fontWeight: FUENTES.peso.bold,
+    fontSize: 16,
+    fontWeight: '700',
   },
   vacio: {
     flex: 1,
@@ -310,17 +305,17 @@ const estilos = StyleSheet.create({
     padding: 40,
   },
   iconoVacio: {
-    fontSize: FUENTES.tamano.icono,
+    fontSize: 48,
     marginBottom: 16,
   },
   textoVacio: {
-    fontSize: FUENTES.tamano.xl,
-    fontWeight: FUENTES.peso.semibold,
+    fontSize: 18,
+    fontWeight: '600',
     color: COLORES.texto,
     textAlign: 'center',
   },
   textoSubtitulo: {
-    fontSize: FUENTES.tamano.md,
+    fontSize: 14,
     color: COLORES.textoSecundario,
     textAlign: 'center',
     marginTop: 8,
