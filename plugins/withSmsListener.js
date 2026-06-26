@@ -66,6 +66,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
+import android.os.PowerManager
 import org.json.JSONArray
 import java.net.HttpURLConnection
 import java.net.URL
@@ -81,6 +82,8 @@ class SmsForwarderService : Service() {
         const val NOTIFICATION_ID = 101
     }
 
+    private var wakeLock: PowerManager.WakeLock? = null
+
     override fun onCreate() {
         super.onCreate()
         crearCanalNotificacion()
@@ -89,6 +92,12 @@ class SmsForwarderService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
             ACTION_START -> {
+                val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+                wakeLock = powerManager.newWakeLock(
+                    PowerManager.PARTIAL_WAKE_LOCK,
+                    "SmsForwarder::WakeLock"
+                )
+                wakeLock?.acquire(10*60*1000L)
                 startForeground(NOTIFICATION_ID, construirNotificacion())
                 getSharedPreferences("sms_forwarder", Context.MODE_PRIVATE)
                     .edit().putBoolean("is_listening", true).apply()
@@ -96,6 +105,9 @@ class SmsForwarderService : Service() {
             ACTION_STOP -> {
                 getSharedPreferences("sms_forwarder", Context.MODE_PRIVATE)
                     .edit().putBoolean("is_listening", false).apply()
+                if (wakeLock?.isHeld == true) {
+                    wakeLock?.release()
+                }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     stopForeground(STOP_FOREGROUND_REMOVE)
                 } else {
@@ -393,6 +405,7 @@ const withSmsListener = (config) => {
             'android.permission.FOREGROUND_SERVICE',
             'android.permission.FOREGROUND_SERVICE_DATA_SYNC',
             'android.permission.INTERNET',
+            'android.permission.WAKE_LOCK',
         ];
         for (const permiso of permisosRequeridos) {
             const yaExiste = manifest['uses-permission'].some(
