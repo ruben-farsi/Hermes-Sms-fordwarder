@@ -7,6 +7,7 @@ import {
   Modal,
   ScrollView,
   StyleSheet,
+  Keyboard,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import {
@@ -72,6 +73,7 @@ export const FormularioAutoRespuesta: React.FC<Props> = ({
   const puedeGuardar = nombre.trim().length > 0 && respuesta.trim().length > 0;
 
   const manejarGuardar = () => {
+    Keyboard.dismiss();
     if (!puedeGuardar) return;
     onGuardar({
       nombre: nombre.trim(),

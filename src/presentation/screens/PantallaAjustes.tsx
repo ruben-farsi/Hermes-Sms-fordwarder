@@ -12,6 +12,7 @@ import {
   Platform,
   UIManager,
   KeyboardAvoidingView,
+  Keyboard,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAjustes } from '../hooks/useAjustes';
@@ -92,6 +93,7 @@ export const PantallaAjustes: React.FC = () => {
   };
 
   const manejarGuardado = () => {
+    Keyboard.dismiss();
     const nuevosAjustes: Ajustes = {
       prefijoMensaje: prefijoMensaje.trim(),
       reintentoAutomatico,

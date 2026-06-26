@@ -9,6 +9,7 @@ import {
   Modal,
   ScrollView,
   KeyboardAvoidingView,
+  Keyboard,
   Platform,
   LayoutAnimation,
   UIManager,
@@ -52,6 +53,7 @@ export const FormularioRegla: React.FC<Props> = ({
   } = useFormularioRegla(visible, reglaExistente);
 
   const manejarGuardado = () => {
+    Keyboard.dismiss();
     const datos = obtenerDatos();
     if (datos) onGuardar(datos);
   };
