@@ -28,7 +28,7 @@ export class EvaluarYReenviarSms {
     private readonly monitorDeRed: IMonitorDeRed,
     private readonly enviadorWebhook: IEnviadorWebhook,
     private readonly notificador: INotificador,
-  ) {}
+  ) { }
 
   async ejecutar(remitente: string, cuerpo: string): Promise<void> {
     const clave = `${remitente}|${cuerpo}`;
