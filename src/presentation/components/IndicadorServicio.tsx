@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { COLORES, SOMBRAS, BORDES, GRADIENTES } from '../theme/colores';
+import { FUENTES } from '../theme/tipografia';
 
 interface Props {
   activo: boolean;
@@ -82,13 +83,13 @@ const estilos = StyleSheet.create({
     backgroundColor: COLORES.error,
   },
   titulo: {
-    fontSize: 14,
-    fontWeight: '700',
+    fontSize: FUENTES.tamano.lg,
+    fontWeight: FUENTES.peso.bold,
     color: COLORES.texto,
   },
   estado: {
-    fontSize: 12,
-    fontWeight: '500',
+    fontSize: FUENTES.tamano.sm,
+    fontWeight: FUENTES.peso.medio,
     marginTop: 2,
   },
   boton: {

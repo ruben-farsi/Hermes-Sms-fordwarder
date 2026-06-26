@@ -94,7 +94,7 @@ export const PantallaConfiguracion: React.FC = () => {
 
   return (
     <FondoGradiente>
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 90 }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 90 }} keyboardShouldPersistTaps="handled">
         <TouchableOpacity
           style={estilos.botonGuia}
           onPress={() => setGuiaVisible(!guiaVisible)}
