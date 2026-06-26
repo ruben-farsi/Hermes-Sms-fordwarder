@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -13,14 +13,8 @@ import {
   LayoutAnimation,
   UIManager,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {
-  ReglaDeReenvio,
-  CampoObjetivo,
-} from '../../domain/entities/ReglaDeReenvio';
-import { ConfiguracionTelegram } from '../../domain/entities/ConfiguracionTelegram';
-import { ContenedorDeDependencias } from '../../infrastructure/container/ContenedorDeDependencias';
-
+import { CampoObjetivo } from '../../domain/entities/ReglaDeReenvio';
+import { useFormularioRegla } from '../hooks/useFormularioRegla';
 import { COLORES, BORDES } from '../theme/colores';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -29,8 +23,8 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 
 interface Props {
   visible: boolean;
-  reglaExistente?: ReglaDeReenvio;
-  onGuardar: (datos: Omit<ReglaDeReenvio, 'id'>) => void;
+  reglaExistente?: Parameters<typeof useFormularioRegla>[1];
+  onGuardar: (datos: NonNullable<ReturnType<ReturnType<typeof useFormularioRegla>['obtenerDatos']>>) => void;
   onCancelar: () => void;
 }
 
@@ -40,64 +34,26 @@ export const FormularioRegla: React.FC<Props> = ({
   onGuardar,
   onCancelar,
 }) => {
-  const [nombre, setNombre] = useState('');
-  const [campoObjetivo, setCampoObjetivo] = useState<CampoObjetivo>(
-    CampoObjetivo.REMITENTE,
-  );
-  const [patron, setPatron] = useState('');
-  const [esRegex, setEsRegex] = useState(false);
-  const [activa, setActiva] = useState(true);
-  const [configTelegramId, setConfigTelegramId] = useState('');
-  const [configuraciones, setConfiguraciones] = useState<ConfiguracionTelegram[]>([]);
-  const [horarioInicio, setHorarioInicio] = useState('');
-  const [horarioFin, setHorarioFin] = useState('');
-  const [diasActivos, setDiasActivos] = useState<number[]>([]);
-  const [avanzadoVisible, setAvanzadoVisible] = useState(false);
-  const insets = useSafeAreaInsets();
-
-  const DIAS_SEMANA = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-
-  useEffect(() => {
-    const cargar = async () => {
-      try {
-        const contenedor = ContenedorDeDependencias.obtenerInstancia();
-        const configs = await contenedor.configurarTelegram.obtenerTodas();
-        setConfiguraciones(configs);
-      } catch {}
-    };
-    cargar();
-  }, []);
-
-  useEffect(() => {
-    if (visible) {
-      setNombre(reglaExistente?.nombre ?? '');
-      setCampoObjetivo(reglaExistente?.campoObjetivo ?? CampoObjetivo.REMITENTE);
-      setPatron(reglaExistente?.patron ?? '');
-      setEsRegex(reglaExistente?.esRegex ?? false);
-      setActiva(reglaExistente?.activa ?? true);
-      setConfigTelegramId(reglaExistente?.configTelegramId ?? '');
-      setHorarioInicio(reglaExistente?.horarioInicio ?? '');
-      setHorarioFin(reglaExistente?.horarioFin ?? '');
-      setDiasActivos(reglaExistente?.diasActivos ?? []);
-      setAvanzadoVisible(
-        !!(reglaExistente?.configTelegramId || reglaExistente?.horarioInicio || reglaExistente?.diasActivos?.length)
-      );
-    }
-  }, [visible, reglaExistente]);
+  const {
+    nombre, setNombre,
+    campoObjetivo, setCampoObjetivo,
+    patron, setPatron,
+    esRegex, setEsRegex,
+    activa, setActiva,
+    configTelegramId, setConfigTelegramId,
+    configuraciones,
+    horarioInicio, setHorarioInicio,
+    horarioFin, setHorarioFin,
+    diasActivos, toggleDia,
+    avanzadoVisible, setAvanzadoVisible,
+    error,
+    obtenerDatos,
+    DIAS_SEMANA,
+  } = useFormularioRegla(visible, reglaExistente);
 
   const manejarGuardado = () => {
-    if (!nombre.trim() || !patron.trim()) return;
-    onGuardar({
-      nombre,
-      campoObjetivo,
-      patron,
-      esRegex,
-      activa,
-      configTelegramId: configTelegramId || undefined,
-      horarioInicio: horarioInicio.trim() || undefined,
-      horarioFin: horarioFin.trim() || undefined,
-      diasActivos: diasActivos.length > 0 ? diasActivos : undefined,
-    });
+    const datos = obtenerDatos();
+    if (datos) onGuardar(datos);
   };
 
   return (
@@ -273,13 +229,11 @@ export const FormularioRegla: React.FC<Props> = ({
                         estilos.botonDia,
                         diasActivos.includes(indice) && estilos.botonDiaActivo,
                       ]}
-                      onPress={() =>
-                        setDiasActivos((prev) =>
-                          prev.includes(indice)
-                            ? prev.filter((d) => d !== indice)
-                            : [...prev, indice],
-                        )
-                      }
+                      onPress={() => toggleDia(indice)}
+                      accessible={true}
+                      accessibilityRole="button"
+                      accessibilityLabel={`${dia} ${diasActivos.includes(indice) ? 'seleccionado' : 'no seleccionado'}`}
+                      accessibilityState={{ selected: diasActivos.includes(indice) }}
                     >
                       <Text
                         style={[
@@ -331,18 +285,30 @@ export const FormularioRegla: React.FC<Props> = ({
             </View>
 
             {/* Botones de acción */}
-            <View style={[estilos.filaBotonesAccion, { marginBottom: Math.max(insets.bottom, 12) + 12 }]}>
+            {error && (
+              <View style={estilos.contenedorError}>
+                <Text style={estilos.textoError}>{error}</Text>
+              </View>
+            )}
+
+            <View style={estilos.filaBotones}>
               <TouchableOpacity
                 style={estilos.botonCancelar}
                 onPress={onCancelar}
+                accessible={true}
+                accessibilityRole="button"
+                accessibilityLabel="Cancelar"
                 activeOpacity={0.7}
               >
                 <Text style={estilos.textoCancelar}>Cancelar</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={estilos.botonGuardar}
+                style={[estilos.botonGuardar, error && { opacity: 0.5 }]}
                 onPress={manejarGuardado}
+                accessible={true}
+                accessibilityRole="button"
+                accessibilityLabel="Guardar regla"
                 activeOpacity={0.8}
               >
                 <Text style={estilos.textoGuardar}>💾 Guardar</Text>
@@ -508,8 +474,22 @@ const estilos = StyleSheet.create({
   },
   textoCancelar: {
     color: COLORES.textoSecundario,
-    fontWeight: '700',
+    fontWeight: '600',
     fontSize: 15,
+  },
+  contenedorError: {
+    backgroundColor: COLORES.errorFondo,
+    padding: 12,
+    borderRadius: BORDES.radio.sm,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: COLORES.error,
+  },
+  textoError: {
+    color: COLORES.error,
+    fontSize: 13,
+    fontWeight: '600',
+    textAlign: 'center',
   },
   botonGuardar: {
     flex: 1,
