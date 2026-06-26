@@ -93,6 +93,9 @@ export const PantallaAutoRespuesta: React.FC = () => {
         <TouchableOpacity
           style={estilos.infoRegla}
           onPress={() => abrirFormularioEdicion(item)}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel={`Editar regla ${item.nombre}`}
           activeOpacity={0.6}
         >
           <View style={estilos.filaEncabezado}>
@@ -218,6 +221,9 @@ export const PantallaAutoRespuesta: React.FC = () => {
       <TouchableOpacity
         style={estilos.fab}
         onPress={abrirFormularioNuevo}
+        accessible={true}
+        accessibilityRole="button"
+        accessibilityLabel="Agregar nueva regla de auto-respuesta"
         activeOpacity={0.8}
       >
         <LinearGradient

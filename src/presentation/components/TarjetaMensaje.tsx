@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { MensajeSms, EstadoMensaje } from '../../domain/entities/MensajeSms';
 import { COLORES, SOMBRAS, BORDES } from '../theme/colores';
+import { FUENTES } from '../theme/tipografia';
 
 const ICONOS_ESTADO: Record<EstadoMensaje, string> = {
   [EstadoMensaje.REENVIADO]: '✅',
@@ -67,6 +68,9 @@ export const TarjetaMensaje: React.FC<Props> = ({ mensaje, onReintentar }) => {
             <TouchableOpacity
               style={estilos.botonReintentar}
               onPress={() => onReintentar(mensaje)}
+              accessible={true}
+              accessibilityRole="button"
+              accessibilityLabel={`Reintentar envío de mensaje de ${mensaje.remitente}`}
               activeOpacity={0.7}
             >
               <Text style={estilos.textoReintentar}>🔄 Reintentar</Text>
@@ -114,8 +118,8 @@ const estilos = StyleSheet.create({
     fontSize: 14,
   },
   remitente: {
-    fontSize: 15,
-    fontWeight: '700',
+    fontSize: FUENTES.tamano.md,
+    fontWeight: FUENTES.peso.semibold,
     color: COLORES.texto,
     flex: 1,
   },
@@ -135,10 +139,10 @@ const estilos = StyleSheet.create({
     fontWeight: '700',
   },
   cuerpo: {
-    fontSize: 14,
+    fontSize: FUENTES.tamano.sm,
     color: COLORES.textoSecundario,
-    lineHeight: 20,
-    marginBottom: 10,
+    marginTop: 6,
+    lineHeight: 18,
   },
   pieDetarjeta: {
     flexDirection: 'row',

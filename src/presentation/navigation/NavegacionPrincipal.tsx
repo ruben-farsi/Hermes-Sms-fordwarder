@@ -1,25 +1,18 @@
 import React from 'react';
-import { Text, Platform, View, StyleSheet, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
 import { PantallaInicio } from '../screens/PantallaInicio';
 import { PantallaReglas } from '../screens/PantallaReglas';
 import { PantallaConfiguracion } from '../screens/PantallaConfiguracion';
 import { PantallaAjustes } from '../screens/PantallaAjustes';
 import { PantallaAutoRespuesta } from '../screens/PantallaAutoRespuesta';
-import { COLORES, GRADIENTES } from '../theme/colores';
+import { COLORES } from '../theme/colores';
+import { HeaderPantalla } from '../components/HeaderPantalla';
 
 const Tab = createBottomTabNavigator();
-
-const ICONOS_TAB: Record<string, { activo: string; inactivo: string }> = {
-  Inicio: { activo: '📱', inactivo: '📱' },
-  Reglas: { activo: '📋', inactivo: '📋' },
-  AutoRespuesta: { activo: '🤖', inactivo: '🤖' },
-  Configuracion: { activo: '⚙️', inactivo: '⚙️' },
-  Ajustes: { activo: '🔧', inactivo: '🔧' },
-};
 
 const NavegacionInterna: React.FC = () => {
   const insets = useSafeAreaInsets();
@@ -27,13 +20,30 @@ const NavegacionInterna: React.FC = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused }) => {
-          const iconos = ICONOS_TAB[route.name];
-          return (
-            <Text style={{ fontSize: 18, opacity: focused ? 1 : 0.4 }}>
-              {focused ? iconos.activo : iconos.inactivo}
-            </Text>
-          );
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName: keyof typeof Ionicons.glyphMap;
+
+          switch (route.name) {
+            case 'Inicio':
+              iconName = focused ? 'phone-portrait' : 'phone-portrait-outline';
+              break;
+            case 'Reglas':
+              iconName = focused ? 'list-circle' : 'list';
+              break;
+            case 'AutoRespuesta':
+              iconName = focused ? 'chatbubbles' : 'chatbubbles-outline';
+              break;
+            case 'Configuracion':
+              iconName = focused ? 'settings' : 'settings-outline';
+              break;
+            case 'Ajustes':
+              iconName = focused ? 'construct' : 'construct-outline';
+              break;
+            default:
+              iconName = 'help-outline';
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: COLORES.tabBarActivo,
         tabBarInactiveTintColor: COLORES.tabBarInactivo,
@@ -53,16 +63,7 @@ const NavegacionInterna: React.FC = () => {
           marginTop: 0,
         },
         header: ({ options }) => (
-          <LinearGradient
-            colors={[...GRADIENTES.header]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={[estilos.header, { paddingTop: Math.max(insets.top, 20) + 12 }]}
-          >
-            <Text style={estilos.headerTitulo}>
-              {options.title ?? route.name}
-            </Text>
-          </LinearGradient>
+          <HeaderPantalla titulo={options.title ?? route.name} />
         ),
       })}
     >
@@ -78,7 +79,7 @@ const NavegacionInterna: React.FC = () => {
         name="Reglas"
         component={PantallaReglas}
         options={{
-          title: 'Reglas de reenvío',
+          title: 'Reglas',
           tabBarLabel: 'Reglas',
         }}
       />
@@ -86,8 +87,8 @@ const NavegacionInterna: React.FC = () => {
         name="AutoRespuesta"
         component={PantallaAutoRespuesta}
         options={{
-          title: 'Auto-Respuesta',
-          tabBarLabel: 'Auto',
+          title: 'Auto-respuesta',
+          tabBarLabel: 'Respuestas',
         }}
       />
       <Tab.Screen
@@ -95,7 +96,7 @@ const NavegacionInterna: React.FC = () => {
         component={PantallaConfiguracion}
         options={{
           title: 'Telegram',
-          tabBarLabel: 'Config',
+          tabBarLabel: 'Bot',
         }}
       />
       <Tab.Screen
@@ -110,26 +111,13 @@ const NavegacionInterna: React.FC = () => {
   );
 };
 
-export const NavegacionPrincipal: React.FC = () => {
-  return (
-    <SafeAreaProvider>
-      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-      <NavigationContainer>
-        <NavegacionInterna />
-      </NavigationContainer>
-    </SafeAreaProvider>
-  );
-};
+export const NavegacionPrincipal: React.FC = () => (
+  <SafeAreaProvider>
+    <StatusBar barStyle="light-content" backgroundColor={COLORES.fondoPrincipal} />
+    <NavigationContainer>
+      <NavegacionInterna />
+    </NavigationContainer>
+  </SafeAreaProvider>
+);
 
-const estilos = StyleSheet.create({
-  header: {
-    paddingBottom: 16,
-    paddingHorizontal: 20,
-  },
-  headerTitulo: {
-    color: '#FFFFFF',
-    fontSize: 20,
-    fontWeight: '700',
-    letterSpacing: 0.5,
-  },
-});
+export { NavegacionPrincipal as default };

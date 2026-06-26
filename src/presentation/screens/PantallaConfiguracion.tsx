@@ -94,10 +94,13 @@ export const PantallaConfiguracion: React.FC = () => {
 
   return (
     <FondoGradiente>
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 90 }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 90 }} keyboardShouldPersistTaps="handled">
         <TouchableOpacity
           style={estilos.botonGuia}
           onPress={() => setGuiaVisible(!guiaVisible)}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel={guiaVisible ? 'Ocultar guia' : 'Mostrar guia de configuracion'}
           activeOpacity={0.7}
         >
           <Text style={estilos.iconoGuia}>🤖</Text>
@@ -221,6 +224,7 @@ export const PantallaConfiguracion: React.FC = () => {
               onChangeText={setNombre}
               placeholder="Ej: Bot principal"
               placeholderTextColor={COLORES.textoSutil}
+              accessibilityLabel="Nombre de la configuración"
             />
 
             <Text style={estilos.etiqueta}>🔐 Bot Token</Text>
@@ -233,6 +237,7 @@ export const PantallaConfiguracion: React.FC = () => {
               autoCapitalize="none"
               autoCorrect={false}
               secureTextEntry
+              accessibilityLabel="Token del bot de Telegram"
             />
 
             <Text style={estilos.etiqueta}>💬 Chat ID</Text>
@@ -244,6 +249,7 @@ export const PantallaConfiguracion: React.FC = () => {
               placeholderTextColor={COLORES.textoSutil}
               autoCapitalize="none"
               keyboardType="numeric"
+              accessibilityLabel="ID del chat de Telegram"
             />
 
             <TouchableOpacity

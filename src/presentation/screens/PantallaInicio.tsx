@@ -79,6 +79,10 @@ export const PantallaInicio: React.FC = () => {
         {OPCIONES_FILTRO.map((opcion) => (
           <TouchableOpacity
             key={opcion.clave}
+            accessible={true}
+            accessibilityRole="button"
+            accessibilityLabel={`Filtrar por ${opcion.etiqueta}`}
+            accessibilityState={{ selected: filtroActivo === opcion.clave }}
             style={[
               estilos.botonFiltro,
               filtroActivo === opcion.clave && estilos.botonFiltroActivo,

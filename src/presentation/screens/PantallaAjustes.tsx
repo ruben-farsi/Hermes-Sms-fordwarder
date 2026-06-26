@@ -44,6 +44,10 @@ const SeccionAcordeon: React.FC<SeccionProps> = ({
     <TouchableOpacity
       style={estilos.seccionHeader}
       onPress={onToggle}
+      accessible={true}
+      accessibilityRole="button"
+      accessibilityLabel={`${titulo}. ${expandida ? 'Contraer' : 'Expandir'} sección`}
+      accessibilityState={{ expanded: expandida }}
       activeOpacity={0.7}
     >
       <View style={estilos.seccionIcono}>
@@ -133,6 +137,7 @@ export const PantallaAjustes: React.FC = () => {
             placeholder="Ej: 📲 Mi teléfono personal"
             placeholderTextColor={COLORES.textoSutil}
             multiline
+            accessibilityLabel="Prefijo del mensaje"
           />
           <View style={estilos.previsualizacion}>
             <Text style={estilos.prevLabel}>Vista previa</Text>
@@ -196,6 +201,7 @@ export const PantallaAjustes: React.FC = () => {
               autoCapitalize="none"
               autoCorrect={false}
               keyboardType="url"
+              accessibilityLabel="URL del webhook"
             />
           )}
         </SeccionAcordeon>
@@ -231,7 +237,13 @@ export const PantallaAjustes: React.FC = () => {
           </View>
         )}
 
-        <TouchableOpacity onPress={manejarGuardado} activeOpacity={0.8}>
+        <TouchableOpacity
+          onPress={manejarGuardado}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel="Guardar ajustes"
+          activeOpacity={0.8}
+        >
           <LinearGradient
             colors={[...GRADIENTES.boton]}
             start={{ x: 0, y: 0 }}
