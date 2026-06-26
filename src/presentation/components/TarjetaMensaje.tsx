@@ -67,6 +67,9 @@ export const TarjetaMensaje: React.FC<Props> = ({ mensaje, onReintentar }) => {
             <TouchableOpacity
               style={estilos.botonReintentar}
               onPress={() => onReintentar(mensaje)}
+              accessible={true}
+              accessibilityRole="button"
+              accessibilityLabel={`Reintentar envío de mensaje de ${mensaje.remitente}`}
               activeOpacity={0.7}
             >
               <Text style={estilos.textoReintentar}>🔄 Reintentar</Text>

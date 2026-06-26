@@ -129,6 +129,7 @@ export const FormularioRegla: React.FC<Props> = ({
               onChangeText={setNombre}
               placeholder="Ej: Alertas del banco"
               placeholderTextColor={COLORES.textoSutil}
+              accessibilityLabel="Nombre de la regla"
             />
 
             {/* Campo objetivo */}
@@ -186,6 +187,7 @@ export const FormularioRegla: React.FC<Props> = ({
               placeholder={esRegex ? 'Ej: \\d{6}' : 'Ej: banco'}
               placeholderTextColor={COLORES.textoSutil}
               autoCapitalize="none"
+              accessibilityLabel={esRegex ? 'Patrón regex' : 'Patrón de búsqueda'}
             />
 
             {/* Opciones avanzadas */}

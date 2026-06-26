@@ -28,6 +28,10 @@ export const IndicadorServicio: React.FC<Props> = ({ activo, onAlternar }) => {
 
       <TouchableOpacity
         onPress={onAlternar}
+        accessible={true}
+        accessibilityRole="button"
+        accessibilityLabel={activo ? 'Detener servicio SMS' : 'Iniciar servicio SMS'}
+        accessibilityState={{ selected: activo }}
         activeOpacity={0.8}
       >
         <LinearGradient

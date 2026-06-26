@@ -189,6 +189,7 @@ export const FormularioAutoRespuesta: React.FC<Props> = ({
               placeholder="0"
               placeholderTextColor={COLORES.textoSutil}
               keyboardType="numeric"
+              accessibilityLabel="Delay en segundos antes de responder"
             />
 
             <View style={estilos.botonesAccion}>

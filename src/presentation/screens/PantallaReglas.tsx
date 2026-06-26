@@ -69,6 +69,10 @@ export const PantallaReglas: React.FC = () => {
         <TouchableOpacity
           style={estilos.infoRegla}
           onPress={() => abrirFormularioEdicion(item)}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel={`Editar regla ${item.nombre}, ${item.activa ? 'activa' : 'inactiva'}`}
+          accessibilityHint="Abre el formulario de edición"
           activeOpacity={0.6}
         >
           <View style={estilos.filaEncabezado}>
