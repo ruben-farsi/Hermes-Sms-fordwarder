@@ -1,16 +1,16 @@
 import React from 'react';
-import { Text, Platform, View, StyleSheet, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { PantallaInicio } from '../screens/PantallaInicio';
 import { PantallaReglas } from '../screens/PantallaReglas';
 import { PantallaConfiguracion } from '../screens/PantallaConfiguracion';
 import { PantallaAjustes } from '../screens/PantallaAjustes';
 import { PantallaAutoRespuesta } from '../screens/PantallaAutoRespuesta';
-import { COLORES, GRADIENTES } from '../theme/colores';
+import { COLORES } from '../theme/colores';
+import { HeaderPantalla } from '../components/HeaderPantalla';
 
 const Tab = createBottomTabNavigator();
 
@@ -63,16 +63,7 @@ const NavegacionInterna: React.FC = () => {
           marginTop: 0,
         },
         header: ({ options }) => (
-          <LinearGradient
-            colors={[...GRADIENTES.header]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={[estilos.header, { paddingTop: Math.max(insets.top, 20) + 12 }]}
-          >
-            <Text style={estilos.headerTitulo}>
-              {options.title ?? route.name}
-            </Text>
-          </LinearGradient>
+          <HeaderPantalla titulo={options.title ?? route.name} />
         ),
       })}
     >
@@ -128,21 +119,5 @@ export const NavegacionPrincipal: React.FC = () => (
     </NavigationContainer>
   </SafeAreaProvider>
 );
-
-const estilos = StyleSheet.create({
-  header: {
-    paddingHorizontal: 20,
-    paddingBottom: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  headerTitulo: {
-    fontFamily: 'System',
-    fontSize: 18,
-    fontWeight: '700',
-    letterSpacing: -0.3,
-    color: COLORES.textoClaro,
-  },
-});
 
 export { NavegacionPrincipal as default };
