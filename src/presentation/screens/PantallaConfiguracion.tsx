@@ -148,7 +148,7 @@ export const PantallaConfiguracion: React.FC = () => {
           <View key={config.id} style={estilos.tarjetaConfig}>
             <View style={estilos.cabeceraConfig}>
               <Text style={estilos.nombreConfig}>
-                {config.esPredeterminada ? '⭐ ' : '🤖 '}{config.nombre}
+                {config.esPredeterminada ? '⭐ ' : '🤖'}{config.nombre}
               </Text>
               {config.esPredeterminada && (
                 <View style={estilos.badgePredeterminada}>
@@ -218,7 +218,7 @@ export const PantallaConfiguracion: React.FC = () => {
               {editando ? '✏️ Editar configuración' : '➕ Nueva configuración'}
             </Text>
 
-            <Text style={estilos.etiqueta}>📝 Nombre</Text>
+            <Text style={estilos.etiqueta}>Nombre</Text>
             <TextInput
               style={estilos.input}
               value={nombre}
@@ -228,7 +228,7 @@ export const PantallaConfiguracion: React.FC = () => {
               accessibilityLabel="Nombre de la configuración"
             />
 
-            <Text style={estilos.etiqueta}>🔐 Bot Token</Text>
+            <Text style={estilos.etiqueta}>Bot Token</Text>
             <TextInput
               style={estilos.input}
               value={botToken}
@@ -241,7 +241,7 @@ export const PantallaConfiguracion: React.FC = () => {
               accessibilityLabel="Token del bot de Telegram"
             />
 
-            <Text style={estilos.etiqueta}>💬 Chat ID</Text>
+            <Text style={estilos.etiqueta}>Chat ID</Text>
             <TextInput
               style={estilos.input}
               value={chatId}
