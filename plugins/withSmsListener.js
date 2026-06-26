@@ -5,7 +5,7 @@ const fs = require('fs');
 // ─── SmsReceiver.kt ───────────────────────────────────────────────────────────
 // Recibe SMS del sistema y los delega al ForegroundService (persistente)
 // ademas de notificar al hilo JS si la app esta en primer plano.
-const SMS_RECEIVER_KT = `package com.smsforwarder.app
+const SMS_RECEIVER_KT = `package com.rlanza.smsforwarder
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -55,7 +55,7 @@ class SmsReceiver : BroadcastReceiver() {
 // ─── SmsForwarderService.kt ───────────────────────────────────────────────────
 // ForegroundService que procesa y reenvía SMS a Telegram de forma autónoma,
 // sin depender del hilo JS de React Native. Persiste aunque la app esté cerrada.
-const SMS_FORWARDER_SERVICE_KT = `package com.smsforwarder.app
+const SMS_FORWARDER_SERVICE_KT = `package com.rlanza.smsforwarder
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -277,7 +277,7 @@ class SmsForwarderService : Service() {
 // ─── SmsListenerModule.kt ─────────────────────────────────────────────────────
 // Modulo nativo expuesto a React Native. Gestiona el ciclo de vida del servicio
 // y persiste la configuracion en SharedPreferences para uso del service.
-const SMS_LISTENER_MODULE_KT = `package com.smsforwarder.app
+const SMS_LISTENER_MODULE_KT = `package com.rlanza.smsforwarder
 
 import android.content.Context
 import android.content.Intent
@@ -363,7 +363,7 @@ class SmsListenerModule(private val reactContext: ReactApplicationContext) :
 `;
 
 // ─── SmsListenerPackage.kt ───────────────────────────────────────────────────
-const SMS_LISTENER_PACKAGE_KT = `package com.smsforwarder.app
+const SMS_LISTENER_PACKAGE_KT = `package com.rlanza.smsforwarder
 
 import com.facebook.react.ReactPackage
 import com.facebook.react.bridge.NativeModule
@@ -447,7 +447,7 @@ const withSmsListener = (config) => {
         (modConfig) => {
             const pkgDir = path.join(
                 modConfig.modRequest.platformProjectRoot,
-                'app/src/main/java/com/smsforwarder/app'
+                'app/src/main/java/com/rlanza/smsforwarder'
             );
             fs.mkdirSync(pkgDir, { recursive: true });
             fs.writeFileSync(path.join(pkgDir, 'SmsReceiver.kt'),          SMS_RECEIVER_KT);
