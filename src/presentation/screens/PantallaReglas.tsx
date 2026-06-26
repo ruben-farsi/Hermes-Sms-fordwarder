@@ -108,6 +108,10 @@ export const PantallaReglas: React.FC = () => {
           <TouchableOpacity
             onPress={() => confirmarEliminacion(item)}
             style={estilos.botonEliminar}
+            hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+            accessible={true}
+            accessibilityRole="button"
+            accessibilityLabel={`Eliminar regla ${item.nombre}`}
             activeOpacity={0.6}
           >
             <Text style={estilos.textoEliminar}>🗑️</Text>

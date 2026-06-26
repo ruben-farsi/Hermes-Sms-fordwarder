@@ -84,6 +84,7 @@ export const PantallaInicio: React.FC = () => {
             accessibilityRole="button"
             accessibilityLabel={`Filtrar por ${opcion.etiqueta}`}
             accessibilityState={{ selected: filtroActivo === opcion.clave }}
+            hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
             style={[
               estilos.botonFiltro,
               filtroActivo === opcion.clave && estilos.botonFiltroActivo,

@@ -234,6 +234,7 @@ export const FormularioRegla: React.FC<Props> = ({
                       accessibilityRole="button"
                       accessibilityLabel={`${dia} ${diasActivos.includes(indice) ? 'seleccionado' : 'no seleccionado'}`}
                       accessibilityState={{ selected: diasActivos.includes(indice) }}
+                      hitSlop={{ top: 6, bottom: 6, left: 4, right: 4 }}
                     >
                       <Text
                         style={[
