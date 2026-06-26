@@ -14,6 +14,7 @@ import { TarjetaMensaje } from '../components/TarjetaMensaje';
 import { FondoGradiente } from '../components/FondoGradiente';
 import { MensajeSms, EstadoMensaje } from '../../domain/entities/MensajeSms';
 import { COLORES, BORDES } from '../theme/colores';
+import { FUENTES } from '../theme/tipografia';
 
 type FiltroEstado = 'todos' | EstadoMensaje;
 
@@ -133,7 +134,7 @@ const estilos = StyleSheet.create({
   },
   textoCargando: {
     marginTop: 12,
-    fontSize: 14,
+    fontSize: FUENTES.tamano.sm,
     color: COLORES.textoSecundario,
   },
   lista: {
@@ -171,8 +172,8 @@ const estilos = StyleSheet.create({
     marginRight: 4,
   },
   textoFiltro: {
-    fontSize: 11,
-    fontWeight: '600',
+    fontSize: FUENTES.tamano.xs,
+    fontWeight: FUENTES.peso.semibold,
     color: COLORES.textoSutil,
   },
   textoFiltroActivo: {
@@ -189,13 +190,13 @@ const estilos = StyleSheet.create({
     marginBottom: 16,
   },
   textoVacio: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: FUENTES.tamano.lg,
+    fontWeight: FUENTES.peso.semibold,
     color: COLORES.texto,
     textAlign: 'center',
   },
   textoSubtitulo: {
-    fontSize: 14,
+    fontSize: FUENTES.tamano.sm,
     color: COLORES.textoSecundario,
     textAlign: 'center',
     marginTop: 8,

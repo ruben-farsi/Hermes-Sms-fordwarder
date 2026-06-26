@@ -20,6 +20,7 @@ import {
   TipoDestinatario,
 } from '../../domain/entities/ReglaDeAutoRespuesta';
 import { COLORES, SOMBRAS, BORDES, GRADIENTES } from '../theme/colores';
+import { FUENTES } from '../theme/tipografia';
 
 const ICONO_PLATAFORMA: Record<PlataformaAutoRespuesta, string> = {
   [PlataformaAutoRespuesta.WHATSAPP]:   '💬',
@@ -263,7 +264,7 @@ const estilos = StyleSheet.create({
     padding: 14,
   },
   bannerIcono: {
-    fontSize: 24,
+    fontSize: FUENTES.tamano.xxl,
     marginRight: 12,
   },
   bannerTextos: {
@@ -271,12 +272,12 @@ const estilos = StyleSheet.create({
   },
   bannerTitulo: {
     color: COLORES.advertencia,
-    fontWeight: '700',
-    fontSize: 14,
+    fontWeight: FUENTES.peso.bold,
+    fontSize: FUENTES.tamano.md,
   },
   bannerSubtitulo: {
     color: COLORES.textoSecundario,
-    fontSize: 12,
+    fontSize: FUENTES.tamano.xs,
     marginTop: 2,
   },
   bannerFlecha: {
@@ -291,7 +292,7 @@ const estilos = StyleSheet.create({
   },
   textoResumen: {
     color: COLORES.textoSecundario,
-    fontSize: 13,
+    fontSize: FUENTES.tamano.sm,
   },
   lista: {
     padding: 16,
@@ -325,8 +326,8 @@ const estilos = StyleSheet.create({
   },
   nombreRegla: {
     color: COLORES.texto,
-    fontSize: 15,
-    fontWeight: '600',
+    fontSize: FUENTES.tamano.md,
+    fontWeight: FUENTES.peso.semibold,
     flex: 1,
   },
   insigniaInactiva: {
@@ -337,8 +338,8 @@ const estilos = StyleSheet.create({
   },
   textoInactiva: {
     color: COLORES.filtrado,
-    fontSize: 10,
-    fontWeight: '600',
+    fontSize: FUENTES.tamano.xs,
+    fontWeight: FUENTES.peso.semibold,
   },
   filaBadges: {
     flexDirection: 'row',
@@ -354,17 +355,17 @@ const estilos = StyleSheet.create({
   },
   badgeTexto: {
     color: COLORES.textoSecundario,
-    fontSize: 11,
-    fontWeight: '500',
+    fontSize: FUENTES.tamano.xs,
+    fontWeight: FUENTES.peso.medio,
   },
   textoDetalle: {
     color: COLORES.textoSecundario,
-    fontSize: 12,
+    fontSize: FUENTES.tamano.xs,
     marginBottom: 3,
   },
   textoRespuesta: {
     color: COLORES.primario,
-    fontSize: 12,
+    fontSize: FUENTES.tamano.xs,
     marginTop: 4,
     fontStyle: 'italic',
   },
@@ -377,7 +378,7 @@ const estilos = StyleSheet.create({
     padding: 6,
   },
   iconoEliminar: {
-    fontSize: 18,
+    fontSize: FUENTES.tamano.xl,
   },
   vacio: {
     alignItems: 'center',
@@ -390,14 +391,14 @@ const estilos = StyleSheet.create({
   },
   textoVacio: {
     color: COLORES.texto,
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: FUENTES.tamano.xl,
+    fontWeight: FUENTES.peso.semibold,
     textAlign: 'center',
     marginBottom: 8,
   },
   textoSubtitulo: {
     color: COLORES.textoSecundario,
-    fontSize: 14,
+    fontSize: FUENTES.tamano.md,
     textAlign: 'center',
     lineHeight: 20,
   },

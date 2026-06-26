@@ -15,6 +15,7 @@ import { FormularioRegla } from '../components/FormularioRegla';
 import { FondoGradiente } from '../components/FondoGradiente';
 import { ReglaDeReenvio, CampoObjetivo } from '../../domain/entities/ReglaDeReenvio';
 import { COLORES, SOMBRAS, BORDES, GRADIENTES } from '../theme/colores';
+import { FUENTES } from '../theme/tipografia';
 
 export const PantallaReglas: React.FC = () => {
   const { reglas, cargando, crear, editar, eliminar, alternarEstado } =
@@ -202,8 +203,8 @@ const estilos = StyleSheet.create({
     alignItems: 'center',
   },
   textoResumen: {
-    fontSize: 13,
-    fontWeight: '600',
+    fontSize: FUENTES.tamano.sm,
+    fontWeight: FUENTES.peso.semibold,
     color: COLORES.primario,
   },
   lista: {
@@ -241,8 +242,8 @@ const estilos = StyleSheet.create({
     borderRadius: 4,
   },
   nombreRegla: {
-    fontSize: 16,
-    fontWeight: '700',
+    fontSize: FUENTES.tamano.lg,
+    fontWeight: FUENTES.peso.bold,
     color: COLORES.texto,
   },
   insigniaInactiva: {
@@ -252,8 +253,8 @@ const estilos = StyleSheet.create({
     borderRadius: 10,
   },
   textoInactiva: {
-    fontSize: 10,
-    fontWeight: '700',
+    fontSize: FUENTES.tamano.xs,
+    fontWeight: FUENTES.peso.bold,
     color: COLORES.advertencia,
   },
   filaDetalle: {
@@ -262,11 +263,11 @@ const estilos = StyleSheet.create({
     marginTop: 6,
   },
   iconoCampo: {
-    fontSize: 13,
+    fontSize: FUENTES.tamano.sm,
     marginRight: 6,
   },
   detalleRegla: {
-    fontSize: 13,
+    fontSize: FUENTES.tamano.sm,
     color: COLORES.textoSecundario,
     flex: 1,
   },
@@ -279,7 +280,7 @@ const estilos = StyleSheet.create({
     padding: 6,
   },
   textoEliminar: {
-    fontSize: 18,
+    fontSize: FUENTES.tamano.xl,
   },
   contenedorBotonAgregar: {
     marginHorizontal: 16,
@@ -295,8 +296,8 @@ const estilos = StyleSheet.create({
   },
   textoAgregar: {
     color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '700',
+    fontSize: FUENTES.tamano.lg,
+    fontWeight: FUENTES.peso.bold,
   },
   vacio: {
     flex: 1,
@@ -305,17 +306,17 @@ const estilos = StyleSheet.create({
     padding: 40,
   },
   iconoVacio: {
-    fontSize: 48,
+    fontSize: FUENTES.tamano.icono,
     marginBottom: 16,
   },
   textoVacio: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: FUENTES.tamano.xl,
+    fontWeight: FUENTES.peso.semibold,
     color: COLORES.texto,
     textAlign: 'center',
   },
   textoSubtitulo: {
-    fontSize: 14,
+    fontSize: FUENTES.tamano.md,
     color: COLORES.textoSecundario,
     textAlign: 'center',
     marginTop: 8,

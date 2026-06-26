@@ -18,6 +18,7 @@ import { useConfigTelegram } from '../hooks/useConfigTelegram';
 import { ConfiguracionTelegram } from '../../domain/entities/ConfiguracionTelegram';
 import { FondoGradiente } from '../components/FondoGradiente';
 import { COLORES, SOMBRAS, BORDES, GRADIENTES } from '../theme/colores';
+import { FUENTES } from '../theme/tipografia';
 
 export const PantallaConfiguracion: React.FC = () => {
   const insets = useSafeAreaInsets();
@@ -304,8 +305,8 @@ const estilos = StyleSheet.create({
     borderColor: COLORES.tarjetaBorde,
   },
   iconoGuia: { fontSize: 22, marginRight: 8 },
-  tituloGuia: { fontSize: 14, fontWeight: '700', color: COLORES.primario, flex: 1 },
-  flechaGuia: { fontSize: 14, color: COLORES.primario, fontWeight: '700' },
+  tituloGuia: { fontSize: FUENTES.tamano.md, fontWeight: FUENTES.peso.bold, color: COLORES.primario, flex: 1 },
+  flechaGuia: { fontSize: FUENTES.tamano.md, color: COLORES.primario, fontWeight: '700' },
   tarjetaGuia: {
     backgroundColor: COLORES.tarjeta,
     marginHorizontal: 16,
@@ -318,7 +319,7 @@ const estilos = StyleSheet.create({
     borderColor: COLORES.tarjetaBorde,
   },
   pasos: { gap: 6 },
-  paso: { fontSize: 13, color: COLORES.textoSecundario, lineHeight: 20 },
+  paso: { fontSize: FUENTES.tamano.sm, color: COLORES.textoSecundario, lineHeight: 20 },
   contenedorUrl: {
     backgroundColor: 'rgba(0, 217, 255, 0.08)',
     padding: 8,
@@ -326,7 +327,7 @@ const estilos = StyleSheet.create({
     marginVertical: 4,
     marginLeft: 24,
   },
-  url: { fontSize: 11, color: COLORES.primario, fontFamily: 'monospace' },
+  url: { fontSize: FUENTES.tamano.xs, color: COLORES.primario, fontFamily: 'monospace' },
   alerta: {
     backgroundColor: COLORES.errorFondo,
     marginHorizontal: 16,
@@ -334,7 +335,7 @@ const estilos = StyleSheet.create({
     padding: 12,
     borderRadius: BORDES.radio.sm,
   },
-  textoAlerta: { color: COLORES.error, fontSize: 14, fontWeight: '500' },
+  textoAlerta: { color: COLORES.error, fontSize: FUENTES.tamano.md, fontWeight: '500' },
   alertaExito: {
     backgroundColor: COLORES.exitoFondo,
     marginHorizontal: 16,
@@ -342,15 +343,15 @@ const estilos = StyleSheet.create({
     padding: 12,
     borderRadius: BORDES.radio.sm,
   },
-  textoAlertaExito: { color: COLORES.exito, fontSize: 14, fontWeight: '500' },
+  textoAlertaExito: { color: COLORES.exito, fontSize: FUENTES.tamano.md, fontWeight: '500' },
   vacio: {
     margin: 16,
     padding: 40,
     alignItems: 'center',
   },
-  iconoVacio: { fontSize: 48, marginBottom: 12 },
-  textoVacio: { color: COLORES.texto, fontSize: 16, fontWeight: '600' },
-  textoSubVacio: { color: COLORES.textoSecundario, fontSize: 13, marginTop: 4 },
+  iconoVacio: { fontSize: FUENTES.tamano.icono, marginBottom: 12 },
+  textoVacio: { color: COLORES.texto, fontSize: FUENTES.tamano.lg, fontWeight: '600' },
+  textoSubVacio: { color: COLORES.textoSecundario, fontSize: FUENTES.tamano.sm, marginTop: 4 },
   tarjetaConfig: {
     backgroundColor: COLORES.tarjeta,
     margin: 16,
@@ -366,15 +367,15 @@ const estilos = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 6,
   },
-  nombreConfig: { fontSize: 16, fontWeight: '700', color: COLORES.texto, flex: 1 },
+  nombreConfig: { fontSize: FUENTES.tamano.lg, fontWeight: FUENTES.peso.bold, color: COLORES.texto, flex: 1 },
   badgePredeterminada: {
     backgroundColor: COLORES.advertenciaFondo,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 10,
   },
-  textoBadge: { color: COLORES.advertencia, fontSize: 11, fontWeight: '700' },
-  chatIdConfig: { color: COLORES.textoSecundario, fontSize: 13, marginBottom: 10 },
+  textoBadge: { color: COLORES.advertencia, fontSize: FUENTES.tamano.xs, fontWeight: '700' },
+  chatIdConfig: { color: COLORES.textoSecundario, fontSize: FUENTES.tamano.sm, marginBottom: 10 },
   botonesConfig: { flexDirection: 'row', gap: 8 },
   botonAccionConfig: {
     paddingVertical: 8,
@@ -382,7 +383,7 @@ const estilos = StyleSheet.create({
     borderRadius: BORDES.radio.sm,
     backgroundColor: 'rgba(0, 217, 255, 0.08)',
   },
-  textoAccionConfig: { color: COLORES.primario, fontSize: 13, fontWeight: '600' },
+  textoAccionConfig: { color: COLORES.primario, fontSize: FUENTES.tamano.sm, fontWeight: '600' },
   botonEliminar: { backgroundColor: COLORES.errorFondo },
   textoEliminarBtn: { fontSize: 14 },
   fabContenedor: {
@@ -422,15 +423,15 @@ const estilos = StyleSheet.create({
     borderRadius: 2,
   },
   tituloModal: {
-    fontSize: 20,
-    fontWeight: '700',
+    fontSize: FUENTES.tamano.xl,
+    fontWeight: FUENTES.peso.bold,
     textAlign: 'center',
     marginBottom: 16,
     color: COLORES.texto,
   },
   etiqueta: {
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: FUENTES.tamano.md,
+    fontWeight: FUENTES.peso.semibold,
     color: COLORES.textoSecundario,
     marginBottom: 6,
     marginTop: 14,
@@ -440,7 +441,7 @@ const estilos = StyleSheet.create({
     borderColor: COLORES.inputBorde,
     borderRadius: BORDES.radio.sm,
     padding: 12,
-    fontSize: 15,
+    fontSize: FUENTES.tamano.md,
     backgroundColor: COLORES.inputFondo,
     color: COLORES.texto,
   },
@@ -450,7 +451,7 @@ const estilos = StyleSheet.create({
     borderRadius: BORDES.radio.sm,
     backgroundColor: COLORES.advertenciaFondo,
   },
-  textoPredeterminada: { fontSize: 14, fontWeight: '600', color: COLORES.advertencia },
+  textoPredeterminada: { fontSize: FUENTES.tamano.md, fontWeight: FUENTES.peso.semibold, color: COLORES.advertencia },
   botonesModal: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -466,13 +467,13 @@ const estilos = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: COLORES.inputFondo,
   },
-  textoCancelar: { color: COLORES.textoSecundario, fontWeight: '700', fontSize: 15 },
+  textoCancelar: { color: COLORES.textoSecundario, fontWeight: FUENTES.peso.bold, fontSize: 15 },
   botonGuardar: {
     flex: 1,
     padding: 14,
     borderRadius: BORDES.radio.sm,
     alignItems: 'center',
   },
-  textoGuardar: { color: '#FFFFFF', fontWeight: '700', fontSize: 15 },
+  textoGuardar: { color: '#FFFFFF', fontWeight: FUENTES.peso.bold, fontSize: 15 },
   espacioInferior: { height: 80 },
 });

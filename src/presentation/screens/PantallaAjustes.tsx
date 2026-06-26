@@ -18,6 +18,7 @@ import { useAjustes } from '../hooks/useAjustes';
 import { Ajustes } from '../../domain/entities/Ajustes';
 import { FondoGradiente } from '../components/FondoGradiente';
 import { COLORES, SOMBRAS, BORDES, GRADIENTES } from '../theme/colores';
+import { FUENTES } from '../theme/tipografia';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -292,19 +293,19 @@ const estilos = StyleSheet.create({
     flex: 1,
   },
   seccionTitulo: {
-    fontSize: 15,
-    fontWeight: '700',
+    fontSize: FUENTES.tamano.md,
+    fontWeight: FUENTES.peso.bold,
     color: COLORES.texto,
   },
   seccionDescripcion: {
-    fontSize: 12,
+    fontSize: FUENTES.tamano.xs,
     color: COLORES.textoSecundario,
     marginTop: 2,
   },
   seccionFlecha: {
-    fontSize: 12,
+    fontSize: FUENTES.tamano.xs,
     color: COLORES.primario,
-    fontWeight: '700',
+    fontWeight: FUENTES.peso.bold,
     marginLeft: 8,
   },
   seccionContenido: {
@@ -318,7 +319,7 @@ const estilos = StyleSheet.create({
     borderColor: COLORES.inputBorde,
     borderRadius: BORDES.radio.sm,
     padding: 12,
-    fontSize: 15,
+    fontSize: FUENTES.tamano.md,
     backgroundColor: COLORES.inputFondo,
     color: COLORES.texto,
     marginTop: 12,
@@ -334,15 +335,15 @@ const estilos = StyleSheet.create({
     borderLeftColor: COLORES.primario,
   },
   prevLabel: {
-    fontSize: 11,
+    fontSize: FUENTES.tamano.xs,
     color: COLORES.primario,
-    fontWeight: '700',
+    fontWeight: FUENTES.peso.bold,
     marginBottom: 6,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
   prevTexto: {
-    fontSize: 13,
+    fontSize: FUENTES.tamano.sm,
     color: COLORES.textoSecundario,
     lineHeight: 20,
   },
@@ -357,12 +358,12 @@ const estilos = StyleSheet.create({
     marginRight: 12,
   },
   etiquetaSwitch: {
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: FUENTES.tamano.md,
+    fontWeight: FUENTES.peso.semibold,
     color: COLORES.texto,
   },
   ayudaSwitch: {
-    fontSize: 11,
+    fontSize: FUENTES.tamano.xs,
     color: COLORES.textoSutil,
     marginTop: 2,
   },
@@ -375,8 +376,8 @@ const estilos = StyleSheet.create({
   },
   textoAlertaExito: {
     color: COLORES.exito,
-    fontSize: 14,
-    fontWeight: '500',
+    fontSize: FUENTES.tamano.md,
+    fontWeight: FUENTES.peso.medio,
   },
   botonGuardar: {
     marginHorizontal: 16,
@@ -388,7 +389,7 @@ const estilos = StyleSheet.create({
   },
   textoBotonGuardar: {
     color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '700',
+    fontSize: FUENTES.tamano.lg,
+    fontWeight: FUENTES.peso.bold,
   },
 });
