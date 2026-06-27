@@ -1,4 +1,4 @@
-const { withAndroidManifest, withDangerousMod, withMainApplication, withAppBuildGradle } = require('@expo/config-plugins');
+const { withAndroidManifest, withDangerousMod, withMainApplication } = require('@expo/config-plugins');
 const path = require('path');
 const fs = require('fs');
 
@@ -510,18 +510,27 @@ const withSmsListener = (config) => {
     ]);
 
     // 3. Registrar SmsListenerPackage en MainApplication.kt
-    //    + Agregar dependencia de security-crypto
-    config = withAppBuildGradle(config, (modConfig) => {
-        let gradle = modConfig.modResults.contents;
-        if (!gradle.includes('security-crypto')) {
-            gradle = gradle.replace(
-                /dependencies\s*\{/,
-                'dependencies {\n    implementation "androidx.security:security-crypto:1.1.0-alpha06"\n    implementation "com.squareup.okhttp3:okhttp:4.12.0"'
+    // 2.5 Agregar dependencias de seguridad al build.gradle
+    config = withDangerousMod(config, [
+        'android',
+        (modConfig) => {
+            const gradlePath = path.join(
+                modConfig.modRequest.platformProjectRoot,
+                'app/build.gradle'
             );
-        }
-        modConfig.modResults.contents = gradle;
-        return modConfig;
-    });
+            if (fs.existsSync(gradlePath)) {
+                let gradle = fs.readFileSync(gradlePath, 'utf-8');
+                if (!gradle.includes('security-crypto')) {
+                    gradle = gradle.replace(
+                        /dependencies\s*\{/,
+                        'dependencies {\n    implementation "androidx.security:security-crypto:1.1.0-alpha06"\n    implementation "com.squareup.okhttp3:okhttp:4.12.0"'
+                    );
+                    fs.writeFileSync(gradlePath, gradle);
+                }
+            }
+            return modConfig;
+        },
+    ]);
 
     // 4. Registrar SmsListenerPackage en MainApplication.kt
     config = withMainApplication(config, (modConfig) => {
