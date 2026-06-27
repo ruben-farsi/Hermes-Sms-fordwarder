@@ -131,11 +131,11 @@ const estilos = StyleSheet.create({
     borderRadius: 20,
   },
   iconoEstado: {
-    fontSize: 11,
+    fontSize: FUENTES.tamano.xs,
     marginRight: 4,
   },
   textoEstado: {
-    fontSize: 11,
+    fontSize: FUENTES.tamano.xs,
     fontWeight: '700',
   },
   cuerpo: {
@@ -149,7 +149,7 @@ const estilos = StyleSheet.create({
     alignItems: 'center',
   },
   fecha: {
-    fontSize: 11,
+    fontSize: FUENTES.tamano.xs,
     color: COLORES.textoSutil,
   },
   contenedorError: {
