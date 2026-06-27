@@ -1,4 +1,4 @@
-const { withAndroidManifest, withDangerousMod, withMainApplication } = require('@expo/config-plugins');
+const { withAndroidManifest, withDangerousMod, withMainApplication, withAppBuildGradle } = require('@expo/config-plugins');
 const path = require('path');
 const fs = require('fs');
 
@@ -67,10 +67,16 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
+import androidx.crypto.masterkey.MasterKey
+import androidx.security.crypto.EncryptedSharedPreferences
+import okhttp3.CertificatePinner
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONArray
-import java.net.HttpURLConnection
-import java.net.URL
 import java.net.URLEncoder
+import java.util.concurrent.TimeUnit
 
 class SmsForwarderService : Service() {
 
@@ -126,12 +132,28 @@ class SmsForwarderService : Service() {
         return START_STICKY
     }
 
+    override fun onDestroy() {
+        if (wakeLock?.isHeld == true) {
+            wakeLock?.release()
+        }
+        super.onDestroy()
+    }
+
     private fun procesarSms(remitente: String, cuerpo: String) {
-        val prefs         = getSharedPreferences("sms_forwarder", Context.MODE_PRIVATE)
-        val tokenDefault  = prefs.getString("telegram_token", null)   ?: return
-        val chatIdDefault = prefs.getString("telegram_chat_id", null) ?: return
-        val reglasJson    = prefs.getString("rules", "[]")            ?: "[]"
-        val configsJson   = prefs.getString("todas_configs", "[]")    ?: "[]"
+        val masterKey = MasterKey.Builder(this)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
+        val securePrefs = EncryptedSharedPreferences.create(
+            this,
+            "sms_secure_prefs",
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+        val tokenDefault  = securePrefs.getString("telegram_token", null)   ?: return
+        val chatIdDefault = securePrefs.getString("telegram_chat_id", null) ?: return
+        val reglasJson    = securePrefs.getString("rules", "[]")            ?: "[]"
+        val configsJson   = securePrefs.getString("todas_configs", "[]")    ?: "[]"
 
         Thread {
             try {
@@ -215,20 +237,26 @@ class SmsForwarderService : Service() {
 
     private fun enviarTelegram(token: String, chatId: String, remitente: String, cuerpo: String) {
         try {
-            val texto = "📱 *SMS de:* " + remitente + "\\n\\n" + cuerpo
-            val url   = URL("https://api.telegram.org/bot" + token + "/sendMessage")
-            val conn  = url.openConnection() as HttpURLConnection
-            conn.requestMethod = "POST"
-            conn.doOutput = true
-            conn.connectTimeout = 15000
-            conn.readTimeout    = 15000
-            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
-            val cuerpoHttp = "chat_id=" + URLEncoder.encode(chatId, "UTF-8") +
-                "&text="    + URLEncoder.encode(texto, "UTF-8") +
-                "&parse_mode=Markdown"
-            conn.outputStream.use { it.write(cuerpoHttp.toByteArray(Charsets.UTF_8)) }
-            conn.responseCode // dispara la peticion
-            conn.disconnect()
+            val client = OkHttpClient.Builder()
+                .certificatePinner(
+                    CertificatePinner.Builder()
+                        .add("api.telegram.org", "sha256/bba4zjVOrkqE9ErmM6n4uElBa3WGELMG有为Jp0sZt6w=")
+                        .build()
+                )
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(15, TimeUnit.SECONDS)
+                .build()
+            val texto = "📱 *SMS de:* " + remitente + "\n\n" + cuerpo
+            val mediaType = "application/x-www-form-urlencoded".toMediaType()
+            val requestBody = "chat_id=" + URLEncoder.encode(chatId, "UTF-8") +
+                "&text=" + URLEncoder.encode(texto, "UTF-8") +
+                "&parse_mode=Markdown".toRequestBody(mediaType)
+            val request = Request.Builder()
+                .url("https://api.telegram.org/bot" + token + "/sendMessage")
+                .post(requestBody)
+                .build()
+            val response = client.newCall(request).execute()
+            response.close()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -294,6 +322,8 @@ const SMS_LISTENER_MODULE_KT = `package com.rlanza.smsforwarder
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import androidx.crypto.masterkey.MasterKey
+import androidx.security.crypto.EncryptedSharedPreferences
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
@@ -340,7 +370,16 @@ class SmsListenerModule(private val reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun actualizarConfiguracion(token: String, chatId: String, rulesJson: String, todasConfigsJson: String) {
-        val prefs = reactContext.getSharedPreferences("sms_forwarder", Context.MODE_PRIVATE)
+        val masterKey = MasterKey.Builder(reactContext)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
+        val prefs = EncryptedSharedPreferences.create(
+            reactContext,
+            "sms_secure_prefs",
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
         prefs.edit()
             .putString("telegram_token", token)
             .putString("telegram_chat_id", chatId)
@@ -470,6 +509,19 @@ const withSmsListener = (config) => {
             return modConfig;
         },
     ]);
+
+    // 2.5 Agregar dependencias de seguridad al build.gradle
+    config = withAppBuildGradle(config, (modConfig) => {
+        let gradle = modConfig.modResults.contents;
+        if (!gradle.includes('security-crypto')) {
+            gradle = gradle.replace(
+                /dependencies\s*\{/,
+                'dependencies {\n    implementation "androidx.security:security-crypto:1.1.0-alpha06"\n    implementation "com.squareup.okhttp3:okhttp:4.12.0"'
+            );
+        }
+        modConfig.modResults.contents = gradle;
+        return modConfig;
+    });
 
     // 3. Registrar SmsListenerPackage en MainApplication.kt
     config = withMainApplication(config, (modConfig) => {
