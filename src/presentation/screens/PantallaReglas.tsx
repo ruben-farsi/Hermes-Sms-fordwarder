@@ -62,7 +62,7 @@ export const PantallaReglas: React.FC = () => {
   };
 
   const obtenerIconoCampo = (campo: CampoObjetivo) =>
-    campo === CampoObjetivo.REMITENTE ? '👤' : '📝';
+    campo === CampoObjetivo.REMITENTE ? '[Contact]' : '[Body]';
 
   const renderizarRegla = useCallback(
     ({ item }: { item: ReglaDeReenvio }) => (
@@ -93,7 +93,7 @@ export const PantallaReglas: React.FC = () => {
               {item.campoObjetivo === CampoObjetivo.REMITENTE
                 ? 'Remitente'
                 : 'Cuerpo'}{' '}
-              · {item.esRegex ? '🔣 Regex' : '📄 Texto'}: {item.patron}
+              · {item.esRegex ? '🔣 Regex' : '[Doc] Texto'}: {item.patron}
             </Text>
           </View>
         </TouchableOpacity>
@@ -114,7 +114,7 @@ export const PantallaReglas: React.FC = () => {
             accessibilityLabel={`Eliminar regla ${item.nombre}`}
             activeOpacity={0.6}
           >
-            <Text style={estilos.textoEliminar}>🗑️</Text>
+            <Text style={estilos.textoEliminar}>[X]</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -124,7 +124,7 @@ export const PantallaReglas: React.FC = () => {
 
   const renderizarVacio = () => (
     <View style={estilos.vacio}>
-      <Text style={estilos.iconoVacio}>📋</Text>
+      <Text style={estilos.iconoVacio}>[List]</Text>
       <Text style={estilos.textoVacio}>No hay reglas configuradas</Text>
       <Text style={estilos.textoSubtitulo}>
         Crea una regla para empezar a filtrar y reenviar SMS automáticamente
@@ -147,7 +147,7 @@ export const PantallaReglas: React.FC = () => {
       {reglas.length > 0 && (
         <View style={estilos.resumen}>
           <Text style={estilos.textoResumen}>
-            📊 {reglas.filter((r) => r.activa).length} activas de{' '}
+            [Stats] {reglas.filter((r) => r.activa).length} activas de{' '}
             {reglas.length} reglas
           </Text>
         </View>
@@ -175,7 +175,7 @@ export const PantallaReglas: React.FC = () => {
           end={{ x: 1, y: 0 }}
           style={estilos.botonAgregar}
         >
-          <Text style={estilos.textoAgregar}>➕ Nueva regla</Text>
+          <Text style={estilos.textoAgregar}>[+ Nueva] regla</Text>
         </LinearGradient>
       </TouchableOpacity>
 

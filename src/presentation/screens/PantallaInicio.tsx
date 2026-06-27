@@ -19,10 +19,10 @@ import { FUENTES } from '../theme/tipografia';
 type FiltroEstado = 'todos' | EstadoMensaje;
 
 const OPCIONES_FILTRO: { clave: FiltroEstado; etiqueta: string; icono: string }[] = [
-  { clave: 'todos', etiqueta: 'Todos', icono: '📋' },
-  { clave: EstadoMensaje.REENVIADO, etiqueta: 'Reenviados', icono: '✅' },
-  { clave: EstadoMensaje.FILTRADO, etiqueta: 'Filtrados', icono: '🚫' },
-  { clave: EstadoMensaje.ERROR, etiqueta: 'Errores', icono: '⚠️' },
+  { clave: 'todos', etiqueta: 'Todos', icono: '[List]' },
+  { clave: EstadoMensaje.REENVIADO, etiqueta: 'Reenviados', icono: '[OK]' },
+  { clave: EstadoMensaje.FILTRADO, etiqueta: 'Filtrados', icono: '[Block]' },
+  { clave: EstadoMensaje.ERROR, etiqueta: 'Errores', icono: '[Warn]' },
 ];
 
 export const PantallaInicio: React.FC = () => {
@@ -44,7 +44,7 @@ export const PantallaInicio: React.FC = () => {
 
   const renderizarVacio = () => (
     <View style={estilos.vacio}>
-      <Text style={estilos.iconoVacio}>📭</Text>
+      <Text style={estilos.iconoVacio}>[Empty]</Text>
       <Text style={estilos.textoVacio}>
         {filtroActivo === 'todos'
           ? 'No hay mensajes procesados aún'

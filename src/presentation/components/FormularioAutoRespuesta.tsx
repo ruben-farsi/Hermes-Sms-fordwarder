@@ -26,15 +26,15 @@ interface Props {
 }
 
 const PLATAFORMAS: { valor: PlataformaAutoRespuesta; etiqueta: string; icono: string }[] = [
-  { valor: PlataformaAutoRespuesta.CUALQUIERA, etiqueta: 'Cualquiera', icono: '🌐' },
-  { valor: PlataformaAutoRespuesta.WHATSAPP,   etiqueta: 'WhatsApp',   icono: '💬' },
-  { valor: PlataformaAutoRespuesta.TELEGRAM,   etiqueta: 'Telegram',   icono: '✈️' },
+  { valor: PlataformaAutoRespuesta.CUALQUIERA, etiqueta: 'Cualquiera', icono: '[All]' },
+  { valor: PlataformaAutoRespuesta.WHATSAPP,   etiqueta: 'WhatsApp',   icono: '[Chat]' },
+  { valor: PlataformaAutoRespuesta.TELEGRAM,   etiqueta: 'Telegram',   icono: '[TG]' },
 ];
 
 const TIPOS: { valor: TipoDestinatario; etiqueta: string; icono: string }[] = [
-  { valor: TipoDestinatario.CUALQUIERA, etiqueta: 'Cualquiera', icono: '👥' },
-  { valor: TipoDestinatario.CONTACTO,   etiqueta: 'Contacto',   icono: '👤' },
-  { valor: TipoDestinatario.GRUPO,      etiqueta: 'Grupo',      icono: '🏘️' },
+  { valor: TipoDestinatario.CUALQUIERA, etiqueta: 'Cualquiera', icono: '[All]' },
+  { valor: TipoDestinatario.CONTACTO,   etiqueta: 'Contacto',   icono: '[Me]' },
+  { valor: TipoDestinatario.GRUPO,      etiqueta: 'Grupo',      icono: '[Group]' },
 ];
 
 export const FormularioAutoRespuesta: React.FC<Props> = ({
@@ -97,7 +97,7 @@ export const FormularioAutoRespuesta: React.FC<Props> = ({
             style={estilos.encabezado}
           >
             <Text style={estilos.titulo}>
-              {reglaExistente ? '✏️ Editar regla' : '➕ Nueva regla'}
+              {reglaExistente ? '[Editar] regla' : '[+ Nueva] regla'}
             </Text>
           </LinearGradient>
 
@@ -176,7 +176,7 @@ export const FormularioAutoRespuesta: React.FC<Props> = ({
               style={[estilos.input, estilos.inputMultilinea]}
               value={respuesta}
               onChangeText={setRespuesta}
-              placeholder="Ej: 🤖 Estoy ocupado, respondo pronto."
+              placeholder="Ej: [Bot] Estoy ocupado, respondo pronto."
               placeholderTextColor={COLORES.textoSutil}
               multiline
               numberOfLines={3}
