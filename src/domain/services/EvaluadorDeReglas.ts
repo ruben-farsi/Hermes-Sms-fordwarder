@@ -62,9 +62,14 @@ export class EvaluadorDeReglas {
   }
 
   private coincidePorRegex(texto: string, patron: string): boolean {
+    if (patron.length > 200) return false;
+    if (/(\w+)\+\1|\(\.\+\)\+|(\w+)\*\1/.test(patron)) return false;
     try {
       const regex = new RegExp(patron, 'i');
-      return regex.test(texto);
+      const inicio = Date.now();
+      const resultado = regex.test(texto);
+      if (Date.now() - inicio > 100) return false;
+      return resultado;
     } catch {
       return false;
     }

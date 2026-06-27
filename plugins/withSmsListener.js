@@ -180,8 +180,13 @@ class SmsForwarderService : Service() {
                     }
 
                     val coincide = if (esRegex) {
-                        try { Regex(patron, RegexOption.IGNORE_CASE).containsMatchIn(textoEvaluar) }
-                        catch (e: Exception) { false }
+                        if (patron.length > 200) false
+                        else if (Regex("(a+)+|(.+)\\1").containsMatchIn(patron)) false
+                        else {
+                            val inicio = System.currentTimeMillis()
+                            val r = Regex(patron, RegexOption.IGNORE_CASE).containsMatchIn(textoEvaluar)
+                            if (System.currentTimeMillis() - inicio > 100) false else r
+                        }
                     } else {
                         textoEvaluar.contains(patron, ignoreCase = true)
                     }
@@ -280,6 +285,13 @@ class SmsForwarderService : Service() {
             }
             getSystemService(NotificationManager::class.java)?.createNotificationChannel(canal)
         }
+    }
+
+    override fun onDestroy() {
+        if (wakeLock?.isHeld == true) {
+            wakeLock?.release()
+        }
+        super.onDestroy()
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
@@ -427,6 +439,7 @@ const withSmsListener = (config) => {
                     'android:name': '.SmsReceiver',
                     'android:enabled': 'true',
                     'android:exported': 'true',
+                    'android:permission': 'android.permission.BROADCAST_SMS',
                 },
                 'intent-filter': [{
                     $: { 'android:priority': '999' },
