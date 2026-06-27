@@ -82,10 +82,13 @@ export class EvaluarYReenviarSms {
         ? `${ajustes.prefijoMensaje}\n`
         : '';
       const textoTelegram = `${prefijo}📱 SMS de ${remitente}:\n${cuerpo}`;
+      const textoLimitado = textoTelegram.length > 4096
+        ? textoTelegram.substring(0, 4093) + '...'
+        : textoTelegram;
       await this.enviadorTelegram.enviarMensaje(
         config.botToken,
         config.chatId,
-        textoTelegram,
+        textoLimitado,
       );
       await this.enviarWebhookSiActivo(ajustes, remitente, cuerpo);
       await this.notificarSiActivo(ajustes, remitente);

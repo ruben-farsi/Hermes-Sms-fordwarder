@@ -31,10 +31,13 @@ export class ProcesarColaPendientes {
     for (const pendiente of pendientes) {
       try {
         const textoTelegram = `${prefijo}📱 SMS de ${pendiente.remitente}:\n${pendiente.cuerpo}`;
+        const textoLimitado = textoTelegram.length > 4096
+          ? textoTelegram.substring(0, 4093) + '...'
+          : textoTelegram;
         await this.enviadorTelegram.enviarMensaje(
           config.botToken,
           config.chatId,
-          textoTelegram,
+          textoLimitado,
         );
         await this.repositorioPendientes.eliminar(pendiente.id);
         await this.registrarMensaje(
