@@ -16,6 +16,7 @@ import {
   TipoDestinatario,
 } from '../../domain/entities/ReglaDeAutoRespuesta';
 import { COLORES, GRADIENTES, BORDES } from '../theme/colores';
+import { FUENTES } from '../theme/tipografia';
 
 interface Props {
   visible: boolean;
