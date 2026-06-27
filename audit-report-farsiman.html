@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>AuditAut Farsiman — Hermes SMS Forwarder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1a1a1a;--ink-soft:#555;--line:#E0E0E0;--accent:#1B4F72;--alto:#922B21;--alto-bg:#FDF2F2;--alto:#B9770E;--alto-bg:#FEF8F0;--medio:#1B4F72;--medio-bg:#F0F6FB;--bajo:#1E8449;--bajo-bg:#F0FFF4;--info:#6C757D;--info-bg:#F8F9FA}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'IBM Plex Sans',sans-serif;background:#fff;color:var(--ink);line-height:1.6;font-size:13.5px}
+.container{max-width:1150px;margin:0 auto;padding:2.5rem 2rem}
+.header{border-bottom:2px solid var(--line);padding-bottom:1.8rem;margin-bottom:2rem}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.4rem}
+h1{font-family:'Playfair Display',serif;font-size:2.1rem;font-weight:700;letter-spacing:-.02em;color:var(--ink);line-height:1.2}
+.subtitle{color:var(--ink-soft);font-size:.95rem;margin-top:.25rem}
+.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.2rem}
+.meta-item{font-family:'IBM Plex Mono',monospace;font-size:.73rem;color:var(--ink-soft);border-left:3px solid var(--accent);padding-left:.6rem;line-height:1.5}
+.meta-item strong{display:block;font-family:'IBM Plex Sans';font-size:.92rem;color:var(--ink);margin-bottom:.1rem;font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:.7rem;margin:2rem 0 2.5rem}
+.stat-card{border:1px solid #eee;text-align:center;padding:1rem .4rem}
+.stat-num{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;line-height:1}
+.stat-label{font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);margin-top:.3rem}
+.s-c .stat-num{color:var(--alto)}.s-h .stat-num{color:var(--alto)}.s-m .stat-num{color:var(--medio)}.s-l .stat-num{color:var(--bajo)}.s-i .stat-num{color:var(--info)}
+.section{margin-top:2.5rem;border-top:1px solid var(--line);padding-top:1.6rem}
+.section-num{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--accent);letter-spacing:.08em}
+.section-title{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:600;letter-spacing:-.01em;margin-bottom:1.2rem;color:var(--ink)}
+.finding{border:1px solid #eee;border-left:4px solid;margin-bottom:.8rem;padding:.9rem 1.1rem;border-radius:0 3px 3px 0}
+.finding.ERROR{border-left-color:var(--alto);background:var(--alto-bg)}
+.finding.WARNING{border-left-color:var(--alto);background:var(--alto-bg)}
+.finding.INFO{border-left-color:var(--medio);background:var(--medio-bg)}
+.finding-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.finding-id{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--ink-soft)}
+.badge{font-family:'IBM Plex Mono',monospace;font-size:.62rem;padding:.12rem .5rem;text-transform:uppercase;letter-spacing:.04em;font-weight:500;border-radius:2px;color:#fff}
+.badge.ERROR{background:var(--alto)}.badge.WARNING{background:var(--alto)}.badge.INFO{background:var(--medio)}
+.tag-owasp{font-family:'IBM Plex Mono',monospace;font-size:.58rem;background:var(--accent);color:#fff;padding:.08rem .35rem;margin-left:.3rem;border-radius:1px}
+.finding-message{font-weight:500;margin-bottom:.3rem;font-size:.9rem}
+.finding-meta{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--ink-soft);margin-bottom:.4rem}
+.finding-code{font-family:'IBM Plex Mono',monospace;font-size:.7rem;background:#fff;padding:.5rem;margin:.4rem 0;overflow-x:auto;white-space:pre;color:#333;border:1px solid #ddd;border-radius:2px}
+.finding-impact{font-size:.83rem;margin-top:.4rem;color:#444;border-left:3px solid var(--alto);padding-left:.5rem}
+.finding-fix{margin-top:.5rem;padding:.5rem;background:var(--bajo-bg);border:1px solid #c3e6cb;font-size:.8rem;border-radius:3px}
+.finding-fix pre{font-family:'IBM Plex Mono',monospace;font-size:.7rem;background:#fff;padding:.3rem;margin-top:.3rem;white-space:pre-wrap;border:1px solid #ddd}
+.empty{color:var(--bajo);font-style:italic;font-size:.88rem;padding:.8rem;border:1px dashed #c3e6cb;text-align:center;border-radius:3px}
+.code-block{font-family:'IBM Plex Mono',monospace;font-size:.75rem;background:#f8f8f8;padding:.8rem;border:1px solid #ddd;overflow-x:auto;white-space:pre;border-radius:3px;margin:1rem 0}
+table{width:100%;border-collapse:collapse;margin:.8rem 0}
+th,td{padding:.5rem .7rem;border:1px solid #eee;text-align:left;font-size:.82rem}
+th{font-weight:600;background:#fafafa;text-transform:uppercase;letter-spacing:.04em;font-size:.72rem;color:var(--ink-soft)}
+tr:nth-child(even) td{background:#fcfcfc}
+.recommendation{border-left:3px solid var(--accent);padding:.5rem 1rem;margin-bottom:.7rem;background:#fafafa;border-radius:0 3px 3px 0}
+.recommendation h4{color:var(--accent);margin-bottom:.2rem;font-size:.92rem}
+.plan-item{display:flex;gap:.8rem;align-items:flex-start;margin-bottom:.6rem}
+.phase-badge{font-family:'IBM Plex Mono',monospace;font-size:.6rem;padding:.2rem .5rem;background:var(--accent);color:#fff;min-width:130px;text-align:center;border-radius:2px;flex-shrink:0;margin-top:.15rem}
+.plan-desc{font-size:.83rem}
+.plan-priority{font-family:'IBM Plex Mono',monospace;font-size:.6rem;padding:.1rem .25rem;background:var(--info-bg);border:1px solid #ddd;border-radius:1px;display:inline-block;margin-top:.2rem}
+.deps-list{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.4rem}
+.deps-list li{list-style:none;font-family:'IBM Plex Mono',monospace;font-size:.72rem;background:#f5f5f5;padding:.25rem .5rem;border:1px solid #eee;border-radius:2px}
+.secret-item{font-family:'IBM Plex Mono',monospace;font-size:.72rem;padding:.3rem .5rem;background:#fff3cd;border:1px solid #ffe69c;margin-bottom:.2rem;border-radius:2px}
+.footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--line);font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--info);text-align:center}
+@media(max-width:768px){.container{padding:1.5rem 1rem}.meta,.stats{grid-template-columns:repeat(2,1fr)}.finding-header{flex-direction:column;align-items:flex-start;gap:.3rem}.plan-item{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<div class="eyebrow">AuditAut Farsiman • Security &amp; Quality Audit</div>
+<h1>Informe de Auditoría de Código</h1>
+<div class="subtitle">Hermes SMS Forwarder — Expo SDK 54 / React Native 0.81 / Android Kotlin Plugin</div>
+<div class="meta">
+<div class="meta-item"><strong>27 Jun 2026</strong>Fecha</div>
+<div class="meta-item"><strong>React Native + Expo + Kotlin</strong>Plataforma</div>
+<div class="meta-item"><strong>Semgrep + Manual + npm audit</strong>Metodología</div>
+<div class="meta-item"><strong>Interno</strong>Clasificación</div>
+</div>
+</div>
+
+<div class="stats">
+<div class="stat-card s-c"><div class="stat-num">2</div><div class="stat-label">Crítico</div></div>
+<div class="stat-card s-h"><div class="stat-num">3</div><div class="stat-label">Alto</div></div>
+<div class="stat-card s-m"><div class="stat-num">6</div><div class="stat-label">Medio</div></div>
+<div class="stat-card s-l"><div class="stat-num">4</div><div stat-label">Bajo</div></div>
+<div class="stat-card s-i"><div class="stat-num">42</div><div class="stat-label">CVEs Deps</div></div>
+</div>
+
+<!-- ========== 01 — Hallazgos de Seguridad ========== -->
+<div class="section">
+<div class="section-num">01</div>
+<h2 class="section-title">Hallazgos de Seguridad</h2>
+
+<!-- CRITICO -->
+<div class="finding ERROR">
+<div class="finding-header">
+<span class="finding-id">SCR-001 <span class="tag-owasp">A02-Crypto Failures</span></span>
+<span class="badge ERROR">Crítico</span>
+</div>
+<div class="finding-message">Bot Token almacenado en texto plano en SharedPreferences (plugin nativo)</div>
+<div class="finding-meta">📁 <strong>plugins/withSmsListener.js:342-348</strong> — SmsListenerModule.kt generado</div>
+<div class="finding-code">prefs.edit()
+    .putString("telegram_token", token)
+    .putString("telegram_chat_id", chatId)
+    .apply()</div>
+<div class="finding-impact"><strong>Impacto:</strong> En dispositivos rooteados o con acceso ADB, el token del bot de Telegram puede ser extraído de SharedPreferences. Esto permite al atacante enviar mensajes en nombre del bot y acceder al chat del usuario.</div>
+<div class="finding-fix">
+<strong>Fix propuesto:</strong>
+<pre>// Migrar a EncryptedSharedPreferences o Android Keystore
+val masterKey = MasterKey.Builder(context)
+    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+    .build()
+val prefs = EncryptedSharedPreferences.create(context, "sms_secure", masterKey, ...)</pre>
+</div>
+</div>
+
+<div class="finding ERROR">
+<div class="finding-header">
+<span class="finding-id">SCR-002 <span class="tag-owasp">A02-Crypto Failures</span></span>
+<span class="badge ERROR">Crítico</span>
+</div>
+<div class="finding-message">IDs generados con Date.now() + Math.random() — predecibles y colisionables</div>
+<div class="finding-meta">📁 <strong>src/application/GestionarReglas.ts:34</strong>, <strong>GestionarAutoRespuestas.ts:7</strong>, <strong>EvaluarYReenviarSms.ts:132</strong></div>
+<div class="finding-code">private generarId(): string {
+    return Date.now().toString(36) + Math.random().toString(36).substring(2);
+}</div>
+<div class="finding-impact"><strong>Impacto:</strong> Math.random() no es criptográficamente seguro. En alta concurrencia, colisiones de ID pueden causar sobrescritura de registros (mensajes, reglas).</div>
+<div class="finding-fix">
+<strong>Fix propuesto:</strong>
+<pre>import { randomUUID } from 'crypto'; // RN 0.73+
+private generarId(): string {
+    return randomUUID();
+}</pre>
+</div>
+</div>
+
+<!-- ALTO -->
+<div class="finding WARNING">
+<div class="finding-header">
+<span class="finding-id">SCR-003 <span class="tag-owasp">A05-Misconfiguration</span></span>
+<span class="badge WARNING">Alto</span>
+</div>
+<div class="finding-message">ReDoS potencial — regex de usuario sin timeout ni validación de complejidad</div>
+<div class="finding-meta">📁 <strong>src/domain/services/EvaluadorDeReglas.ts:58-62</strong></div>
+<div class="finding-code">private coincidePorRegex(texto: string, patron: string): boolean {
+    try {
+      const regex = new RegExp(patron, 'i');
+      return regex.test(texto);
+    } catch {
+      return false;
+    }
+}</div>
+<div class="finding-impact"><strong>Impacto:</strong> Un patrón como (a+)+$ causa backtracking exponencial. El hilo principal o el ForegroundService se congela procesando un solo SMS.</div>
+<div class="finding-fix">
+<strong>Fix propuesto:</strong>
+<pre>// Ejecutar regex con timeout usando Worker
+const TIMEOUT_MS = 100;
+const promise = Promise.race([
+  regexTestPromise(texto, patron),
+  timeout(TIMEOUT_MS)
+]);</pre>
+</div>
+</div>
+
+<div class="finding WARNING">
+<div class="finding-header">
+<span class="finding-id">SCR-004 <span class="tag-owasp">A02-Crypto Failures</span></span>
+<span class="badge WARNING">Alto</span>
+</div>
+<div class="finding-message">Sin SSL Pinning en HttpURLConnection nativo (SmsForwarderService.kt)</div>
+<div class="finding-meta">📁 <strong>plugins/withSmsListener.js:216-230</strong></div>
+<div class="finding-code">val url = URL("https://api.telegram.org/bot" + token + "/sendMessage")
+val conn = url.openConnection() as HttpURLConnection
+conn.requestMethod = "POST"</div>
+<div class="finding-impact"><strong>Impacto:</strong> MITM puede interceptar el botToken y el contenido de los SMS. La confianza en el CA system store es insuficiente para apps que manejan datos sensibles.</div>
+<div class="finding-fix">
+<strong>Fix propuesto:</strong>
+<pre>// Agregar OkHttp CertificatePinner
+val client = OkHttpClient.Builder()
+    .certificatePinner(CertificatePinner.Builder()
+        .add("api.telegram.org", "sha256/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=")
+        .build())
+    .build()</pre>
+</div>
+</div>
+
+<div class="finding WARNING">
+<div class="finding-header">
+<span class="finding-id">SCR-005 <span class="tag-owasp">A01-Broken Access Control</span></span>
+<span class="badge WARNING">Alto</span>
+</div>
+<div class="finding-message">BroadcastReceiver SmsReceiver exportado=true sin permiso de protección</div>
+<div class="finding-meta">📁 <strong>plugins/withSmsListener.js:425-438</strong></div>
+<div class="finding-code">'android:exported': 'true',
+'action': 'android.provider.Telephony.SMS_RECEIVED'</div>
+<div class="finding-impact"><strong>Impacto:</strong> Cualquier app en el dispositivo puede enviar intents falsos al receiver, inyectando SMS falsos que disparan reenvíos a Telegram.</div>
+<div class="finding-fix">
+<strong>Fix propuesto:</strong>
+<pre>// Agregar permiso de protección del sistema
+'android:permission': 'android.permission.BROADCAST_SMS',
+// O cambiar a exported="false" (solo sistema invoca)</pre>
+</div>
+</div>
+
+<!-- MEDIO -->
+<div class="finding INFO">
+<div class="finding-header">
+<span class="finding-id">SCR-006 <span class="tag-owasp">A10-SSRF</span></span>
+<span class="badge INFO">Medio</span>
+</div>
+<div class="finding-message">Webhook URL con validación insuficiente de rangos IP privados</div>
+<div class="finding-meta">📁 <strong>src/infrastructure/webhook/EnviadorWebhookHttp.ts:10-14</strong></div>
+<div class="finding-code">const HOSTS_BLOQUEADOS = [
+  '169.254.169.254', '127.0.0.1', 'localhost', '0.0.0.0', '[::1]',
+];</div>
+<div class="finding-impact"><strong>Impacto:</strong> No bloquea 10.x.x.x, 172.16.x.x, 192.168.x.x. Un usuario puede configurar un webhook a un servidor interno y exfiltrar SMS.</div>
+<div class="finding-fix">
+<strong>Fix propuesto:</strong>
+<pre>import ip from 'ip';
+function isPrivate(host: string): boolean {
+  try { return ip.isPrivate(host); } catch { return true; }
+}</pre>
+</div>
+</div>
+
+<div class="finding INFO">
+<div class="finding-header">
+<span class="finding-id">SCR-007 <span class="tag-owasp">A04-Insecure Design</span></span>
+<span class="badge INFO">Medio</span>
+</div>
+<div class="finding-message">JSON.parse sin try/catch en repositorios de persistencia</div>
+<div class="finding-meta">📁 <strong>RepositorioMensajesAsyncStorage.ts:20</strong>, <strong>RepositorioAutoRespuestasAsyncStorage.ts:17</strong></div>
+<div class="finding-code">const registros = JSON.parse(datos) as Array&lt;Record&lt;string, unknown&gt;&gt;;</div>
+<div class="finding-impact"><strong>Impacto:</strong> Si AsyncStorage está corrompido, la app crashea al iniciar sin posibilidad de recuperación.</div>
+<div class="finding-fix">
+<strong>Fix propuesto:</strong>
+<pre>try { return JSON.parse(datos); }
+catch { await AsyncStorage.removeItem(CLAVE); return []; }</pre>
+</div>
+</div>
+
+<div class="finding INFO">
+<div class="finding-header">
+<span class="finding-id">SCR-008 <span class="tag-owasp">A04-Insecure Design</span></span>
+<span class="badge INFO">Medio</span>
+</div>
+<div class="finding-message">Sin rate limiting en envío a Telegram</div>
+<div class="finding-meta">📁 <strong>src/infrastructure/telegram/EnviadorTelegramApi.ts</strong></div>
+<div class="finding-impact"><strong>Impacto:</strong> Pico de SMS puede agotar cuota (30 msg/sec) causando 429s. Sin backoff, reintentos inmediatos amplifican el problema.</div>
+<div class="finding-fix">
+<strong>Fix propuesto:</strong>
+<pre>// Token bucket: 1 mensaje cada 33ms mínimo
+const MIN_INTERVAL = 33;
+async enviarMensaje(...) {
+  await this.rateLimiter.acquire();
+  // ... fetch
+}</pre>
+</div>
+</div>
+
+<div class="finding INFO">
+<div class="finding-header">
+<span class="finding-id">SCR-009 <span class="tag-owasp">A04-Insecure Design</span></span>
+<span class="badge INFO">Medio</span>
+</div>
+<div class="finding-message">WakeLock sin liberación defensiva en onDestroy</div>
+<div class="finding-meta">📁 <strong>plugins/withSmsListener.js:103-107</strong></div>
+<div class="finding-code">wakeLock?.acquire(10*60*1000L)</div>
+<div class="finding-impact"><strong>Impacto:</strong> Si el servicio es matado por Doze Mode sin recibir ACTION_STOP, el WakeLock queda retenido drenando batería.</div>
+<div class="finding-fix">
+<strong>Fix propuesto:</strong>
+<pre>override fun onDestroy() {
+    if (wakeLock?.isHeld == true) wakeLock?.release()
+    super.onDestroy()
+}</pre>
+</div>
+</div>
+
+<div class="finding INFO">
+<div class="finding-header">
+<span class="finding-id">SCR-010 <span class="tag-owasp">A06-Vulnerable Components</span></span>
+<span class="badge INFO">Medio</span>
+</div>
+<div class="finding-message">42 CVEs en dependencias npm (2 CRITICAL, 4 HIGH, 35 MODERATE, 1 LOW)</div>
+<div class="finding-meta">📁 <strong>package-lock.json</strong></div>
+<table>
+<tr><th>Severidad</th><th>Paquete</th><th>Rango vulnerable</th><th>Tipo</th></tr>
+<tr><td>CRITICAL</td><td>shell-quote 1.8.3</td><td>1.1.0-1.8.3</td><td>Command injection</td></tr>
+<tr><td>CRITICAL</td><td>handlebars 4.7.8</td><td>4.0.0-4.7.8</td><td>AST injection</td></tr>
+<tr><td>HIGH</td><td>@babel/plugin-transform-modules-systemjs</td><td>7.12.0-7.29.0</td><td>Arbitrary code gen</td></tr>
+<tr><td>HIGH</td><td>@xmldom/xmldom</td><td>&lt;=0.8.12</td><td>XML injection</td></tr>
+<tr><td>HIGH</td><td>picomatch</td><td>&lt;=2.3.1</td><td>Method injection</td></tr>
+<tr><td>HIGH</td><td>ws</td><td>6.0.0-6.2.3</td><td>Memory exhaustion</td></tr>
+</table>
+<div class="finding-fix"><strong>Fix:</strong> <code>npm audit fix</code> para automáticos. Breaking changes requieren evaluación manual.</div>
+</div>
+
+<!-- BAJO -->
+<div class="finding INFO" style="border-left-color:var(--bajo);background:var(--bajo-bg)">
+<div class="finding-header">
+<span class="finding-id">SCR-011</span>
+<span class="badge" style="background:var(--bajo)">Bajo</span>
+</div>
+<div class="finding-message">console.error en headless task (visible en logcat)</div>
+<div class="finding-meta">📁 <strong>SmsHeadlessTask.ts:15</strong></div>
+<div class="finding-code">console.error('Error en HeadlessTask SMS:', error);</div>
+<div class="finding-impact"><strong>Impacto:</strong> En producción, logs en logcat pueden contener datos sensibles visibles para otras apps.</div>
+</div>
+
+<div class="finding INFO" style="border-left-color:var(--bajo);background:var(--bajo-bg)">
+<div class="finding-header">
+<span class="finding-id">SCR-012</span>
+<span class="badge" style="background:var(--bajo)">Bajo</span>
+</div>
+<div class="finding-message">Sin límite de tamaño de SMS (límite Telegram = 4096 chars)</div>
+<div class="finding-meta">📁 <strong>src/application/EvaluarYReenviarSms.ts</strong></div>
+<div class="finding-impact"><strong>Impacto:</strong> SMS concatenados (&gt;4096 chars) causan error 400 de Telegram API.</div>
+</div>
+
+<div class="finding INFO" style="border-left-color:var(--bajo);background:var(--bajo-bg)">
+<div class="finding-header">
+<span class="finding-id">SCR-013</span>
+<span class="badge" style="background:var(--bajo)">Bajo</span>
+</div>
+<div class="finding-message">Sin prevención de capturas de pantalla en pantallas sensibles</div>
+<div class="finding-meta">📁 <strong>PantallaConfiguracion.tsx</strong></div>
+<div class="finding-impact"><strong>Impacto:</strong> Token de Telegram visible en capturas de pantalla.</div>
+</div>
+
+<div class="finding INFO" style="border-left-color:var(--bajo);background:var(--bajo-bg)">
+<div class="finding-header">
+<span class="finding-id">SCR-014</span>
+<span class="badge" style="background:var(--bajo)">Bajo</span>
+</div>
+<div class="finding-message">Singleton sin método dispose() — memory leak en hot-reload</div>
+<div class="finding-meta">📁 <strong>ContenedorDeDependencias.ts</strong></div>
+<div class="finding-impact"><strong>Impacto:</strong> Suscripción de red nunca se cancela en testing/hot-reload.</div>
+</div>
+
+</div>
+
+<!-- ========== 02 — Secrets & Credenciales ========== -->
+<div class="section">
+<div class="section-num">02</div>
+<h2 class="section-title">Secrets &amp; Credenciales</h2>
+<div class="secret-item">⚠️ Token hardcodeado en test: <code>botToken: 'mi-token'</code> — src/__tests__/application/ConfigurarTelegram.test.ts:14</div>
+<div class="secret-item">⚠️ Token hardcodeado en test: <code>botToken: 'token123'</code> — src/__tests__/application/EvaluarYReenviarSms.test.ts:114</div>
+<p class="empty">No se encontraron secrets en código de producción. Los tokens solo existen en archivos de test (aceptable).</p>
+</div>
+
+<!-- ========== 03 — Calidad de Código ========== -->
+<div class="section">
+<div class="section-num">03</div>
+<h2 class="section-title">Calidad de Código</h2>
+<table>
+<tr><th>Métrica</th><th>Valor</th><th>Estado</th></tr>
+<tr><td>Cobertura de statements</td><td>54.26%</td><td style="color:var(--alto)">⚠️ Bajo (target 70%)</td></tr>
+<tr><td>Cobertura de branches</td><td>45.83%</td><td style="color:var(--alto)">⚠️ Bajo</td></tr>
+<tr><td>Cobertura de funciones</td><td>61.70%</td><td style="color:var(--alto)">⚠️ Bajo</td></tr>
+<tr><td>Cobertura de líneas</td><td>57.02%</td><td style="color:var(--alto)">⚠️ Bajo</td></tr>
+<tr><td>Archivos &gt; 400 líneas</td><td>3 (PantallaConfiguracion, PantallaAutoRespuesta, FormularioRegla)</td><td style="color:var(--alto)">⚠️ Refactor</td></tr>
+<tr><td>Instancias LinearGradient</td><td>25</td><td style="color:var(--alto)">⚠️ Costoso en render</td></tr>
+<tr><td>Emojis como iconos</td><td>44</td><td style="color:var(--medio)">⚠️ Recomendar vector icons</td></tr>
+<tr><td>Inline styles</td><td>3</td><td style="color:var(--bajo)">✅ Aceptable</td></tr>
+<tr><td>Console en producción</td><td>0</td><td style="color:var(--bajo)">✅ Limpio</td></tr>
+<tr><td>HTTP sin HTTPS</td><td>0</td><td style="color:var(--bajo)">✅ Todo HTTPS</td></tr>
+</table>
+</div>
+
+<!-- ========== 04 — Dependencias Auditadas ========== -->
+<div class="section">
+<div class="section-num">04</div>
+<h2 class="section-title">Dependencias Auditadas</h2>
+<table>
+<tr><th>Paquete</th><th>Versión</th><th>Estado</th></tr>
+<tr><td>expo</td><td>~54.0.35</td><td>⚠️ Desactualizado (56.0.12 disponible)</td></tr>
+<tr><td>react-native</td><td>^0.81.5</td><td>⚠️ Desactualizado (0.86.0 disponible)</td></tr>
+<tr><td>expo-notifications</td><td>~0.32.17</td><td>⚠️ Desactualizado</td></tr>
+<tr><td>expo-secure-store</td><td>~15.0.8</td><td>✅ OK</td></tr>
+<tr><td>@react-native-async-storage/async-storage</td><td>2.2.0</td><td>✅ OK</td></tr>
+<tr><td>typescript</td><td>~5.9.2</td><td>✅ OK</td></tr>
+<tr><td>jest</td><td>^29.7.0</td><td>✅ OK</td></tr>
+</table>
+</div>
+
+<!-- ========== 05 — Accesibilidad & UX ========== -->
+<div class="section">
+<div class="section-num">05</div>
+<h2 class="section-title">Accesibilidad &amp; UX (WCAG 2.1 AA)</h2>
+<table>
+<tr><th>Criterio</th><th>Estado</th><th>Detalle</th></tr>
+<tr><td>accessibilityLabel</td><td>✅</td><td>51 atributos encontrados</td></tr>
+<tr><td>Dynamic Type / font scaling</td><td>✅</td><td>PixelRatio.getFontScale() en tipografia.ts</td></tr>
+<tr><td>Fuentes &lt; 12px</td><td>⚠️</td><td>6 instancias (10-11px) — TarjetaMensaje, FormularioRegla, etc.</td></tr>
+<tr><td>KeyboardAvoidingView</td><td>✅</td><td>9 instancias en formularios</td></tr>
+<tr><td>useSafeAreaInsets</td><td>✅</td><td>6 instancias</td></tr>
+<tr><td>Platform.OS checks</td><td>✅</td><td>7 checks</td></tr>
+<tr><td>Empty states</td><td>✅</td><td>32 implementaciones</td></tr>
+<tr><td>Loading states</td><td>✅</td><td>ActivityIndicator en todas las pantallas</td></tr>
+<tr><td>Error feedback</td><td>✅</td><td>Alert.alert + mensajes inline</td></tr>
+</table>
+</div>
+
+<!-- ========== 06 — Arquitectura de UI ========== -->
+<div class="section">
+<div class="section-num">06</div>
+<h2 class="section-title">Arquitectura de UI</h2>
+<table>
+<tr><th>Criterio</th><th>Estado</th><th>Detalle</th></tr>
+<tr><td>Design system centralizado</td><td>✅</td><td>theme/colores.ts + theme/tipografia.ts</td></tr>
+<tr><td>Colores hardcodeados</td><td>✅</td><td>Todos en theme (0 fugas)</td></tr>
+<tr><td>Iconos vectoriales</td><td>⚠️</td><td>44 emojis como iconos (recomendar @expo/vector-icons)</td></tr>
+<tr><td>Componentes &gt;400L</td><td>⚠️</td><td>3 componentes (max 564L) — violan responsabilidad única</td></tr>
+<tr><td>FlatList sin keyExtractor</td><td>✅</td><td>No se usa FlatList (ScrollView + map)</td></tr>
+<tr><td>LinearGradient instances</td><td>⚠️</td><td>25 instancias — costoso, considerar memoización</td></tr>
+</table>
+</div>
+
+<!-- ========== 07 — Background & Lifecycle ========== -->
+<div class="section">
+<div class="section-num">07</div>
+<h2 class="section-title">Background &amp; Lifecycle</h2>
+<table>
+<tr><th>Criterio</th><th>Estado</th><th>Detalle</th></tr>
+<tr><td>ForegroundService + WakeLock</td><td>✅</td><td>PARTIAL_WAKE_LOCK en SmsForwarderService</td></tr>
+<tr><td>WakeLock release defensivo</td><td>⚠️</td><td>Falta onDestroy() con release()</td></tr>
+<tr><td>HTTPS en nativo</td><td>⚠️</td><td>Sin SSL pinning en HttpURLConnection</td></tr>
+<tr><td>AppState listener</td><td>✅</td><td>MonitorDeRed con NetInfo.addEventListener</td></tr>
+<tr><td>HeadlessTask</td><td>✅</td><td>SmsHeadlessTask registrado correctamente</td></tr>
+<tr><td>Idempotencia</td><td>✅</td><td>Ventana de 10s en EvaluarYReenviarSms</td></tr>
+</table>
+</div>
+
+<!-- ========== 08 — Native Plugins & Build ========== -->
+<div class="section">
+<div class="section-num">08</div>
+<h2 class="section-title">Native Plugins &amp; Build</h2>
+<table>
+<tr><th>Criterio</th><th>Estado</th><th>Detalle</th></tr>
+<tr><td>Package name match</td><td>✅</td><td>app.json = com.rlanza.smsforwarder = plugin Kotlin</td></tr>
+<tr><td>withDangerousMod path</td><td>✅</td><td>Escribe en app/src/main/java/com/rlanza/smsforwarder/</td></tr>
+<tr><td>MainApplication.kt inject</td><td>✅</td><td>SmsListenerPackage agregado via string replace</td></tr>
+<tr><td>Permisos declarados</td><td>✅</td><td>FOREGROUND_SERVICE, FOREGROUND_SERVICE_DATA_SYNC, INTERNET, WAKE_LOCK</td></tr>
+<tr><td>BroadcastReceiver protection</td><td>⚠️</td><td>exported=true sin permiso BROADCAST_SMS</td></tr>
+<tr><td>Kotlin package hardcoded</td><td>⚠️</td><td>Usa string literal "com.rlanza.smsforwarder" en vez de leer de config</td></tr>
+</table>
+</div>
+
+<!-- ========== 09 — Plan de Remediación ========== -->
+<div class="section">
+<div class="section-num">09</div>
+<h2 class="section-title">Plan de Remediación</h2>
+
+<div class="recommendation">
+<h4>Fase 1 — Inmediato (0-7 días) [P0]</h4>
+<div class="plan-item">
+<span class="phase-badge">P0</span>
+<div class="plan-desc">Migrar botToken de SharedPreferences a EncryptedSharedPreferences/Keystore<br><span class="plan-priority">Prioridad: CRÍTICA — Exposición de credenciales</span></div>
+</div>
+<div class="plan-item">
+<span class="phase-badge">P0</span>
+<div class="plan-desc">Reemplazar generador de IDs por crypto.randomUUID()<br><span class="plan-priority">Prioridad: CRÍTICA — Colisiones</span></div>
+</div>
+<div class="plan-item">
+<span class="phase-badge">P0</span>
+<div class="plan-desc">Agregar timeout a regex de reglas (ReDoS prevention)<br><span class="plan-priority">Prioridad: ALTA — DoS</span></div>
+</div>
+</div>
+
+<div class="recommendation">
+<h4>Fase 2 — Corto Plazo (1-4 semanas) [P1]</h4>
+<div class="plan-item">
+<span class="phase-badge">P1</span>
+<div class="plan-desc">Implementar SSL pinning en HttpURLConnection nativo<br><span class="plan-priority">Prioridad: ALTA — MITM</span></div>
+</div>
+<div class="plan-item">
+<span class="phase-badge">P1</span>
+<div class="plan-desc">Proteger BroadcastReceiver con permiso BROADCAST_SMS<br><span class="plan-priority">Prioridad: ALTA — Intent spoofing</span></div>
+</div>
+<div class="plan-item">
+<span class="phase-badge">P1</span>
+<div class="plan-desc">Validar webhook URL contra rangos IP privados (SSRF)<br><span class="plan-priority">Prioridad: MEDIA — Exfiltración</span></div>
+</div>
+<div class="plan-item">
+<span class="phase-badge">P1</span>
+<div class="plan-desc">npm audit fix para CVEs con fix automático<br><span class="plan-priority">Prioridad: MEDIA — Dependencias</span></div>
+</div>
+</div>
+
+<div class="recommendation">
+<h4>Fase 3 — Mediano Plazo (1-3 meses) [P2]</h4>
+<div class="plan-item">
+<span class="phase-badge">P2</span>
+<div class="plan-desc">Envolver JSON.parse en try/catch con fallback<br><span class="plan-priority">Prioridad: MEDIA — Crash recovery</span></div>
+</div>
+<div class="plan-item">
+<span class="phase-badge">P2</span>
+<div class="plan-desc">Implementar rate limiting para envíos Telegram<br><span class="plan-priority">Prioridad: MEDIA — 429 errors</span></div>
+</div>
+<div class="plan-item">
+<span class="phase-badge">P2</span>
+<div class="plan-desc">Agregar onDestroy() defensivo para WakeLock release<br><span class="plan-priority">Prioridad: MEDIA — Battery drain</span></div>
+</div>
+<div class="plan-item">
+<span class="phase-badge">P2</span>
+<div class="plan-desc">Truncar SMS a 4096 chars (límite Telegram API)<br><span class="plan-priority">Prioridad: BAJA — Error handling</span></div>
+</div>
+</div>
+
+<div class="recommendation">
+<h4>Fase 4 — Mejoras Continuas [P3]</h4>
+<div class="plan-item">
+<span class="phase-badge">P3</span>
+<div class="plan-desc">Refactorizar 3 componentes &gt;400L en sub-componentes<br><span class="plan-priority">Prioridad: BAJO — Mantenibilidad</span></div>
+</div>
+<div class="plan-item">
+<span class="phase-badge">P3</span>
+<div class="plan-desc">Reemplazar 44 emojis por @expo/vector-icons<br><span class="plan-priority">Prioridad: BAJO — Consistencia</span></div>
+</div>
+<div class="plan-item">
+<span class="phase-badge">P3</span>
+<div class="plan-desc">Agregar screenshot prevention en PantallaConfiguracion<br><span class="plan-priority">Prioridad: BAJO — Privacy</span></div>
+</div>
+<div class="plan-item">
+<span class="phase-badge">P3</span>
+<div class="plan-desc">Implementar dispose() en ContenedorDeDependencias<br><span class="plan-priority">Prioridad: BAJO — Memory management</span></div>
+</div>
+</div>
+</div>
+
+<div class="footer">
+AuditAut Farsiman v1.0 — Generado 27 Jun 2026 — Hermes Agent (Owl-Alpha) + Semgrep 1.168 + Manual Senior Analysis<br>
+Metodología: SAST (Semgrep p/typescript + p/javascript + p/react + p/security-audit) + Grep patterns + npm audit + Manual code review
+</div>
+</div>
+</body>
+</html>
