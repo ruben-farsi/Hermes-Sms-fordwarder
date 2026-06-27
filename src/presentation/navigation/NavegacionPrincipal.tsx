@@ -10,6 +10,7 @@ import { PantallaConfiguracion } from '../screens/PantallaConfiguracion';
 import { PantallaAjustes } from '../screens/PantallaAjustes';
 import { PantallaAutoRespuesta } from '../screens/PantallaAutoRespuesta';
 import { COLORES } from '../theme/colores';
+import { FUENTES } from '../theme/tipografia';
 import { HeaderPantalla } from '../components/HeaderPantalla';
 
 const Tab = createBottomTabNavigator();
