@@ -8,6 +8,26 @@ const HOSTS_BLOQUEADOS = [
   '[::1]',
 ];
 
+const RANGOS_PRIVADOS_REGEX = [
+  /^10\./,                          // 10.0.0.0/8
+  /^172\.(1[6-9]|2\d|3[01])\./,      // 172.16.0.0/12
+  /^192\.168\./,                    // 192.168.0.0/16
+  /^169\.254\./,                   // link-local
+  /^127\./,                         // loopback
+  /^0\./,                           // 0.0.0.0/8
+  /^::1$/,                          // IPv6 loopback
+  /^fc|^fd/,                        // IPv6 unique local
+  /^fe80/,                          // IPv6 link-local
+];
+
+function esHostPrivado(hostname: string): boolean {
+  if (HOSTS_BLOQUEADOS.includes(hostname)) return true;
+  for (const regex of RANGOS_PRIVADOS_REGEX) {
+    if (regex.test(hostname)) return true;
+  }
+  return false;
+}
+
 export class EnviadorWebhookHttp implements IEnviadorWebhook {
   async enviar(url: string, datos: DatosWebhook): Promise<void> {
     let urlParseada: URL;
@@ -19,11 +39,11 @@ export class EnviadorWebhookHttp implements IEnviadorWebhook {
 
     if (urlParseada.protocol !== 'https:') {
       throw new Error(
-        `Webhooks solo pueden rechazada: ${urlParseada.host}`,
+        `Webhooks solo pueden ser HTTPS. URL rechazada: ${urlParseada.host}`,
       );
     }
 
-    if (HOSTS_BLOQUEADOS.includes(urlParseada.hostname)) {
+    if (esHostPrivado(urlParseada.hostname)) {
       throw new Error(
         `Webhook no puede apuntar a dirección local/privada: ${urlParseada.host}`,
       );

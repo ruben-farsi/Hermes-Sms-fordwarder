@@ -1,6 +1,17 @@
 import { IEnviadorTelegram } from '../../domain/ports/IEnviadorTelegram';
 
 const URL_BASE_TELEGRAM = 'https://api.telegram.org';
+const MIN_INTERVAL_MS = 35;
+let ultimoEnvio = 0;
+
+async function esperarRateLimit(): Promise<void> {
+  const ahora = Date.now();
+  const espera = ultimoEnvio + MIN_INTERVAL_MS - ahora;
+  if (espera > 0) {
+    await new Promise(resolve => setTimeout(resolve, espera));
+  }
+  ultimoEnvio = Date.now();
+}
 
 export class EnviadorTelegramApi implements IEnviadorTelegram {
   async enviarMensaje(
@@ -8,6 +19,7 @@ export class EnviadorTelegramApi implements IEnviadorTelegram {
     chatId: string,
     texto: string,
   ): Promise<void> {
+    await esperarRateLimit();
     const url = `${URL_BASE_TELEGRAM}/bot${botToken}/sendMessage`;
 
     const controller = new AbortController();
