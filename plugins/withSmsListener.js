@@ -509,7 +509,7 @@ const withSmsListener = (config) => {
         },
     ]);
 
-    // 2.5 Agregar dependencias de seguridad al build.gradle directamente
+    // 2.5 Agregar dependencias de seguridad al build.gradle
     config = withDangerousMod(config, [
         'android',
         (modConfig) => {
@@ -522,10 +522,13 @@ const withSmsListener = (config) => {
                 if (!gradle.includes('security-crypto')) {
                     gradle = gradle.replace(
                         /dependencies\s*\{/,
-                        'dependencies {\n    implementation "androidx.security:security-crypto:1.1.0-alpha06"\n    implementation "com.squareup.okhttp3:okhttp:4.12.0"'
+                        'dependencies {\n    implementation "androidx.security:security-crypto:1.0.0"\n    implementation "com.squareup.okhttp3:okhttp:4.12.0"'
                     );
                     fs.writeFileSync(gradlePath, gradle);
+                    console.log('[withSmsListener] Injected security-crypto + okhttp deps');
                 }
+            } else {
+                console.warn('[withSmsListener] build.gradle not found at:', gradlePath);
             }
             return modConfig;
         },
