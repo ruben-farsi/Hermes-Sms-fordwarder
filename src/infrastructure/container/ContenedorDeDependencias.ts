@@ -119,4 +119,11 @@ export class ContenedorDeDependencias {
     }
     return ContenedorDeDependencias.instancia;
   }
+
+  dispose(): void {
+    if (this.cancelarMonitoreoRed) {
+      this.cancelarMonitoreoRed();
+      this.cancelarMonitoreoRed = null;
+    }
+  }
 }
