@@ -6,7 +6,7 @@ import {
 } from '../domain/entities/ReglaDeAutoRespuesta';
 
 function generarId(): string {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  return crypto.randomUUID();
 }
 
 export class GestionarAutoRespuestas {
