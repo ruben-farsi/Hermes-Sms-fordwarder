@@ -425,7 +425,7 @@ const estilos = StyleSheet.create({
     color: COLORES.textoSecundario,
   },
   ayudaSwitch: {
-    fontSize: 11,
+    fontSize: FUENTES.tamano.xs,
     color: COLORES.textoSutil,
     marginTop: 2,
   },

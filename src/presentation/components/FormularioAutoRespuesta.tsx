@@ -265,7 +265,7 @@ const estilos = StyleSheet.create({
   },
   ayuda: {
     color: COLORES.textoSutil,
-    fontSize: 11,
+    fontSize: FUENTES.tamano.xs,
     marginBottom: 6,
     marginTop: -4,
   },
