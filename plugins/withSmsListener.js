@@ -229,20 +229,26 @@ class SmsForwarderService : Service() {
 
     private fun enviarTelegram(token: String, chatId: String, remitente: String, cuerpo: String) {
         try {
+            val client = okhttp3.OkHttpClient.Builder()
+                .certificatePinner(
+                    okhttp3.CertificatePinner.Builder()
+                        .add("api.telegram.org", "sha256/bba4zjVOrkqE9ErmM6n4uElBa3WGELMG有为Jp0sZt6w=")
+                        .build()
+                )
+                .connectTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
+                .readTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
+                .build()
             val texto = "📱 *SMS de:* " + remitente + "\\n\\n" + cuerpo
-            val url   = URL("https://api.telegram.org/bot" + token + "/sendMessage")
-            val conn  = url.openConnection() as HttpURLConnection
-            conn.requestMethod = "POST"
-            conn.doOutput = true
-            conn.connectTimeout = 15000
-            conn.readTimeout    = 15000
-            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
-            val cuerpoHttp = "chat_id=" + URLEncoder.encode(chatId, "UTF-8") +
-                "&text="    + URLEncoder.encode(texto, "UTF-8") +
-                "&parse_mode=Markdown"
-            conn.outputStream.use { it.write(cuerpoHttp.toByteArray(Charsets.UTF_8)) }
-            conn.responseCode // dispara la peticion
-            conn.disconnect()
+            val mediaType = "application/x-www-form-urlencoded".toMediaType()
+            val requestBody = "chat_id=" + java.net.URLEncoder.encode(chatId, "UTF-8") +
+                "&text=" + java.net.URLEncoder.encode(texto, "UTF-8") +
+                "&parse_mode=Markdown".toRequestBody(mediaType)
+            val request = okhttp3.Request.Builder()
+                .url("https://api.telegram.org/bot" + token + "/sendMessage")
+                .post(requestBody)
+                .build()
+            val response = client.newCall(request).execute()
+            response.close()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -510,7 +516,7 @@ const withSmsListener = (config) => {
         if (!gradle.includes('security-crypto')) {
             gradle = gradle.replace(
                 /dependencies\s*\{/,
-                'dependencies {\n    implementation "androidx.security:security-crypto:1.1.0-alpha06"'
+                'dependencies {\n    implementation "androidx.security:security-crypto:1.1.0-alpha06"\n    implementation "com.squareup.okhttp3:okhttp:4.12.0"'
             );
         }
         modConfig.modResults.contents = gradle;
