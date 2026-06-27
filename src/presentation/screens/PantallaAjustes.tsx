@@ -127,7 +127,7 @@ export const PantallaAjustes: React.FC = () => {
       >
 
         <SeccionAcordeon
-          icono="✏️"
+          icono="[Edit]"
           titulo="Firma / Prefijo global"
           descripcion="Texto al inicio de cada mensaje reenviado"
           expandida={seccionAbierta === 'prefijo'}
@@ -146,7 +146,7 @@ export const PantallaAjustes: React.FC = () => {
             <Text style={estilos.prevLabel}>Vista previa</Text>
             <Text style={estilos.prevTexto}>
               {prefijoMensaje ? `${prefijoMensaje}\n` : ''}
-              📱 SMS de +5012345678:{'\n'}
+               SMS de +5012345678:{'\n'}
               Contenido del mensaje...
             </Text>
           </View>
@@ -161,7 +161,7 @@ export const PantallaAjustes: React.FC = () => {
         >
           <View style={estilos.filaSwitch}>
             <View style={estilos.infoSwitch}>
-              <Text style={estilos.etiquetaSwitch}>🔄 Reintento automático</Text>
+              <Text style={estilos.etiquetaSwitch}>[Refresh] Reintento automático</Text>
               <Text style={estilos.ayudaSwitch}>
                 Reintenta enviar al recuperar internet
               </Text>
@@ -176,7 +176,7 @@ export const PantallaAjustes: React.FC = () => {
         </SeccionAcordeon>
 
         <SeccionAcordeon
-          icono="🌐"
+          icono="[Web]"
           titulo="Webhook HTTP"
           descripcion="Envía SMS como JSON a URL externa"
           expandida={seccionAbierta === 'webhook'}
@@ -184,7 +184,7 @@ export const PantallaAjustes: React.FC = () => {
         >
           <View style={estilos.filaSwitch}>
             <View style={estilos.infoSwitch}>
-              <Text style={estilos.etiquetaSwitch}>🔗 Webhook activo</Text>
+              <Text style={estilos.etiquetaSwitch}>[Link] Webhook activo</Text>
               <Text style={estilos.ayudaSwitch}>n8n, Zapier, API propia</Text>
             </View>
             <Switch
@@ -210,7 +210,7 @@ export const PantallaAjustes: React.FC = () => {
         </SeccionAcordeon>
 
         <SeccionAcordeon
-          icono="🔔"
+          icono="[Bell]"
           titulo="Notificaciones"
           descripcion="Alertas al reenviar SMS"
           expandida={seccionAbierta === 'notificaciones'}
@@ -235,7 +235,7 @@ export const PantallaAjustes: React.FC = () => {
         {guardado && (
           <View style={estilos.alertaExito}>
             <Text style={estilos.textoAlertaExito}>
-              ✅ Ajustes guardados correctamente
+              [OK] Ajustes guardados correctamente
             </Text>
           </View>
         )}
@@ -253,7 +253,7 @@ export const PantallaAjustes: React.FC = () => {
             end={{ x: 1, y: 0 }}
             style={estilos.botonGuardar}
           >
-            <Text style={estilos.textoBotonGuardar}>💾 Guardar ajustes</Text>
+            <Text style={estilos.textoBotonGuardar}>[Save] Guardar ajustes</Text>
           </LinearGradient>
         </TouchableOpacity>
       </ScrollView>

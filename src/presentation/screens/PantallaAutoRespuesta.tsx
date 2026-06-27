@@ -23,15 +23,15 @@ import { COLORES, SOMBRAS, BORDES, GRADIENTES } from '../theme/colores';
 import { FUENTES } from '../theme/tipografia';
 
 const ICONO_PLATAFORMA: Record<PlataformaAutoRespuesta, string> = {
-  [PlataformaAutoRespuesta.WHATSAPP]:   '💬',
-  [PlataformaAutoRespuesta.TELEGRAM]:   '✈️',
-  [PlataformaAutoRespuesta.CUALQUIERA]: '🌐',
+  [PlataformaAutoRespuesta.WHATSAPP]:   '[Chat]',
+  [PlataformaAutoRespuesta.TELEGRAM]:   '[TG]',
+  [PlataformaAutoRespuesta.CUALQUIERA]: '[ALL]',
 };
 
-const ICONO_TIPO: Record<TipoDestinatario, string> = {
-  [TipoDestinatario.CONTACTO]:   '👤',
-  [TipoDestinatario.GRUPO]:      '🏘️',
-  [TipoDestinatario.CUALQUIERA]: '👥',
+export const TIPOS_DESTINATARIO: Record<TipoDestinatario, string> = {
+  [TipoDestinatario.CONTACTO]:   '[Contact]',
+  [TipoDestinatario.GRUPO]:      '[Group]',
+  [TipoDestinatario.CUALQUIERA]: '[All]',
 };
 
 export const PantallaAutoRespuesta: React.FC = () => {
@@ -120,7 +120,7 @@ export const PantallaAutoRespuesta: React.FC = () => {
             </View>
             <View style={estilos.badge}>
               <Text style={estilos.badgeTexto}>
-                {ICONO_TIPO[item.tipoDestinatario]} {item.tipoDestinatario}
+                {TIPOS_DESTINATARIO[item.tipoDestinatario]} {item.tipoDestinatario}
               </Text>
             </View>
             {item.delaySegundos > 0 && (
@@ -131,13 +131,13 @@ export const PantallaAutoRespuesta: React.FC = () => {
           </View>
 
           {item.identificador ? (
-            <Text style={estilos.textoDetalle}>👤 {item.identificador}</Text>
+            <Text style={estilos.textoDetalle}>[Me] {item.identificador}</Text>
           ) : null}
           {item.condicion ? (
-            <Text style={estilos.textoDetalle}>🔑 Si contiene: "{item.condicion}"</Text>
+            <Text style={estilos.textoDetalle}>[Key] Si contiene: "{item.condicion}"</Text>
           ) : null}
           <Text style={estilos.textoRespuesta} numberOfLines={2}>
-            💬 {item.respuesta}
+            [Chat] {item.respuesta}
           </Text>
         </TouchableOpacity>
 
@@ -153,7 +153,7 @@ export const PantallaAutoRespuesta: React.FC = () => {
             style={estilos.botonEliminar}
             activeOpacity={0.6}
           >
-            <Text style={estilos.iconoEliminar}>🗑️</Text>
+            <Text style={estilos.iconoEliminar}>[X]</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -163,7 +163,7 @@ export const PantallaAutoRespuesta: React.FC = () => {
 
   const renderizarVacio = () => (
     <View style={estilos.vacio}>
-      <Text style={estilos.iconoVacio}>🤖</Text>
+      <Text style={estilos.iconoVacio}>[Bot]</Text>
       <Text style={estilos.textoVacio}>Sin reglas de auto-respuesta</Text>
       <Text style={estilos.textoSubtitulo}>
         Crea una regla para responder automáticamente mensajes de WhatsApp o Telegram
@@ -190,7 +190,7 @@ export const PantallaAutoRespuesta: React.FC = () => {
           onPress={solicitarPermiso}
           activeOpacity={0.8}
         >
-          <Text style={estilos.bannerIcono}>⚠️</Text>
+          <Text style={estilos.bannerIcono}>[Warn]</Text>
           <View style={estilos.bannerTextos}>
             <Text style={estilos.bannerTitulo}>Permiso requerido</Text>
             <Text style={estilos.bannerSubtitulo}>
@@ -204,7 +204,7 @@ export const PantallaAutoRespuesta: React.FC = () => {
       {tienePermiso && reglas.length > 0 && (
         <View style={estilos.resumen}>
           <Text style={estilos.textoResumen}>
-            ✅ {reglas.filter((r) => r.activa).length} activas de {reglas.length} reglas
+            [OK] {reglas.filter((r) => r.activa).length} activas de {reglas.length} reglas
           </Text>
         </View>
       )}

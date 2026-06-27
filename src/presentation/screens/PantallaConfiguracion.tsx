@@ -104,7 +104,7 @@ export const PantallaConfiguracion: React.FC = () => {
           accessibilityLabel={guiaVisible ? 'Ocultar guia' : 'Mostrar guia de configuracion'}
           activeOpacity={0.7}
         >
-          <Text style={estilos.iconoGuia}>🤖</Text>
+          <Text style={estilos.iconoGuia}>[?]</Text>
           <Text style={estilos.tituloGuia}>¿Cómo obtener los datos del bot?</Text>
           <Text style={estilos.flechaGuia}>{guiaVisible ? '▲' : '▼'}</Text>
         </TouchableOpacity>
@@ -127,18 +127,18 @@ export const PantallaConfiguracion: React.FC = () => {
 
         {error && (
           <View style={estilos.alerta}>
-            <Text style={estilos.textoAlerta}>❌ {error}</Text>
+            <Text style={estilos.textoAlerta}>[!] {error}</Text>
           </View>
         )}
         {exito && (
           <View style={estilos.alertaExito}>
-            <Text style={estilos.textoAlertaExito}>✅ {exito}</Text>
+            <Text style={estilos.textoAlertaExito}>[OK] {exito}</Text>
           </View>
         )}
 
         {configuraciones.length === 0 && (
           <View style={estilos.vacio}>
-            <Text style={estilos.iconoVacio}>⚙️</Text>
+            <Text style={estilos.iconoVacio}>[Config]</Text>
             <Text style={estilos.textoVacio}>No hay configuraciones de Telegram</Text>
             <Text style={estilos.textoSubVacio}>Toca el botón + para agregar una</Text>
           </View>
@@ -148,7 +148,7 @@ export const PantallaConfiguracion: React.FC = () => {
           <View key={config.id} style={estilos.tarjetaConfig}>
             <View style={estilos.cabeceraConfig}>
               <Text style={estilos.nombreConfig}>
-                {config.esPredeterminada ? '⭐ ' : '🤖'}{config.nombre}
+                {config.esPredeterminada ? '[Default] ' : '[Bot]'}{config.nombre}
               </Text>
               {config.esPredeterminada && (
                 <View style={estilos.badgePredeterminada}>
@@ -166,20 +166,20 @@ export const PantallaConfiguracion: React.FC = () => {
                 {enviandoPrueba === config.id ? (
                   <ActivityIndicator size="small" color={COLORES.primario} />
                 ) : (
-                  <Text style={estilos.textoAccionConfig}>📨 Probar</Text>
+                  <Text style={estilos.textoAccionConfig}>[Probar]</Text>
                 )}
               </TouchableOpacity>
               <TouchableOpacity
                 style={estilos.botonAccionConfig}
                 onPress={() => abrirFormularioEdicion(config)}
               >
-                <Text style={estilos.textoAccionConfig}>✏️ Editar</Text>
+                <Text style={estilos.textoAccionConfig}>[Editar]</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[estilos.botonAccionConfig, estilos.botonEliminar]}
                 onPress={() => confirmarEliminacion(config)}
               >
-                <Text style={estilos.textoEliminarBtn}>🗑️</Text>
+                <Text style={estilos.textoEliminarBtn}>[X]</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -215,7 +215,7 @@ export const PantallaConfiguracion: React.FC = () => {
               <View style={estilos.indicadorModal} />
             </View>
             <Text style={estilos.tituloModal}>
-              {editando ? '✏️ Editar configuración' : '➕ Nueva configuración'}
+              {editando ? '[Editar] configuración' : '[+ Nueva] configuración'}
             </Text>
 
             <Text style={estilos.etiqueta}>Nombre</Text>
@@ -258,7 +258,7 @@ export const PantallaConfiguracion: React.FC = () => {
               onPress={() => setEsPredeterminada(!esPredeterminada)}
             >
               <Text style={estilos.textoPredeterminada}>
-                {esPredeterminada ? '⭐' : '☆'} Configuración predeterminada
+                {esPredeterminada ? '[★]' : '[ ]'} Configuración predeterminada
               </Text>
             </TouchableOpacity>
 

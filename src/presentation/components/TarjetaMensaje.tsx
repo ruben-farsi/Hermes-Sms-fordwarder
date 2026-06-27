@@ -5,9 +5,9 @@ import { COLORES, SOMBRAS, BORDES } from '../theme/colores';
 import { FUENTES } from '../theme/tipografia';
 
 const ICONOS_ESTADO: Record<EstadoMensaje, string> = {
-  [EstadoMensaje.REENVIADO]: '✅',
-  [EstadoMensaje.FILTRADO]: '🚫',
-  [EstadoMensaje.ERROR]: '⚠️',
+  [EstadoMensaje.REENVIADO]: '[OK]',
+  [EstadoMensaje.FILTRADO]: '[Block]',
+  [EstadoMensaje.ERROR]: '[Warn]',
 };
 
 const COLORES_ESTADO: Record<EstadoMensaje, { texto: string; fondo: string }> = {
@@ -35,7 +35,7 @@ export const TarjetaMensaje: React.FC<Props> = ({ mensaje, onReintentar }) => {
       <View style={estilos.encabezado}>
         <View style={estilos.infoRemitente}>
           <View style={estilos.avatarRemitente}>
-            <Text style={estilos.iconoRemitente}>👤</Text>
+            <Text style={estilos.iconoRemitente}>[Me]</Text>
           </View>
           <Text style={estilos.remitente} numberOfLines={1}>
             {mensaje.remitente}
@@ -63,7 +63,7 @@ export const TarjetaMensaje: React.FC<Props> = ({ mensaje, onReintentar }) => {
 
       {mensaje.motivoError && (
         <View style={estilos.contenedorError}>
-          <Text style={estilos.error}>⚠️ {mensaje.motivoError}</Text>
+          <Text style={estilos.error}>[Warn] {mensaje.motivoError}</Text>
           {onReintentar && mensaje.estado === EstadoMensaje.ERROR && (
             <TouchableOpacity
               style={estilos.botonReintentar}
@@ -73,7 +73,7 @@ export const TarjetaMensaje: React.FC<Props> = ({ mensaje, onReintentar }) => {
               accessibilityLabel={`Reintentar envío de mensaje de ${mensaje.remitente}`}
               activeOpacity={0.7}
             >
-              <Text style={estilos.textoReintentar}>🔄 Reintentar</Text>
+              <Text style={estilos.textoReintentar}>[Refresh] Reintentar</Text>
             </TouchableOpacity>
           )}
         </View>

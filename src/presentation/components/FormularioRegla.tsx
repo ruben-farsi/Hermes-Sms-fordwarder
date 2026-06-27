@@ -77,11 +77,11 @@ export const FormularioRegla: React.FC<Props> = ({
             </View>
 
             <Text style={estilos.titulo}>
-              {reglaExistente ? '✏️ Editar regla' : '➕ Nueva regla'}
+              {reglaExistente ? '[Editar] regla' : '[+ Nueva] regla'}
             </Text>
 
             {/* Nombre */}
-            <Text style={estilos.etiqueta}>📝 Nombre de la regla</Text>
+            <Text style={estilos.etiqueta}>[Edit] Nombre de la regla</Text>
             <TextInput
               style={estilos.input}
               value={nombre}
@@ -92,7 +92,7 @@ export const FormularioRegla: React.FC<Props> = ({
             />
 
             {/* Campo objetivo */}
-            <Text style={estilos.etiqueta}>🎯 Aplicar sobre</Text>
+            <Text style={estilos.etiqueta}>[Target] Aplicar sobre</Text>
             <View style={estilos.filaBotones}>
               <TouchableOpacity
                 style={[
@@ -103,7 +103,7 @@ export const FormularioRegla: React.FC<Props> = ({
                 onPress={() => setCampoObjetivo(CampoObjetivo.REMITENTE)}
                 activeOpacity={0.7}
               >
-                <Text style={estilos.iconoOpcion}>👤</Text>
+                <Text style={estilos.iconoOpcion}>[Me]</Text>
                 <Text
                   style={[
                     estilos.textoOpcion,
@@ -124,7 +124,7 @@ export const FormularioRegla: React.FC<Props> = ({
                 onPress={() => setCampoObjetivo(CampoObjetivo.CUERPO)}
                 activeOpacity={0.7}
               >
-                <Text style={estilos.iconoOpcion}>💬</Text>
+                <Text style={estilos.iconoOpcion}>[Chat]</Text>
                 <Text
                   style={[
                     estilos.textoOpcion,
@@ -138,7 +138,7 @@ export const FormularioRegla: React.FC<Props> = ({
             </View>
 
             {/* Patrón */}
-            <Text style={estilos.etiqueta}>🔍 Patrón de búsqueda</Text>
+            <Text style={estilos.etiqueta}>[Search] Patrón de búsqueda</Text>
             <TextInput
               style={estilos.input}
               value={patron}
@@ -159,14 +159,14 @@ export const FormularioRegla: React.FC<Props> = ({
               activeOpacity={0.7}
             >
               <Text style={estilos.textoAvanzado}>
-                ⚙️ Opciones avanzadas
+                [Config] Opciones avanzadas
               </Text>
               <Text style={estilos.flechaAvanzado}>{avanzadoVisible ? '▲' : '▼'}</Text>
             </TouchableOpacity>
 
             {avanzadoVisible && (
               <View style={estilos.contenedorAvanzado}>
-                <Text style={estilos.etiqueta}>🤖 Bot de Telegram</Text>
+                <Text style={estilos.etiqueta}>[Bot] Bot de Telegram</Text>
                 {configuraciones.length === 0 ? (
                   <Text style={estilos.sinConfigs}>No hay bots configurados. Ve a Config para añadir uno.</Text>
                 ) : (
@@ -182,7 +182,7 @@ export const FormularioRegla: React.FC<Props> = ({
                       <Text style={[
                         estilos.textoConfig,
                         !configTelegramId && estilos.textoConfigSeleccionado,
-                      ]}>🌐 Bot predeterminado</Text>
+                      ]}>[Web] Bot predeterminado</Text>
                     </TouchableOpacity>
                     {configuraciones.map((cfg) => (
                       <TouchableOpacity
@@ -197,7 +197,7 @@ export const FormularioRegla: React.FC<Props> = ({
                         <Text style={[
                           estilos.textoConfig,
                           configTelegramId === cfg.id && estilos.textoConfigSeleccionado,
-                        ]}>🤖 {cfg.nombre}</Text>
+                        ]}>[Bot] {cfg.nombre}</Text>
                       </TouchableOpacity>
                     ))}
                   </View>
@@ -315,7 +315,7 @@ export const FormularioRegla: React.FC<Props> = ({
                 accessibilityLabel="Guardar regla"
                 activeOpacity={0.8}
               >
-                <Text style={estilos.textoGuardar}>💾 Guardar</Text>
+                <Text style={estilos.textoGuardar}>[Save] Guardar</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
