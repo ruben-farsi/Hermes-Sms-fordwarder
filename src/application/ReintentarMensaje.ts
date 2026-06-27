@@ -21,10 +21,14 @@ export class ReintentarMensaje {
       ? `${ajustes.prefijoMensaje}\n`
       : '';
     try {
+      const texto = `${prefijo}📱 SMS de ${mensaje.remitente}:\n${mensaje.cuerpo}`;
+      const textoLimitado = texto.length > 4096
+        ? texto.substring(0, 4093) + '...'
+        : texto;
       await this.enviadorTelegram.enviarMensaje(
         config.botToken,
         config.chatId,
-        `${prefijo}📱 SMS de ${mensaje.remitente}:\n${mensaje.cuerpo}`,
+        textoLimitado,
       );
 
       const mensajeActualizado: MensajeSms = {

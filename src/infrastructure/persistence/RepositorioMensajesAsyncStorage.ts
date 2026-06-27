@@ -15,7 +15,13 @@ export class RepositorioMensajesAsyncStorage implements IRepositorioMensajes {
     const datos = await AsyncStorage.getItem(CLAVE);
     if (!datos) return [];
 
-    const registros = JSON.parse(datos) as Array<Record<string, unknown>>;
+    let registros: Array<Record<string, unknown>>;
+    try {
+      registros = JSON.parse(datos) as Array<Record<string, unknown>>;
+    } catch {
+      await AsyncStorage.removeItem(CLAVE);
+      return [];
+    }
     return registros.map((registro) => ({
       ...registro,
       fechaHora: new Date(registro.fechaHora as string),

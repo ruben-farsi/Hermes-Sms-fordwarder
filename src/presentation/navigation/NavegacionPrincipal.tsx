@@ -10,6 +10,7 @@ import { PantallaConfiguracion } from '../screens/PantallaConfiguracion';
 import { PantallaAjustes } from '../screens/PantallaAjustes';
 import { PantallaAutoRespuesta } from '../screens/PantallaAutoRespuesta';
 import { COLORES } from '../theme/colores';
+import { FUENTES } from '../theme/tipografia';
 import { HeaderPantalla } from '../components/HeaderPantalla';
 
 const Tab = createBottomTabNavigator();
@@ -58,7 +59,7 @@ const NavegacionInterna: React.FC = () => {
           height: 56 + Math.max(insets.bottom, 6),
         },
         tabBarLabelStyle: {
-          fontSize: 10,
+          fontSize: FUENTES.tamano.xs,
           fontWeight: '600',
           marginTop: 0,
         },

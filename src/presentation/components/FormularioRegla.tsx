@@ -17,6 +17,7 @@ import {
 import { CampoObjetivo } from '../../domain/entities/ReglaDeReenvio';
 import { useFormularioRegla } from '../hooks/useFormularioRegla';
 import { COLORES, BORDES } from '../theme/colores';
+import { FUENTES } from '../theme/tipografia';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -425,7 +426,7 @@ const estilos = StyleSheet.create({
     color: COLORES.textoSecundario,
   },
   ayudaSwitch: {
-    fontSize: 11,
+    fontSize: FUENTES.tamano.xs,
     color: COLORES.textoSutil,
     marginTop: 2,
   },

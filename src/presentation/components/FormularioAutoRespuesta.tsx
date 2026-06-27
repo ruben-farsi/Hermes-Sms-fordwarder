@@ -16,6 +16,7 @@ import {
   TipoDestinatario,
 } from '../../domain/entities/ReglaDeAutoRespuesta';
 import { COLORES, GRADIENTES, BORDES } from '../theme/colores';
+import { FUENTES } from '../theme/tipografia';
 
 interface Props {
   visible: boolean;
@@ -265,7 +266,7 @@ const estilos = StyleSheet.create({
   },
   ayuda: {
     color: COLORES.textoSutil,
-    fontSize: 11,
+    fontSize: FUENTES.tamano.xs,
     marginBottom: 6,
     marginTop: -4,
   },
