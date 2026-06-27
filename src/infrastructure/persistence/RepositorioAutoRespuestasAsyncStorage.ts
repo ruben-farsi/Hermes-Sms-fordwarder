@@ -21,7 +21,13 @@ export class RepositorioAutoRespuestasAsyncStorage
   async obtenerTodas(): Promise<ReglaDeAutoRespuesta[]> {
     const json = await AsyncStorage.getItem(CLAVE);
     if (!json) return [];
-    return JSON.parse(json) as ReglaDeAutoRespuesta[];
+
+    try {
+      return JSON.parse(json) as ReglaDeAutoRespuesta[];
+    } catch {
+      await AsyncStorage.removeItem(CLAVE);
+      return [];
+    }
   }
 
   async obtenerPorId(id: string): Promise<ReglaDeAutoRespuesta | null> {

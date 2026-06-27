@@ -21,7 +21,13 @@ export class RepositorioReglasAsyncStorage implements IRepositorioReglas {
   async obtenerTodas(): Promise<ReglaDeReenvio[]> {
     const datos = await AsyncStorage.getItem(CLAVE);
     if (!datos) return [];
-    return JSON.parse(datos) as ReglaDeReenvio[];
+
+    try {
+      return JSON.parse(datos) as ReglaDeReenvio[];
+    } catch {
+      await AsyncStorage.removeItem(CLAVE);
+      return [];
+    }
   }
 
   async obtenerPorId(id: string): Promise<ReglaDeReenvio | null> {
