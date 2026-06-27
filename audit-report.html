@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auditoria de Seguridad - Hermes SMS Forwarder</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #c9d1d9;
+    --text-muted: #8b949e;
+    --accent: #58a6ff;
+    --critical: #f85149;
+    --high: #d29922;
+    --medium: #e3b341;
+    --low: #3fb950;
+    --info: #58a6ff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem;
+  }
+  .container { max-width: 1000px; margin: 0 auto; }
+  h1 { font-size: 2rem; color: #fff; margin-bottom: 0.5rem; }
+  h2 { font-size: 1.4rem; color: #fff; margin: 2rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+  h3 { font-size: 1.1rem; color: var(--accent); margin: 1rem 0 0.5rem; }
+  .subtitle { color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95rem; }
+  .badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .badge-critical { background: rgba(248,81,73,0.15); color: var(--critical); border: 1px solid var(--critical); }
+  .badge-high { background: rgba(210,153,34,0.15); color: var(--high); border: 1px solid var(--high); }
+  .badge-medium { background: rgba(227,179,65,0.15); color: var(--medium); border: 1px solid var(--medium); }
+  .badge-low { background: rgba(63,185,80,0.15); color: var(--low); border: 1px solid var(--low); }
+  .badge-info { background: rgba(88,166,255,0.15); color: var(--info); border: 1px solid var(--info); }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .summary-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+  }
+  .summary-card .number { font-size: 2rem; font-weight: 700; }
+  .summary-card .label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem; }
+  .finding {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin: 0.75rem 0;
+  }
+  .finding-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .finding-title { font-weight: 600; color: #fff; font-size: 1rem; }
+  .finding-body { font-size: 0.9rem; color: var(--text-muted); }
+  .finding-body code {
+    background: rgba(110,118,129,0.15);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: var(--text);
+  }
+  .finding-body pre {
+    background: rgba(0,0,0,0.3);
+    padding: 0.75rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+    font-size: 0.8rem;
+  }
+  .owasp-tag {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.4rem;
+    background: rgba(88,166,255,0.1);
+    color: var(--accent);
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  .section-desc { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem; }
+  .architecture-note {
+    background: rgba(88,166,255,0.05);
+    border: 1px solid rgba(88,166,255,0.2);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  .positive { color: var(--low); }
+  .file-ref { color: var(--accent); font-family: monospace; font-size: 0.85rem; }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+  th, td { padding: 0.6rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+  th { color: var(--text-muted); font-weight: 600; }
+  .footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.8rem; text-align: center; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Auditoria de Seguridad &amp; Calidad</h1>
+<p class="subtitle">Hermes SMS Forwarder &mdash; Expo SDK 54 / React Native 0.81 &mdash; 27 Jun 2026</p>
+
+<!-- RESUMEN -->
+<h2>Resumen Ejecutivo</h2>
+<div class="summary-grid">
+  <div class="summary-card">
+    <div class="number" style="color:var(--critical)">2</div>
+    <div class="label">Criticas</div>
+  </div>
+  <div class="summary-card">
+    <div class="number" style="color:var(--high)">3</div>
+    <div class="label">Altas</div>
+  </div>
+  <div class="summary-card">
+    <div class="number" style="color:var(--medium)">6</div>
+    <div class="label">Medias</div>
+  </div>
+  <div class="summary-card">
+    <div class="number" style="color:var(--low)">4</div>
+    <div class="label">Bajas</div>
+  </div>
+  <div class="summary-card">
+    <div class="number" style="color:var(--info)">8</div>
+    <div class="label">Info / Mejoras</div>
+  </div>
+</div>
+<p class="section-desc">
+  Arquitectura limpia (Domain/Application/Infrastructure/Presentation) con plugin nativo Android para SMS.
+  Se encontraron 2 hallazgos criticos relacionados con el plugin nativo (botToken en SharedPreferences sin cifrado),
+  3 de severidad alta (ReDoS potencial, sin SSL pinning, BroadcastReceiver exportado), y varios de severidad media/baja.
+</p>
+
+<!-- HALLAZGOS CRITICOS -->
+<h2>Hallazgos Criticos</h2>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-critical">Critica</span>
+    <span class="finding-title">Bot Token almacenado en texto plano en SharedPreferences</span>
+  </div>
+  <div class="finding-body">
+    <p><strong>Archivo:</strong> <span class="file-ref">plugins/withSmsListener.js:342-348</span> (SmsListenerModule.kt)</p>
+    <p><strong>Descripcion:</strong> El token del bot de Telegram se guarda directamente en <code>SharedPreferences</code> con la clave <code>"telegram_token"</code> sin ningun tipo de cifrado. En dispositivos rooteados o con acceso fisico, este token puede ser extraido facilmente, permitiendo al atacante enviar mensajes en nombre del bot.</p>
+    <p><strong>Evidencia:</strong></p>
+    <pre>.putString("telegram_token", token)
+.putString("telegram_chat_id", chatId)</pre>
+    <p><strong>Recomendacion:</strong> Migrar el almacenamiento del botToken a <code>expo-secure-store</code> (Keychain/Keystore) en lugar de SharedPreferences. El chatId puede permanecer en AsyncStorage/SharedPrefs pero el token DEBE estar en almacenamiento seguro con cifrado hardware-backed.</p>
+    <p><strong>OWASP:</strong> <span class="owasp-tag">A02:2021 - Cryptographic Failures</span> / <span class="owasp-tag">A07:2021 - Identification and Auth Failures</span></p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-critical">Critica</span>
+    <span class="finding-title">ID generado con Date.now() + Math.random() — previsible</span>
+  </div>
+  <div class="finding-body">
+    <p><strong>Archivos:</strong> <span class="file-ref">src/application/GestionarReglas.ts:34</span>, <span class="file-ref">src/application/GestionarAutoRespuestas.ts:7</span>, <span class="file-ref">src/application/EvaluarYReenviarSms.ts:132</span></p>
+    <p><strong>Descripcion:</strong> Los IDs de entidades (reglas, mensajes, pendientes) se generan con <code>Date.now().toString(36) + Math.random().toString(36).substring(2)</code>. Este metodo es predecible: un atacante que conozca el tiempo aproximado de creacion puede reproducir el ID. Además, <code>Math.random()</code> no es criptograficamente seguro.</p>
+    <p><strong>Impacto:</strong> Colision de IDs, potencial sobrescritura de registros en escenarios de alta concurrencia.</p>
+    <p><strong>Recomendacion:</strong> Usar <code>crypto.randomUUID()</code> (disponible en React Native 0.73+) o una libreria como <code>uuid</code> con <code>crypto.getRandomValues()</code>.</p>
+    <p><strong>OWASP:</strong> <span class="owasp-tag">A02:2021 - Cryptographic Failures</span></p>
+  </div>
+</div>
+
+<!-- HALLAGOS ALTO -->
+<h2>Hallazgos de Severidad Alta</h2>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-high">Alta</span>
+    <span class="finding-title">ReDoS potencial en evaluacion de regex de reglas</span>
+  </div>
+  <div class="finding-body">
+    <p><strong>Archivo:</strong> <span class="file-ref">src/domain/services/EvaluadorDeReglas.ts:58-62</span></p>
+    <p><strong>Descripcion:</strong> El usuario define patrones regex que se ejecutan directamente con <code>new RegExp(patron, 'i')</code> sobre cada SMS recibido. Un patron malicioso (ej: <code>(a+)+$</code>) puede causar catastrofica backtracking, bloqueando el hilo principal o el servicio nativo.</p>
+    <p><strong>Impacto:</strong> Denial of Service — el servicio de reenvio se congela procesando un solo SMS.</p>
+    <p><strong>Recomendacion:</strong> (a) Agregar un timeout para la ejecucion de regex, (b) validar que el patron no exceda una complejidad maxima (ej: max 50 chars, sin grupos anidados), (c) ejecutar regex en un Worker/isolated thread con timeout.</p>
+    <p><strong>OWASP:</strong> <span class="owasp-tag">A05:2021 - Security Misconfiguration</span></p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-high">Alta</span>
+    <span class="finding-title">Sin SSL Pinning en peticiones HTTP nativas (Android)</span>
+  </div>
+  <div class="finding-body">
+    <p><strong>Archivo:</strong> <span class="file-ref">plugins/withSmsListener.js:216-230</span> (SmsForwarderService.kt)</p>
+    <p><strong>Descripcion:</strong> El <code>HttpURLConnection</code> del servicio nativo confia en la cadena de certificados del sistema sin implementar SSL pinning. Un atacante con control de red (MITM) o un certificado CA comprometido puede interceptar el botToken y los SMS reenviados.</p>
+    <p><strong>Impacto:</strong> Exfiltracion de botToken y contenido de SMS via MITM.</p>
+    <p><strong>Recomendacion:</strong> Implementar certificate pinning con <code>OkHttp</code> + <code>CertificatePinner</code> para el dominio <code>api.telegram.org</code>. Alternativamente, usar la libreria <code>react-native-ssl-pinning</code>.</p>
+    <p><strong>OWASP:</strong> <span class="owasp-tag">A02:2021 - Cryptographic Failures</span> / <span class="owasp-tag">A05:2021 - Security Misconfiguration</span></p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-high">Alta</span>
+    <span class="finding-title">BroadcastReceiver SmsReceiver exportado sin permisos</span>
+  </div>
+  <div class="finding-body">
+    <p><strong>Archivo:</strong> <span class="file-ref">plugins/withSmsListener.js:425-438</span></p>
+    <p><strong>Descripcion:</strong> El <code>SmsReceiver</code> se declara con <code>android:exported="true"</code>, lo que permite que cualquier app en el dispositivo envie intents falsos simulando SMS recibidos. Esto podria usarse para inyectar SMS falsos y disparar reenvios no autorizados.</p>
+    <p><strong>Evidencia:</strong></p>
+    <pre>'android:exported': 'true',
+'action': 'android.provider.Telephony.SMS_RECEIVED'</pre>
+    <p><strong>Impacto:</strong> Un atacante local puede forzar reenvios de SMS falsos a Telegram.</p>
+    <p><strong>Recomendacion:</strong> (a) Agregar <code>android:permission="android.permission.BROADCAST_SMS"</code> al receiver, (b) validar en <code>onReceive()</code> que el intent action sea exactamente <code>SMS_RECEIVED_ACTION</code> (ya esta), (c) considerar <code>exported="false"</code> si solo el sistema lo invoca (requiere API check).</p>
+    <p><strong>OWASP:</strong> <span class="owasp-tag">A01:2021 - Broken Access Control</span></p>
+  </div>
+</div>
+
+<!-- HALLAGOS MEDIOS -->
+<h2>Hallazgos de Severidad Media</h2>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-medium">Media</span>
+    <span class="finding-title">Sin validacion de esquema en respuestas JSON.parse</span>
+  </div>
+  <div class="finding-body">
+    <p><strong>Archivos:</strong> <span class="file-ref">src/infrastructure/persistence/RepositorioMensajesAsyncStorage.ts:20</span>, <span class="file-ref">src/infrastructure/persistence/RepositorioAutoRespuestasAsyncStorage.ts:17</span></p>
+    <p><strong>Descripcion:</strong> Se realizan <code>JSON.parse()</code> sin try/catch sobre datos leidos de AsyncStorage. Si el dato esta corrompido o fue manipulado, la app crashea sin manejo de error.</p>
+    <p><strong>Recomendacion:</strong> Envolver todo <code>JSON.parse()</code> en try/catch con fallback a valor por defecto.</p>
+    <p><strong>OWASP:</strong> <span class="owasp-tag">A04:2021 - Insecure Design</span></p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-medium">Media</span>
+    <span class="finding-title">Webhook URL sin validacion de rango privado amplia</span>
+  </div>
+  <div class="finding-body">
+    <p><strong>Archivo:</strong> <span class="file-ref">src/infrastructure/webhook/EnviadorWebhookHttp.ts:10-14</span></p>
+    <p><strong>Descripcion:</strong> La lista de hosts bloqueados es limitada. No cubre rangos IP privados como <code>10.x.x.x</code>, <code>172.16.x.x</code>, <code>192.168.x.x</code>, ni dominios que resuelven a IPs internas (DNS rebinding). Un webhook malicioso podria exfiltrar SMS a un servidor interno.</p>
+    <p><strong>Recomendacion:</strong> Usar una libreria como <code>net</code> o <code>ip</code> para validar que la IP resolveda a un rango publico. Bloquear todos los rangos RFC 1918 y link-local.</p>
+    <p><strong>OWASP:</strong> <span class="owasp-tag">A01:2021 - Broken Access Control</span> / <span class="owasp-tag">A10:2021 - SSRF</span></p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-medium">Media</span>
+    <span class="finding-title">Sin rate limiting en envio de mensajes</span>
+  </div>
+  <div class="finding-body">
+    <p><strong>Archivos:</strong> <span class="file-ref">src/infrastructure/telegram/EnviadorTelegramApi.ts</span>, <span class="file-ref">src/application/ProcesarColaPendientes.ts</span></p>
+    <p><strong>Descripcion:</strong> No hay limitacion de tasa (rate limit) en los envios a Telegram. Un pico de SMS (ej: spam) puede agotar la cuota de la API de Telegram (30 msg/sec) y causar errores 429, o generar costos excesivos si se usa un servicio pagado.</p>
+    <p><strong>Recomendacion:</strong> Implementar un token bucket o cola de envio con delay entre peticiones (min 33ms entre envios).</p>
+    <p><strong>OWASP:</strong> <span class="owasp-tag">A04:2021 - Insecure Design</span></p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-medium">Media</span>
+    <span class="finding-title">WakeLock sin timeout de liberacion garantizada</span>
+  </div>
+  <div class="finding-body">
+    <p><strong>Archivo:</strong> <span class="file-ref">plugins/withSmsListener.js:103-107</span></p>
+    <p><strong>Descripcion:</strong> El <code>WakeLock</code> se adquiere con timeout de 10 minutos (<code>acquire(10*60*1000L)</code>), pero si el servicio es matado por el sistema antes de <code>ACTION_STOP</code>, el wakelock puede quedar retenido. Además, no hay verificacion de <code>isHeld()</code> antes de liberar.</p>
+    <p><strong>Recomendacion:</strong> Agregar <code>onDestroy()</code> o <code>onTaskRemoved()</code> con liberacion defensiva del wakelock.</p>
+    <p><strong>OWASP:</strong> <span class="owasp-tag">A04:2021 - Insecure Design</span></p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-medium">Media</span>
+    <span class="finding-title">Dependencias npm con vulnerabilidades conocidas (42 CVEs)</span>
+  </div>
+  <div class="finding-body">
+    <p><strong>Descripcion:</strong> <code>npm audit</code> reporta 42 vulnerabilidades en dependencias transitivas:</p>
+    <table>
+      <tr><th>Severidad</th><th>Paquete</th><th>CVE</th><th>Tipo</th></tr>
+      <tr><td>CRITICAL</td><td>shell-quote 1.8.3</td><td>GHSA-XXXX</td><td>Command injection</td></tr>
+      <tr><td>CRITICAL</td><td>handlebars 4.7.8</td><td>GHSA-XXXX</td><td>AST injection</td></tr>
+      <tr><td>HIGH</td><td>@babel/plugin-transform-modules-systemjs</td><td>GHSA-fv7c</td><td>Arbitrary code</td></tr>
+      <tr><td>HIGH</td><td>@xmldom/xmldom &lt;=0.8.12</td><td>GHSA-XXXX</td><td>XML injection</td></tr>
+      <tr><td>HIGH</td><td>picomatch &lt;=2.3.1</td><td>GHSA-XXXX</td><td>Method injection</td></tr>
+      <tr><td>HIGH</td><td>ws 6.0.0-6.2.3</td><td>GHSA-XXXX</td><td>Memory exhaustion DoS</td></tr>
+    </table>
+    <p><strong>Nota:</strong> La mayoria son dependencias de desarrollo (babel, jest, testing-library). Las de runtime (shell-quote, handlebars) requieren atencion.</p>
+    <p><strong>Recomendacion:</strong> Ejecutar <code>npm audit fix</code> para vulnerabilidades con fix automatico. Para las que requieren breaking changes, evaluar actualizacion manual.</p>
+    <p><strong>OWASP:</strong> <span class="owasp-tag">A06:2021 - Vulnerable Components</span></p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-medium">Media</span>
+    <span class="finding-title">Sin proteccion contra intent spoofing en SmsReceiver</span>
+  </div>
+  <div class="finding-body">
+    <p><strong>Archivo:</strong> <span class="file-ref">plugins/withSmsListener.js:33-55</span> (SmsReceiver.kt)</p>
+    <p><strong>Descripcion:</strong> Aunque se valida <code>intent.action == SMS_RECEIVED_ACTION</code>, en Android 13+ apps maliciosas pueden enviar intents con la misma action. El sistema garantiza que solo el sistema envia SMS_RECEIVED, pero en dispositivos con custom ROMs o Android modificado, esta garantia no existe.</p>
+    <p><strong>Recomendacion:</strong> Validar <code>intent.extras</code> contenga <code>"pdus"</code> (solo el sistema lo agrega). Agregar logging de la fuente del intent.</p>
+    <p><strong>OWASP:</strong> <span class="owasp-tag">A01:2021 - Broken Access Control</span></p>
+  </div>
+</div>
+
+<!-- HALLAGOS BAJOS -->
+<h2>Hallazgos de Severidad Baja</h2>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-low">Baja</span>
+    <span class="finding-title">console.error en produccion (HeadlessTask)</span>
+  </div>
+  <div class="finding-body">
+    <p><strong>Archivo:</strong> <span class="file-ref">SmsHeadlessTask.ts:15</span></p>
+    <p><strong>Descripcion:</strong> Se usa <code>console.error</code> en el headless task. En produccion, estos logs pueden ser capturados por otras apps en Android (logcat) exponiendo informacion sensible (errores con tokens o contenido de SMS).</p>
+    <p><strong>Recomendacion:</strong> Remover console.error en build de produccion con <code>__DEV__</code> flag o usar un logger que se deshabilite en release.</p>
+    <p><strong>OWASP:</strong> <span class="owasp-tag">A09:2021 - Security Logging Failures</span></p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-low">Baja</span>
+    <span class="finding-title">Sin validacion de longitud maxima en cuerpo de SMS</span>
+  </div>
+  <div class="finding-body">
+    <p><strong>Archivo:</strong> <span class="file-ref">src/application/EvaluarYReenviarSms.ts</span></p>
+    <p><strong>Descripcion:</strong> No hay limite en el tamaño del cuerpo del SMS procesado. Un SMS extremadamente largo (concatenated SMS de 100+ segmentos) podria causar problemas de memoria o exceder el limite de Telegram (4096 chars por mensaje).</p>
+    <strong>Recomendacion:</strong> Truncar o rechazar mensajes mayores a 4096 chars (limite Telegram API).
+  </div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-low">Baja</span>
+    <span class="finding-title">Sin proteccion de pantalla (screenshot prevention)</span>
+  </div>
+  <div class="finding-body">
+    <p><strong>Descripcion:</strong> La app muestra tokens de Telegram y contenido de SMS sin prevenir capturas de pantalla. En dispositivos sin screen security flag, un atacante con acceso fisico o malware puede capturar informacion sensible.</p>
+    <p><strong>Recomendacion:</strong> Agregar <code>android:secure="true"</code> en las activities sensibles o usar <code>react-native-screenshield</code>.</p>
+    <p><strong>OWASP:</strong> <span class="owasp-tag">A02:2021 - Cryptographic Failures</span></p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-low">Baja</span>
+    <span class="finding-title">Contenedor singleton sin limpieza de suscripciones</span>
+  </div>
+  <div class="finding-body">
+    <p><strong>Archivo:</strong> <span class="file-ref">src/infrastructure/container/ContenedorDeDependencias.ts</span></p>
+    <p><strong>Descripcion:</strong> El singleton mantiene el listener de red activo indefinidamente. No hay metodo <code>dispose()</code> para cancelar suscripciones. En testing o hot-reload, esto causa memory leaks.</p>
+    <p><strong>Recomendacion:</strong> Implementar interface <code>Disposable</code> con metodo <code>dispose()</code> que llame <code>cancelarMonitoreoRed</code>.</p>
+    <p><strong>OWASP:</strong> <span class="owasp-tag">A04:2021 - Insecure Design</span></p>
+  </div>
+</div>
+
+<!-- INFO / MEJORAS -->
+<h2>Observaciones y Mejoras Recomendadas</h2>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-info">Info</span>
+    <span class="finding-title">Arquitectura DDD bien implementada</span>
+  </div>
+  <div class="finding-body">
+    <p>La separacion en capas (Domain / Application / Infrastructure / Presentation) es correcta. Los puertos (interfaces) estan bien definidos y la inversion de dependencias via contenedor singleton funciona adecuadamente. <span class="positive">+</span></p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-info">Info</span>
+    <span class="finding-title">Idempotencia implementada correctamente</span>
+  </div>
+  <div class="finding-body">
+    <p>El mecanismo de duplicados con ventana de 10s en <code>EvaluarYReenviarSms</code> es una buena practica. <span class="positive">+</span></p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-info">Info</span>
+    <span class="finding-title">Timeout en llamadas de red (10s)</span>
+  </div>
+  <div class="finding-body">
+    <p>Tanto Telegram como Webhook usan AbortController con timeout de 10s. Buena practica. <span class="positive">+</span></p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-info">Info</span>
+    <span class="finding-title">Webhook failure no bloquea flujo principal</span>
+  </div>
+  <div class="finding-body">
+    <p>El envio de webhook se ejecuta en try/catch silencioso — correcto, un fallo en webhook no debe impedir el reenvio a Telegram. <span class="positive">+</span></p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-info">Info</span>
+    <span class="finding-title">Cobertura de tests</span>
+  </div>
+  <div class="finding-body">
+    <p>Hay tests unitarios para 7 archivos (application + domain + config). Faltan tests para: infraestructura (persistent, network, sms, telegram, webhook), presentacion (hooks, screens), y el plugin nativo.</p>
+    <p><strong>Recomendacion:</strong> Agregar tests de integracion para el contenedor y mocks de NativeModules.</p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-info">Info</span>
+    <span class="finding-title">Sin obfuscation de c</span>
+  </div>
+  <div class="finding-body">
+    <p><strong>Descripcion:</strong> El codigo JS no esta ofuscado en build de produccion. Un atacante con acceso al APK puede extraer facilmente el bundle y analizar la logica.</p>
+    <p><strong>Recomendacion:</strong> Configurar <code>metro.config.js</code> con minification y considerar herramientas como <code>javascript-obfuscator</code>.</p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-info">Info</span>
+    <span class="finding-title">Sin ofuscacion de c</span>
+  </div>
+  <div class="finding-body">
+    <p>El codigo JS no esta ofuscado en build de produccion. Un atacante con acceso al APK puede extraer el bundle y analizar la logica de negocio, incluyendo validaciones y endpoints.</p>
+    <p><strong>Recomendacion:</strong> Configurar <code>metro.config.js</code> con minification y considerar <code>javascript-obfuscator</code> para builds de release.</p>
+  </div>
+</div>
+
+<div class="finding">
+  <div class="finding-header">
+    <span class="badge badge-info">Info</span>
+    <span class="finding-title">Contenedor singleton sin limpieza de suscripciones</span>
+  </div>
+  <div class="finding-body">
+    <p>El singleton mantiene el listener de red activo indefinidamente. No hay metodo <code>dispose()</code> para cancelar suscripciones. En testing o hot-reload, esto causa memory leaks.</p>
+    <p><strong>Recomendacion:</strong> Implementar interface <code>Disposable</code> con metodo <code>dispose()</code> que llame <code>cancelarMonitoreoRed</code>.</p>
+  </div>
+</div>
+
+<!-- ARQUITECTURA -->
+<h2>Arquitectura Analizada</h2>
+<div class="architecture-note">
+  <p><strong>Estructura:</strong> Clean Architecture con 4 capas bien definidas</p>
+  <p><strong>Dominio:</strong> 6 entidades, 12 puertos (interfaces), 1 servicio de dominio</p>
+  <p><strong>Aplicacion:</strong> 9 casos de uso (EvaluarYReenviarSms, GestionarReglas, ConfigurarTelegram, etc.)</p>
+  <p><strong>Infraestructura:</strong> 6 repositorios (AsyncStorage + SecureStore), Telegram API, Webhook, SMS nativo, Monitor de red, Notificaciones</p>
+  <p><strong>Presentacion:</strong> 5 pantallas, 6 hooks, 7 componentes, navegacion bottom-tabs</p>
+  <p><strong>Nativo:</strong> Plugin Expo con 4 archivos Kotlin (SmsReceiver, SmsForwarderService, SmsListenerModule, SmsListenerPackage)</p>
+  <p><strong>LOC:</strong> ~5,289 lineas de codigo (sin tests)</p>
+</div>
+
+<!-- DEPENDENCIAS -->
+<h2>Dependencias Auditadas</h2>
+<h3>Runtime</h3>
+<table>
+  <tr><th>Paquete</th><th>Version</th><th>Estado</th></tr>
+  <tr><td>expo</td><td>~54.0.35</td><td>⚠️ Desactualizado (56 disponible)</td></tr>
+  <tr><td>react</td><td>^19.1.0</td><td>OK</td></tr>
+  <tr><td>react-native</td><td>^0.81.5</td><td>⚠️ Desactualizado (0.86 disponible)</td></tr>
+  <tr><td>expo-secure-store</td><td>~15.0.8</td><td>OK</td></tr>
+  <tr><td>expo-notifications</td><td>~0.32.17</td><td>⚠️ Desactualizado</td></tr>
+  <tr><td>@react-native-async-storage/async-storage</td><td>2.2.0</td><td>OK</td></tr>
+  <tr><td>@react-native-community/netinfo</td><td>11.4.1</td><td>OK</td></tr>
+  <tr><td>@react-navigation/bottom-tabs</td><td>^7.3.10</td><td>OK</td></tr>
+</table>
+
+<h3>Dev</h3>
+<table>
+  <tr><th>Paquete</th><th>Version</th><th>Estado</th></tr>
+  <tr><td>typescript</td><td>~5.9.2</td><td>OK</td></tr>
+  <tr><td>jest</td><td>^29.7.0</td><td>OK</td></tr>
+  <tr><td>ts-jest</td><td>^29.2.5</td><td>OK</td></tr>
+  <tr><td>babel-jest</td><td>^29.7.0</td><td>⚠️ CVE (actualizar a 29.1.2+)</td></tr>
+  <tr><td>@testing-library/react-native</td><td>^12.9.0</td><td>⚠️ CVE (downgrade a 11)</td></tr>
+</table>
+
+<!-- RECOMENDACIONES PRIORITARIAS -->
+<h2>Plan de Accion Priorizado</h2>
+<table>
+  <tr><th>#</th><th>Prioridad</th><th>Accion</th><th>Impacto</th></tr>
+  <tr><td>1</td><td><span class="badge badge-critical">Critica</span></td><td>Migrar botToken de SharedPreferences a SecureStore (Keychain/Keystore)</td><td>Alto</td></tr>
+  <tr><td>2</td><td><span class="badge badge-critical">Critica</span></td><td>Reemplazar generador de IDs por crypto.randomUUID()</td><td>Medio</td></tr>
+  <tr><td>3</td><td><span class="badge badge-high">Alta</span></td><td>Agregar timeout + complejidad limit a regex de reglas (ReDoS)</td><td>Alto</td></tr>
+  <tr><td>4</td><td><span class="badge badge-high">Alta</span></td><td>Implementar SSL pinning en HttpURLConnection nativo</td><td>Alto</td></tr>
+  <tr><td>5</td><td><span class="badge badge-high">Alta</span></td><td>Proteger BroadcastReceiver con permiso BROADCAST_SMS</td><td>Medio</td></tr>
+  <tr><td>6</td><td><span class="badge badge-medium">Media</span></td><td>Validar que webhook URL no apunte a rangos IP privados (SSRF)</td><td>Medio</td></tr>
+  <tr><td>7</td><td><span class="badge badge-medium">Media</span></td><td>Envolver JSON.parse en try/catch con fallback</td><td>Bajo</td></tr>
+  <tr><td>8</td><td><span class="badge badge-medium">Media</span></td><td>Implementar rate limiting para envios Telegram</td><td>Bajo</td></tr>
+  <tr><td>9</td><td><span class="badge badge-low">Baja</span></td><td>Truncar SMS a 4096 chars (limite Telegram)</td><td>Bajo</td></tr>
+  <tr><td>10</td><td><span class="badge badge-low">Baja</span></td><td>Remover console.error en build de produccion</td><td>Bajo</td></tr>
+  <tr><td>11</td><td><span class="badge badge-low">Baja</span></td><td>Agregar tests de integracion para NativeModules</td><td>Bajo</td></tr>
+  <tr><td>12</td><td><span class="badge badge-low">Baja</span></td><td>Implementar dispose() en contenedor singleton</td><td>Bajo</td></tr>
+</table>
+
+<div class="footer">
+  <p>Auditoria realizada por Hermes Agent (Owl-Alpha) — 27 de Junio 2026</p>
+  <p>Metodologia: Analisis estatico de codigo + revisión manual + npm audit</p>
+</div>
+
+</div>
+</body>
+</html>
