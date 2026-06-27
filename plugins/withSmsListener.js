@@ -509,8 +509,7 @@ const withSmsListener = (config) => {
         },
     ]);
 
-    // 3. Registrar SmsListenerPackage en MainApplication.kt
-    // 2.5 Agregar dependencias de seguridad al build.gradle
+    // 2.5 Agregar dependencias de seguridad al build.gradle directamente
     config = withDangerousMod(config, [
         'android',
         (modConfig) => {
