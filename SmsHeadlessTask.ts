@@ -12,7 +12,9 @@ const SmsReceivedHeadlessTask = async (taskData: {
     const contenedor = ContenedorDeDependencias.obtenerInstancia();
     await contenedor.evaluarYReenviarSms.ejecutar(remitente, cuerpo);
   } catch (error) {
-    console.error('Error en HeadlessTask SMS:', error);
+    if (__DEV__) {
+      console.error('Error en HeadlessTask SMS:', error);
+    }
   }
 };
 
