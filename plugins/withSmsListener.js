@@ -1,4 +1,4 @@
-const { withAndroidManifest, withDangerousMod, withMainApplication } = require('@expo/config-plugins');
+const { withAndroidManifest, withDangerousMod, withMainApplication, withAppBuildGradle } = require('@expo/config-plugins');
 const path = require('path');
 const fs = require('fs');
 
@@ -127,11 +127,20 @@ class SmsForwarderService : Service() {
     }
 
     private fun procesarSms(remitente: String, cuerpo: String) {
-        val prefs         = getSharedPreferences("sms_forwarder", Context.MODE_PRIVATE)
-        val tokenDefault  = prefs.getString("telegram_token", null)   ?: return
-        val chatIdDefault = prefs.getString("telegram_chat_id", null) ?: return
-        val reglasJson    = prefs.getString("rules", "[]")            ?: "[]"
-        val configsJson   = prefs.getString("todas_configs", "[]")    ?: "[]"
+        val masterKey = androidx.crypto.masterkey.MasterKey.Builder(this)
+            .setKeyScheme(androidx.crypto.masterkey.MasterKey.KeyScheme.AES256_GCM)
+            .build()
+        val securePrefs = androidx.security.crypto.EncryptedSharedPreferences.create(
+            this,
+            "sms_secure_prefs",
+            masterKey,
+            androidx.security.crypto.EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            androidx.security.crypto.EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+        val tokenDefault  = securePrefs.getString("telegram_token", null)   ?: return
+        val chatIdDefault = securePrefs.getString("telegram_chat_id", null) ?: return
+        val reglasJson    = securePrefs.getString("rules", "[]")            ?: "[]"
+        val configsJson   = securePrefs.getString("todas_configs", "[]")    ?: "[]"
 
         Thread {
             try {
@@ -352,7 +361,16 @@ class SmsListenerModule(private val reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun actualizarConfiguracion(token: String, chatId: String, rulesJson: String, todasConfigsJson: String) {
-        val prefs = reactContext.getSharedPreferences("sms_forwarder", Context.MODE_PRIVATE)
+        val masterKey = androidx.crypto.masterkey.MasterKey.Builder(reactContext)
+            .setKeyScheme(androidx.crypto.masterkey.MasterKey.KeyScheme.AES256_GCM)
+            .build()
+        val prefs = androidx.security.crypto.EncryptedSharedPreferences.create(
+            reactContext,
+            "sms_secure_prefs",
+            masterKey,
+            androidx.security.crypto.EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            androidx.security.crypto.EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
         prefs.edit()
             .putString("telegram_token", token)
             .putString("telegram_chat_id", chatId)
@@ -407,12 +425,13 @@ class SmsListenerPackage : ReactPackage {
 const withSmsListener = (config) => {
 
     // 1. Permisos + BroadcastReceiver + ForegroundService en AndroidManifest
+    //    + Dependencia de seguridad para EncryptedSharedPreferences
     config = withAndroidManifest(config, (modConfig) => {
         const manifest     = modConfig.modResults.manifest;
         const application  = manifest.application[0];
 
-        // Permisos
-        if (!manifest['uses-permission']) manifest['uses-permission'] = [];
+        // Dependencia de seguridad (EncryptedSharedPreferences)
+        if (!application['uses-permission']) manifest['uses-permission'] = [];
         const permisosRequeridos = [
             'android.permission.FOREGROUND_SERVICE',
             'android.permission.FOREGROUND_SERVICE_DATA_SYNC',
@@ -485,6 +504,20 @@ const withSmsListener = (config) => {
     ]);
 
     // 3. Registrar SmsListenerPackage en MainApplication.kt
+    //    + Agregar dependencia de security-crypto
+    config = withAppBuildGradle(config, (modConfig) => {
+        let gradle = modConfig.modResults.contents;
+        if (!gradle.includes('security-crypto')) {
+            gradle = gradle.replace(
+                /dependencies\s*\{/,
+                'dependencies {\n    implementation "androidx.security:security-crypto:1.1.0-alpha06"'
+            );
+        }
+        modConfig.modResults.contents = gradle;
+        return modConfig;
+    });
+
+    // 4. Registrar SmsListenerPackage en MainApplication.kt
     config = withMainApplication(config, (modConfig) => {
         let content = modConfig.modResults.contents;
         if (content.includes('SmsListenerPackage')) return modConfig;
