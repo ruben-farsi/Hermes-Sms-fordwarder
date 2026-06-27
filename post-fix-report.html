@@ -60,7 +60,7 @@ tr:nth-child(even) td{background:#fcfcfc}
 
 <div class="stats">
 <div class="stat-card s-c"><div class="stat-num">6</div><div class="stat-label">Aplicados</div></div>
-<div class="stat-card s-h"><div class="stat-num">8</div><div class="stat-label">Pendientes</div></div>
+<div class="stat-card s-h"><div class="stat-num">8</div><div class="stat-label">Pendientes (P1)</div></div>
 <div class="stat-card s-r"><div class="stat-num">0</div><div class="stat-label">Regresiones</div></div>
 <div class="stat-card s-p"><div class="stat-num">100%</div><div class="stat-label">Tests OK</div></div>
 </div>
@@ -280,9 +280,56 @@ e908ae1 fix(a11y): UI-001 — increase minimum font size from 10-11px to 12px (x
 </table>
 </div>
 
+
+<!-- ========== 02B — Arquitectura UI (No aplicados, requieren refactor) ========== -->
+<div class="section">
+<div class="section-num">02B</div>
+<h2 class="section-title">Hallazgos UI/Arquitectura — Pendientes (Refactor requerido)</h2>
+
+<div class="finding REMAINING">
+<div class="finding-header">
+<span class="finding-id">UI-002 <span class="tag-owasp">Arquitectura</span></span>
+<span class="badge REMAINING">⏳ PENDIENTE</span>
+</div>
+<div class="finding-message">3 componentes exceden 400 líneas (violan responsabilidad única)</div>
+<div class="finding-meta">📁 PantallaConfiguracion.tsx (479L), PantallaAutoRespuesta.tsx (424L), FormularioRegla.tsx (564L)</div>
+<p><strong>Estimado:</strong> 4-6 horas. Requiere extraer sub-componentes y hooks personalizados. Riesgo medio de regresión.</p>
+</div>
+
+<div class="finding REMAINING">
+<div class="finding-header">
+<span class="finding-id">UI-003 <span class="tag-owasp">Performance</span></span>
+<span class="badge REMAINING">⏳ PENDIENTE</span>
+</div>
+<div class="finding-message">25 instancias de LinearGradient (costoso en render)</div>
+<div class="finding-meta">📁 src/presentation/ — Múltiples pantallas y componentes</div>
+<p><strong>Estimado:</strong> 1-2 horas. Memoizar o reducir a gradientes nativos.</p>
+</div>
+
+<div class="finding REMAINING">
+<div class="finding-header">
+<span class="finding-id">UI-004 <span class="tag-owasp">Consistencia</span></span>
+<span class="badge REMAINING">⏳ PENDIENTE</span>
+</div>
+<div class="finding-message">44 emojis usados como iconos en vez de @expo/vector-icons</div>
+<div class="finding-meta">📁 src/presentation/screens/ y src/presentation/components/</div>
+<p><strong>Estimado:</strong> 2-3 horas. Reemplazar por iconos vectoriales consistentes.</p>
+</div>
+
+<div class="finding REMAINING">
+<div class="finding-header">
+<span class="finding-id">UI-005 <span class="tag-owasp">Consistencia</span></span>
+<span class="badge REMAINING">⏳ PENDIENTE</span>
+</div>
+<div class="finding-message">Inconsistencia de tema oscuro (screenshots 7-8: 10-14% vs promedio 55%)</div>
+<div class="finding-meta">📁 Pantallas de información/tema</div>
+<p><strong>Estimado:</strong> 30 min. Verificar si es modal intencional o bug de renderizado.</p>
+</div>
+
+</div>
 <div class="footer">
 AuditAut Farsiman v1.0 — Post-Fix Report — 27 Jun 2026<br>
-6 de 14 hallazgos remediados — 0 regresiones — 42/42 tests passing
+6 de 14 hallazgos remediados (P0-P3) — 4 de arquitectura UI pendientes (refactor) — 4 de seguridad nativa pendiente — 0 regresiones — 42/42 tests passing
 </div>
 </div>
 </body>
