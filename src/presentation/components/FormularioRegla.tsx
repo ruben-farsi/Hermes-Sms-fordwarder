@@ -1,4 +1,5 @@
 import React from 'react';
+import { Feather } from '@expo/vector-icons';
 import {
   View,
   Text,
@@ -81,7 +82,7 @@ export const FormularioRegla: React.FC<Props> = ({
             </Text>
 
             {/* Nombre */}
-            <Text style={estilos.etiqueta}>[Edit] Nombre de la regla</Text>
+            <><Feather name="edit" size={14} color={COLORES.primario} /><Text style={estilos.etiqueta}> Nombre de la regla</Text></>
             <TextInput
               style={estilos.input}
               value={nombre}
@@ -92,7 +93,7 @@ export const FormularioRegla: React.FC<Props> = ({
             />
 
             {/* Campo objetivo */}
-            <Text style={estilos.etiqueta}>[Target] Aplicar sobre</Text>
+            <><Feather name="crosshair" size={14} color={COLORES.primario} /><Text style={estilos.etiqueta}> Aplicar sobre</Text></>
             <View style={estilos.filaBotones}>
               <TouchableOpacity
                 style={[
@@ -103,7 +104,7 @@ export const FormularioRegla: React.FC<Props> = ({
                 onPress={() => setCampoObjetivo(CampoObjetivo.REMITENTE)}
                 activeOpacity={0.7}
               >
-                <Text style={estilos.iconoOpcion}>[Me]</Text>
+                <Feather name="user" size={16} color={COLORES.primario} />
                 <Text
                   style={[
                     estilos.textoOpcion,
@@ -124,7 +125,7 @@ export const FormularioRegla: React.FC<Props> = ({
                 onPress={() => setCampoObjetivo(CampoObjetivo.CUERPO)}
                 activeOpacity={0.7}
               >
-                <Text style={estilos.iconoOpcion}>[Chat]</Text>
+                <Feather name="message-square" size={16} color={COLORES.primario} />
                 <Text
                   style={[
                     estilos.textoOpcion,
@@ -138,7 +139,7 @@ export const FormularioRegla: React.FC<Props> = ({
             </View>
 
             {/* Patrón */}
-            <Text style={estilos.etiqueta}>[Search] Patrón de búsqueda</Text>
+            <><Feather name="search" size={14} color={COLORES.primario} /><Text style={estilos.etiqueta}> Patrón de búsqueda</Text></>
             <TextInput
               style={estilos.input}
               value={patron}
@@ -161,12 +162,12 @@ export const FormularioRegla: React.FC<Props> = ({
               <Text style={estilos.textoAvanzado}>
                 [Config] Opciones avanzadas
               </Text>
-              <Text style={estilos.flechaAvanzado}>{avanzadoVisible ? '▲' : '▼'}</Text>
+              <Feather name={avanzadoVisible ? 'chevron-up' : 'chevron-down'} size={16} color={COLORES.primario} />
             </TouchableOpacity>
 
             {avanzadoVisible && (
               <View style={estilos.contenedorAvanzado}>
-                <Text style={estilos.etiqueta}>[Bot] Bot de Telegram</Text>
+                <><Feather name="message-circle" size={14} color={COLORES.primario} /><Text style={estilos.etiqueta}> Bot de Telegram</Text></>
                 {configuraciones.length === 0 ? (
                   <Text style={estilos.sinConfigs}>No hay bots configurados. Ve a Config para añadir uno.</Text>
                 ) : (
@@ -274,7 +275,7 @@ export const FormularioRegla: React.FC<Props> = ({
 
               <View style={estilos.filaSwitch}>
                 <View style={estilos.infoSwitch}>
-                  <Text style={estilos.etiquetaSwitch}>⚡ Regla activa</Text>
+                  <><Feather name="zap" size={14} color={COLORES.acento} /><Text style={estilos.etiquetaSwitch}> Regla activa</Text></>
                   <Text style={estilos.ayudaSwitch}>
                     Solo las reglas activas filtran SMS
                   </Text>
@@ -315,7 +316,7 @@ export const FormularioRegla: React.FC<Props> = ({
                 accessibilityLabel="Guardar regla"
                 activeOpacity={0.8}
               >
-                <Text style={estilos.textoGuardar}>[Save] Guardar</Text>
+                <><Feather name="save" size={16} color={COLORES.textoClaro} /><Text style={estilos.textoGuardar}> Guardar</Text></>
               </TouchableOpacity>
             </View>
           </ScrollView>

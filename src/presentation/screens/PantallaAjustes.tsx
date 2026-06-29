@@ -69,7 +69,7 @@ const SeccionAcordeon: React.FC<SeccionProps> = ({
           {descripcion}
         </Text>
       </View>
-      <Text style={estilos.seccionFlecha}>{expandida ? '▲' : '▼'}</Text>
+      <Feather name={expandida ? 'chevron-up' : 'chevron-down'} size={18} color={COLORES.textoSutil} />
     </TouchableOpacity>
     {expandida && <View style={estilos.seccionContenido}>{children}</View>}
   </View>
@@ -169,7 +169,7 @@ export const PantallaAjustes: React.FC = () => {
         >
           <View style={estilos.filaSwitch}>
             <View style={estilos.infoSwitch}>
-              <Text style={estilos.etiquetaSwitch}>[Refresh] Reintento automático</Text>
+              <><Feather name="refresh-cw" size={14} color={COLORES.primario} /><Text style={estilos.etiquetaSwitch}> Reintento automático</Text></>
               <Text style={estilos.ayudaSwitch}>
                 Reintenta enviar al recuperar internet
               </Text>
@@ -192,7 +192,7 @@ export const PantallaAjustes: React.FC = () => {
         >
           <View style={estilos.filaSwitch}>
             <View style={estilos.infoSwitch}>
-              <Text style={estilos.etiquetaSwitch}>[Link] Webhook activo</Text>
+              <><Feather name="link" size={14} color={COLORES.primario} /><Text style={estilos.etiquetaSwitch}> Webhook activo</Text></>
               <Text style={estilos.ayudaSwitch}>n8n, Zapier, API propia</Text>
             </View>
             <Switch
@@ -261,7 +261,7 @@ export const PantallaAjustes: React.FC = () => {
             end={{ x: 1, y: 0 }}
             style={estilos.botonGuardar}
           >
-            <Text style={estilos.textoBotonGuardar}>[Save] Guardar ajustes</Text>
+            <><Feather name="save" size={16} color={COLORES.textoClaro} /><Text style={estilos.textoBotonGuardar}> Guardar ajustes</Text></>
           </LinearGradient>
         </TouchableOpacity>
       </ScrollView>
