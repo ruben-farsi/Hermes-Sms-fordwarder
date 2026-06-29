@@ -189,7 +189,7 @@ export const PantallaAutoRespuesta: React.FC = () => {
           onPress={solicitarPermiso}
           activeOpacity={0.8}
         >
-          <Text style={estilos.bannerIcono}>[Warn]</Text>
+          <Feather name="alert-triangle" size={20} color={COLORES.advertencia} />
           <View style={estilos.bannerTextos}>
             <Text style={estilos.bannerTitulo}>Permiso requerido</Text>
             <Text style={estilos.bannerSubtitulo}>

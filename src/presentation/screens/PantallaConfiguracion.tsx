@@ -107,7 +107,7 @@ export const PantallaConfiguracion: React.FC = () => {
         >
           <Feather name="help-circle" size={22} color={COLORES.primario} />
           <Text style={estilos.tituloGuia}>¿Cómo obtener los datos del bot?</Text>
-          <Text style={estilos.flechaGuia}>{guiaVisible ? '▲' : '▼'}</Text>
+          <Feather name={guiaVisible ? 'chevron-up' : 'chevron-down'} size={16} color={COLORES.textoSutil} />
         </TouchableOpacity>
 
         {guiaVisible && (
@@ -128,7 +128,8 @@ export const PantallaConfiguracion: React.FC = () => {
 
         {error && (
           <View style={estilos.alerta}>
-            <Text style={estilos.textoAlerta}>[!] {error}</Text>
+            <Feather name="alert-triangle" size={16} color={COLORES.advertencia} />
+            <Text style={estilos.textoAlerta}> {error}</Text>
           </View>
         )}
         {exito && (
