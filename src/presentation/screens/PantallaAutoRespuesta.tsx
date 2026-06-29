@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { Feather } from '@expo/vector-icons';
 import {
   View,
   Text,
@@ -22,16 +23,16 @@ import {
 import { COLORES, SOMBRAS, BORDES, GRADIENTES } from '../theme/colores';
 import { FUENTES } from '../theme/tipografia';
 
-const ICONO_PLATAFORMA: Record<PlataformaAutoRespuesta, string> = {
-  [PlataformaAutoRespuesta.WHATSAPP]:   '[Chat]',
-  [PlataformaAutoRespuesta.TELEGRAM]:   '[TG]',
-  [PlataformaAutoRespuesta.CUALQUIERA]: '[ALL]',
+const ICONO_PLATAFORMA: Record<PlataformaAutoRespuesta, { name: string; color: string }> = {
+  [PlataformaAutoRespuesta.WHATSAPP]:   { name: 'message-square', color: '#25D366' },
+  [PlataformaAutoRespuesta.TELEGRAM]:   { name: 'send', color: '#0088cc' },
+  [PlataformaAutoRespuesta.CUALQUIERA]: { name: 'globe', color: COLORES.primario },
 };
 
-export const TIPOS_DESTINATARIO: Record<TipoDestinatario, string> = {
-  [TipoDestinatario.CONTACTO]:   '[Contact]',
-  [TipoDestinatario.GRUPO]:      '[Group]',
-  [TipoDestinatario.CUALQUIERA]: '[All]',
+export const TIPOS_DESTINATARIO: Record<TipoDestinatario, { name: string; color: string }> = {
+  [TipoDestinatario.CONTACTO]:   { name: 'user', color: COLORES.acento },
+  [TipoDestinatario.GRUPO]:      { name: 'users', color: COLORES.acento },
+  [TipoDestinatario.CUALQUIERA]: { name: 'globe', color: COLORES.primario },
 };
 
 export const PantallaAutoRespuesta: React.FC = () => {
@@ -114,14 +115,12 @@ export const PantallaAutoRespuesta: React.FC = () => {
 
           <View style={estilos.filaBadges}>
             <View style={estilos.badge}>
-              <Text style={estilos.badgeTexto}>
-                {ICONO_PLATAFORMA[item.plataforma]} {item.plataforma}
-              </Text>
+              <Feather name={ICONO_PLATAFORMA[item.plataforma].name} size={12} color={ICONO_PLATAFORMA[item.plataforma].color} />
+              <Text style={estilos.badgeTexto}> {item.plataforma}</Text>
             </View>
             <View style={estilos.badge}>
-              <Text style={estilos.badgeTexto}>
-                {TIPOS_DESTINATARIO[item.tipoDestinatario]} {item.tipoDestinatario}
-              </Text>
+              <Feather name={TIPOS_DESTINATARIO[item.tipoDestinatario].name} size={12} color={TIPOS_DESTINATARIO[item.tipoDestinatario].color} />
+              <Text style={estilos.badgeTexto}> {item.tipoDestinatario}</Text>
             </View>
             {item.delaySegundos > 0 && (
               <View style={estilos.badge}>
