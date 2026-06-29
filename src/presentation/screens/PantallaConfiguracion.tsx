@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Feather } from '@expo/vector-icons';
 import {
   View,
   Text,
@@ -104,7 +105,7 @@ export const PantallaConfiguracion: React.FC = () => {
           accessibilityLabel={guiaVisible ? 'Ocultar guia' : 'Mostrar guia de configuracion'}
           activeOpacity={0.7}
         >
-          <Text style={estilos.iconoGuia}>[?]</Text>
+          <Feather name="help-circle" size={22} color={COLORES.primario} />
           <Text style={estilos.tituloGuia}>¿Cómo obtener los datos del bot?</Text>
           <Text style={estilos.flechaGuia}>{guiaVisible ? '▲' : '▼'}</Text>
         </TouchableOpacity>
@@ -132,13 +133,14 @@ export const PantallaConfiguracion: React.FC = () => {
         )}
         {exito && (
           <View style={estilos.alertaExito}>
-            <Text style={estilos.textoAlertaExito}>[OK] {exito}</Text>
+            <Feather name="check-circle" size={16} color={COLORES.exito} />
+            <Text style={estilos.textoAlertaExito}>{exito}</Text>
           </View>
         )}
 
         {configuraciones.length === 0 && (
           <View style={estilos.vacio}>
-            <Text style={estilos.iconoVacio}>[Config]</Text>
+            <Feather name="settings" size={48} color={COLORES.textoSutil} />
             <Text style={estilos.textoVacio}>No hay configuraciones de Telegram</Text>
             <Text style={estilos.textoSubVacio}>Toca el botón + para agregar una</Text>
           </View>
@@ -148,7 +150,7 @@ export const PantallaConfiguracion: React.FC = () => {
           <View key={config.id} style={estilos.tarjetaConfig}>
             <View style={estilos.cabeceraConfig}>
               <Text style={estilos.nombreConfig}>
-                {config.esPredeterminada ? '[Default] ' : '[Bot]'}{config.nombre}
+                {config.esPredeterminada ? <><Feather name="star" size={14} color={COLORES.acento} />{' '}Default{' '}</> : <><Feather name="message-circle" size={14} color={COLORES.primario} />{' '}</>}{config.nombre}
               </Text>
               {config.esPredeterminada && (
                 <View style={estilos.badgePredeterminada}>
@@ -166,20 +168,23 @@ export const PantallaConfiguracion: React.FC = () => {
                 {enviandoPrueba === config.id ? (
                   <ActivityIndicator size="small" color={COLORES.primario} />
                 ) : (
-                  <Text style={estilos.textoAccionConfig}>[Probar]</Text>
+                  <Feather name="send" size={14} color={COLORES.primario} />
+                    <Text style={estilos.textoAccionConfig}> Probar</Text>
                 )}
               </TouchableOpacity>
               <TouchableOpacity
                 style={estilos.botonAccionConfig}
                 onPress={() => abrirFormularioEdicion(config)}
               >
-                <Text style={estilos.textoAccionConfig}>[Editar]</Text>
+                <Feather name="edit" size={14} color={COLORES.primario} />
+                <Text style={estilos.textoAccionConfig}> Editar</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[estilos.botonAccionConfig, estilos.botonEliminar]}
                 onPress={() => confirmarEliminacion(config)}
               >
-                <Text style={estilos.textoEliminarBtn}>[X]</Text>
+                <Feather name="x-circle" size={14} color={COLORES.error} />
+                <Text style={estilos.textoEliminarBtn}> Eliminar</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -215,7 +220,7 @@ export const PantallaConfiguracion: React.FC = () => {
               <View style={estilos.indicadorModal} />
             </View>
             <Text style={estilos.tituloModal}>
-              {editando ? '[Editar] configuración' : '[+ Nueva] configuración'}
+              {editando ? <Text><Feather name="edit" size={16} color={COLORES.primario} /> Editar configuración</Text> : <Text><Feather name="plus" size={16} color={COLORES.primario} /> Nueva configuración</Text>}
             </Text>
 
             <Text style={estilos.etiqueta}>Nombre</Text>
@@ -257,9 +262,8 @@ export const PantallaConfiguracion: React.FC = () => {
               style={estilos.filaPredeterminada}
               onPress={() => setEsPredeterminada(!esPredeterminada)}
             >
-              <Text style={estilos.textoPredeterminada}>
-                {esPredeterminada ? '[★]' : '[ ]'} Configuración predeterminada
-              </Text>
+              {esPredeterminada ? <Feather name="star" size={16} color={COLORES.acento} /> : <Feather name="square" size={16} color={COLORES.textoSutil} />}
+                {' '}<Text style={estilos.textoPredeterminada}>Configuración predeterminada</Text>
             </TouchableOpacity>
 
             <View style={[estilos.botonesModal, { marginBottom: Math.max(insets.bottom, 12) }]}>
