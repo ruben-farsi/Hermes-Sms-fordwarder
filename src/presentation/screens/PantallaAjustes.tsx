@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Feather } from '@expo/vector-icons';
 import {
   View,
   Text,
@@ -18,15 +19,22 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useAjustes } from '../hooks/useAjustes';
 import { Ajustes } from '../../domain/entities/Ajustes';
 import { FondoGradiente } from '../components/FondoGradiente';
-import { COLORES, SOMBRAS, BORDES, GRADIENTES } from '../theme/colores';
+import { COLORES, GRADIENTES } from '../theme/colores';
 import { FUENTES } from '../theme/tipografia';
+
+const ICONOS_SECCION = {
+  edit:  { name: 'edit' as const, color: COLORES.primario },
+  zap:   { name: 'zap' as const, color: COLORES.acento },
+  globe: { name: 'globe' as const, color: COLORES.primario },
+  bell:  { name: 'bell' as const, color: COLORES.acento },
+};
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
 interface SeccionProps {
-  icono: string;
+  icono: keyof typeof ICONOS_SECCION;
   titulo: string;
   descripcion: string;
   children: React.ReactNode;
@@ -53,7 +61,7 @@ const SeccionAcordeon: React.FC<SeccionProps> = ({
       activeOpacity={0.7}
     >
       <View style={estilos.seccionIcono}>
-        <Text style={{ fontSize: 20 }}>{icono}</Text>
+        <Feather name={ICONOS_SECCION[icono].name} size={20} color={ICONOS_SECCION[icono].color} />
       </View>
       <View style={estilos.seccionInfo}>
         <Text style={estilos.seccionTitulo}>{titulo}</Text>
@@ -127,7 +135,7 @@ export const PantallaAjustes: React.FC = () => {
       >
 
         <SeccionAcordeon
-          icono="[Edit]"
+          icono="edit"
           titulo="Firma / Prefijo global"
           descripcion="Texto al inicio de cada mensaje reenviado"
           expandida={seccionAbierta === 'prefijo'}
@@ -153,7 +161,7 @@ export const PantallaAjustes: React.FC = () => {
         </SeccionAcordeon>
 
         <SeccionAcordeon
-          icono="⚡"
+          icono="zap"
           titulo="Comportamiento"
           descripcion="Reintento automático y opciones de envío"
           expandida={seccionAbierta === 'comportamiento'}
@@ -176,7 +184,7 @@ export const PantallaAjustes: React.FC = () => {
         </SeccionAcordeon>
 
         <SeccionAcordeon
-          icono="[Web]"
+          icono="globe"
           titulo="Webhook HTTP"
           descripcion="Envía SMS como JSON a URL externa"
           expandida={seccionAbierta === 'webhook'}
@@ -210,7 +218,7 @@ export const PantallaAjustes: React.FC = () => {
         </SeccionAcordeon>
 
         <SeccionAcordeon
-          icono="[Bell]"
+          icono="bell"
           titulo="Notificaciones"
           descripcion="Alertas al reenviar SMS"
           expandida={seccionAbierta === 'notificaciones'}
