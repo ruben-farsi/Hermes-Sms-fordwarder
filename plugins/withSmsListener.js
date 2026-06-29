@@ -189,7 +189,7 @@ class SmsForwarderService : Service() {
 
                     val coincide = if (esRegex) {
                         if (patron.length > 200) false
-                        else if (Regex("(a+)+|(.+)\\1").containsMatchIn(patron)) false
+                        else if (Regex("(a+)+|(.+)\\\\1").containsMatchIn(patron)) false
                         else {
                             val inicio = System.currentTimeMillis()
                             val r = Regex(patron, RegexOption.IGNORE_CASE).containsMatchIn(textoEvaluar)
