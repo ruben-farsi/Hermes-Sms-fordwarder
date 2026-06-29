@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 import { MensajeSms, EstadoMensaje } from '../../domain/entities/MensajeSms';
 import { COLORES, SOMBRAS, BORDES } from '../theme/colores';
 import { FUENTES } from '../theme/tipografia';
 
-const ICONOS_ESTADO: Record<EstadoMensaje, string> = {
-  [EstadoMensaje.REENVIADO]: '[OK]',
-  [EstadoMensaje.FILTRADO]: '[Block]',
-  [EstadoMensaje.ERROR]: '[Warn]',
+const ICONOS_ESTADO: Record<EstadoMensaje, React.ComponentProps<typeof Feather>['name']> = {
+  [EstadoMensaje.REENVIADO]: 'check-circle',
+  [EstadoMensaje.FILTRADO]: 'x-circle',
+  [EstadoMensaje.ERROR]: 'alert-triangle',
 };
 
 const COLORES_ESTADO: Record<EstadoMensaje, { texto: string; fondo: string }> = {
@@ -35,16 +36,14 @@ export const TarjetaMensaje: React.FC<Props> = ({ mensaje, onReintentar }) => {
       <View style={estilos.encabezado}>
         <View style={estilos.infoRemitente}>
           <View style={estilos.avatarRemitente}>
-            <Text style={estilos.iconoRemitente}>[Me]</Text>
+            <Feather name="user" size={14} color={COLORES.textoSecundario} />
           </View>
           <Text style={estilos.remitente} numberOfLines={1}>
             {mensaje.remitente}
           </Text>
         </View>
         <View style={[estilos.insigniaEstado, { backgroundColor: estado.fondo }]}>
-          <Text style={estilos.iconoEstado}>
-            {ICONOS_ESTADO[mensaje.estado]}
-          </Text>
+          <Feather name={ICONOS_ESTADO[mensaje.estado]} size={14} color={estado.texto} />
           <Text style={[estilos.textoEstado, { color: estado.texto }]}>
             {ETIQUETAS_ESTADO[mensaje.estado]}
           </Text>
@@ -56,14 +55,16 @@ export const TarjetaMensaje: React.FC<Props> = ({ mensaje, onReintentar }) => {
       </Text>
 
       <View style={estilos.pieDetarjeta}>
-        <Text style={estilos.fecha}>
-          🕐 {mensaje.fechaHora.toLocaleString()}
-        </Text>
+        <Feather name="clock" size={12} color={COLORES.textoSutil} />
+        <Text style={estilos.fecha}> {mensaje.fechaHora.toLocaleString()}</Text>
       </View>
 
       {mensaje.motivoError && (
         <View style={estilos.contenedorError}>
-          <Text style={estilos.error}>[Warn] {mensaje.motivoError}</Text>
+          <View style={estilos.filaError}>
+            <Feather name="alert-triangle" size={14} color={COLORES.error} />
+            <Text style={estilos.error}> {mensaje.motivoError}</Text>
+          </View>
           {onReintentar && mensaje.estado === EstadoMensaje.ERROR && (
             <TouchableOpacity
               style={estilos.botonReintentar}
@@ -73,7 +74,10 @@ export const TarjetaMensaje: React.FC<Props> = ({ mensaje, onReintentar }) => {
               accessibilityLabel={`Reintentar envío de mensaje de ${mensaje.remitente}`}
               activeOpacity={0.7}
             >
-              <Text style={estilos.textoReintentar}>[Refresh] Reintentar</Text>
+              <View style={estilos.filaReintentar}>
+                <Feather name="refresh-cw" size={14} color="#FFFFFF" />
+                <Text style={estilos.textoReintentar}> Reintentar</Text>
+              </View>
             </TouchableOpacity>
           )}
         </View>
@@ -114,9 +118,6 @@ const estilos = StyleSheet.create({
     alignItems: 'center',
     marginRight: 10,
   },
-  iconoRemitente: {
-    fontSize: 14,
-  },
   remitente: {
     fontSize: FUENTES.tamano.md,
     fontWeight: FUENTES.peso.semibold,
@@ -129,10 +130,6 @@ const estilos = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 20,
-  },
-  iconoEstado: {
-    fontSize: FUENTES.tamano.xs,
-    marginRight: 4,
   },
   textoEstado: {
     fontSize: FUENTES.tamano.xs,
@@ -174,5 +171,14 @@ const estilos = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 12,
     fontWeight: '700',
+    marginLeft: 6,
+  },
+  filaError: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  filaReintentar: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
