@@ -435,6 +435,9 @@ const withSmsListener = (config) => {
             'android.permission.FOREGROUND_SERVICE_DATA_SYNC',
             'android.permission.INTERNET',
             'android.permission.WAKE_LOCK',
+            'android.permission.RECEIVE_SMS',
+            'android.permission.READ_SMS',
+            'android.permission.POST_NOTIFICATIONS',
         ];
         for (const permiso of permisosRequeridos) {
             const yaExiste = manifest['uses-permission'].some(
