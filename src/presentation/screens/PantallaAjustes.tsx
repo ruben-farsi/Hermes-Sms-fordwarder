@@ -19,7 +19,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useAjustes } from '../hooks/useAjustes';
 import { Ajustes } from '../../domain/entities/Ajustes';
 import { FondoGradiente } from '../components/FondoGradiente';
-import { COLORES, GRADIENTES } from '../theme/colores';
+import { COLORES, SOMBRAS, BORDES, GRADIENTES } from '../theme/colores';
 import { FUENTES } from '../theme/tipografia';
 
 const ICONOS_SECCION = {

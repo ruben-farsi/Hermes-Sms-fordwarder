@@ -115,11 +115,11 @@ export const PantallaAutoRespuesta: React.FC = () => {
 
           <View style={estilos.filaBadges}>
             <View style={estilos.badge}>
-              <Feather name={ICONO_PLATAFORMA[item.plataforma].name} size={12} color={ICONO_PLATAFORMA[item.plataforma].color} />
+              <Feather name={ICONO_PLATAFORMA[item.plataforma].name as any} size={12} color={ICONO_PLATAFORMA[item.plataforma].color} />
               <Text style={estilos.badgeTexto}> {item.plataforma}</Text>
             </View>
             <View style={estilos.badge}>
-              <Feather name={TIPOS_DESTINATARIO[item.tipoDestinatario].name} size={12} color={TIPOS_DESTINATARIO[item.tipoDestinatario].color} />
+              <Feather name={TIPOS_DESTINATARIO[item.tipoDestinatario].name as any} size={12} color={TIPOS_DESTINATARIO[item.tipoDestinatario].color} />
               <Text style={estilos.badgeTexto}> {item.tipoDestinatario}</Text>
             </View>
             {item.delaySegundos > 0 && (

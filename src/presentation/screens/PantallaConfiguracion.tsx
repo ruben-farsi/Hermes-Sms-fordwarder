@@ -168,8 +168,8 @@ export const PantallaConfiguracion: React.FC = () => {
                 {enviandoPrueba === config.id ? (
                   <ActivityIndicator size="small" color={COLORES.primario} />
                 ) : (
-                  <Feather name="send" size={14} color={COLORES.primario} />
-                    <Text style={estilos.textoAccionConfig}> Probar</Text>
+                  <><Feather name="send" size={14} color={COLORES.primario} />
+                    <Text style={estilos.textoAccionConfig}> Probar</Text></>
                 )}
               </TouchableOpacity>
               <TouchableOpacity
