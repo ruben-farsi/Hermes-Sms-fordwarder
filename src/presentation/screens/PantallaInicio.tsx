@@ -1,4 +1,5 @@
 import React, { useCallback, useState, useMemo } from 'react';
+import { Feather } from '@expo/vector-icons';
 import {
   View,
   FlatList,
@@ -18,12 +19,19 @@ import { FUENTES } from '../theme/tipografia';
 
 type FiltroEstado = 'todos' | EstadoMensaje;
 
-const OPCIONES_FILTRO: { clave: FiltroEstado; etiqueta: string; icono: string }[] = [
-  { clave: 'todos', etiqueta: 'Todos', icono: '[List]' },
-  { clave: EstadoMensaje.REENVIADO, etiqueta: 'Reenviados', icono: '[OK]' },
-  { clave: EstadoMensaje.FILTRADO, etiqueta: 'Filtrados', icono: '[Block]' },
-  { clave: EstadoMensaje.ERROR, etiqueta: 'Errores', icono: '[Warn]' },
+const OPCIONES_FILTRO: { clave: FiltroEstado; etiqueta: string }[] = [
+  { clave: 'todos', etiqueta: 'Todos' },
+  { clave: EstadoMensaje.REENVIADO, etiqueta: 'Reenviados' },
+  { clave: EstadoMensaje.FILTRADO, etiqueta: 'Filtrados' },
+  { clave: EstadoMensaje.ERROR, etiqueta: 'Errores' },
 ];
+
+const ICONOS_FILTRO: Record<string, { name: React.ComponentProps<typeof Feather>['name']; color: string }> = {
+  todos: { name: 'list', color: COLORES.textoSecundario },
+  [EstadoMensaje.REENVIADO]: { name: 'check-circle', color: COLORES.exito },
+  [EstadoMensaje.FILTRADO]: { name: 'x-circle', color: COLORES.error },
+  [EstadoMensaje.ERROR]: { name: 'alert-triangle', color: COLORES.error },
+};
 
 export const PantallaInicio: React.FC = () => {
   const { mensajes, cargando, servicioActivo, cargarMensajes, alternarServicio, reintentar } =
@@ -44,7 +52,7 @@ export const PantallaInicio: React.FC = () => {
 
   const renderizarVacio = () => (
     <View style={estilos.vacio}>
-      <Text style={estilos.iconoVacio}>[Empty]</Text>
+      <View style={estilos.iconoVacio}><Feather name="inbox" size={48} color={COLORES.textoSutil} /></View>
       <Text style={estilos.textoVacio}>
         {filtroActivo === 'todos'
           ? 'No hay mensajes procesados aún'
@@ -92,7 +100,7 @@ export const PantallaInicio: React.FC = () => {
             onPress={() => setFiltroActivo(opcion.clave)}
             activeOpacity={0.7}
           >
-            <Text style={estilos.iconoFiltro}>{opcion.icono}</Text>
+            <Feather name={ICONOS_FILTRO[opcion.clave].name} size={14} color={ICONOS_FILTRO[opcion.clave].color} />
             <Text
               style={[
                 estilos.textoFiltro,
@@ -168,10 +176,7 @@ const estilos = StyleSheet.create({
     backgroundColor: COLORES.fondoTerciario,
     borderColor: COLORES.primario,
   },
-  iconoFiltro: {
-    fontSize: 12,
-    marginRight: 4,
-  },
+
   textoFiltro: {
     fontSize: FUENTES.tamano.xs,
     fontWeight: FUENTES.peso.semibold,
@@ -187,7 +192,6 @@ const estilos = StyleSheet.create({
     padding: 40,
   },
   iconoVacio: {
-    fontSize: 48,
     marginBottom: 16,
   },
   textoVacio: {
