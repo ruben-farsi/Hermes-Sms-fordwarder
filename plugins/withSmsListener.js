@@ -68,8 +68,10 @@ import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
 import org.json.JSONArray
-import java.net.HttpURLConnection
-import java.net.URL
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import java.net.URLEncoder
 
 class SmsForwarderService : Service() {
@@ -127,13 +129,10 @@ class SmsForwarderService : Service() {
     }
 
     private fun procesarSms(remitente: String, cuerpo: String) {
-        val masterKey = androidx.crypto.masterkey.MasterKey.Builder(this)
-            .setKeyScheme(androidx.crypto.masterkey.MasterKey.KeyScheme.AES256_GCM)
-            .build()
         val securePrefs = androidx.security.crypto.EncryptedSharedPreferences.create(
-            this,
             "sms_secure_prefs",
-            masterKey,
+            "sms_master_key",
+            this,
             androidx.security.crypto.EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             androidx.security.crypto.EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
@@ -230,19 +229,15 @@ class SmsForwarderService : Service() {
     private fun enviarTelegram(token: String, chatId: String, remitente: String, cuerpo: String) {
         try {
             val client = okhttp3.OkHttpClient.Builder()
-                .certificatePinner(
-                    okhttp3.CertificatePinner.Builder()
-                        .add("api.telegram.org", "sha256/bba4zjVOrkqE9ErmM6n4uElBa3WGELMG有为Jp0sZt6w=")
-                        .build()
-                )
                 .connectTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
                 .readTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
                 .build()
             val texto = "📱 *SMS de:* " + remitente + "\\n\\n" + cuerpo
             val mediaType = "application/x-www-form-urlencoded".toMediaType()
-            val requestBody = "chat_id=" + java.net.URLEncoder.encode(chatId, "UTF-8") +
+            val bodyContent = "chat_id=" + java.net.URLEncoder.encode(chatId, "UTF-8") +
                 "&text=" + java.net.URLEncoder.encode(texto, "UTF-8") +
-                "&parse_mode=Markdown".toRequestBody(mediaType)
+                "&parse_mode=Markdown"
+            val requestBody = bodyContent.toRequestBody(mediaType)
             val request = okhttp3.Request.Builder()
                 .url("https://api.telegram.org/bot" + token + "/sendMessage")
                 .post(requestBody)
@@ -367,13 +362,10 @@ class SmsListenerModule(private val reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun actualizarConfiguracion(token: String, chatId: String, rulesJson: String, todasConfigsJson: String) {
-        val masterKey = androidx.crypto.masterkey.MasterKey.Builder(reactContext)
-            .setKeyScheme(androidx.crypto.masterkey.MasterKey.KeyScheme.AES256_GCM)
-            .build()
         val prefs = androidx.security.crypto.EncryptedSharedPreferences.create(
-            reactContext,
             "sms_secure_prefs",
-            masterKey,
+            "sms_master_key",
+            reactContext,
             androidx.security.crypto.EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             androidx.security.crypto.EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
