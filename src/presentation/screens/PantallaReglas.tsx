@@ -137,7 +137,7 @@ export const PantallaReglas: React.FC = () => {
     return (
       <FondoGradiente>
         <View style={estilos.centrado}>
-          <ActivityIndicator size="large" color="#FFFFFF" />
+          <ActivityIndicator size="large" color={COLORES.textoClaro} />
         </View>
       </FondoGradiente>
     );
@@ -178,7 +178,7 @@ export const PantallaReglas: React.FC = () => {
           style={estilos.botonAgregar}
         >
           <Feather name="plus" size={16} color="#FFFFFF" />
-          <Text style={estilos.textoAgregar}> Nueva regla</Text>
+          <Text style={[estilos.textoAgregar, { color: COLORES.textoClaro }]}> Nueva regla</Text>
         </LinearGradient>
       </TouchableOpacity>
 
@@ -302,7 +302,7 @@ const estilos = StyleSheet.create({
     alignItems: 'center',
   },
   textoAgregar: {
-    color: '#FFFFFF',
+    color: COLORES.textoClaro,
     fontSize: FUENTES.tamano.lg,
     fontWeight: FUENTES.peso.bold,
   },

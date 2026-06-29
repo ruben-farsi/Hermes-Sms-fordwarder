@@ -168,7 +168,7 @@ const estilos = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   textoReintentar: {
-    color: '#FFFFFF',
+    color: COLORES.textoClaro,
     fontSize: 12,
     fontWeight: '700',
     marginLeft: 6,

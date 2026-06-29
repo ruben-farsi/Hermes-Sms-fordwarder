@@ -83,7 +83,7 @@ const estilos = StyleSheet.create({
     marginTop: 2,
   },
   textoBoton: {
-    color: '#FFFFFF',
+    color: COLORES.textoClaro,
     fontWeight: FUENTES.peso.bold,
     fontSize: FUENTES.tamano.sm,
   },

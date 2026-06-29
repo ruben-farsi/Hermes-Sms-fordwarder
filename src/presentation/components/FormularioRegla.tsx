@@ -400,7 +400,7 @@ const estilos = StyleSheet.create({
     fontSize: 13,
   },
   textoSeleccionado: {
-    color: '#FFFFFF',
+    color: COLORES.textoClaro,
   },
   contenedorSwitches: {
     backgroundColor: COLORES.inputFondo,
@@ -504,7 +504,7 @@ const estilos = StyleSheet.create({
     elevation: 4,
   },
   textoGuardar: {
-    color: '#FFFFFF',
+    color: COLORES.textoClaro,
     fontWeight: '700',
     fontSize: 15,
   },
@@ -528,7 +528,7 @@ const estilos = StyleSheet.create({
     color: COLORES.textoSecundario,
   },
   textoConfigSeleccionado: {
-    color: '#FFFFFF',
+    color: COLORES.textoClaro,
   },
   sinConfigs: {
     fontSize: 13,
@@ -560,6 +560,6 @@ const estilos = StyleSheet.create({
     color: COLORES.textoSecundario,
   },
   textoDiaActivo: {
-    color: '#FFFFFF',
+    color: COLORES.textoClaro,
   },
 });

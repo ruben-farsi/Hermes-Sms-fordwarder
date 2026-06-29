@@ -403,7 +403,7 @@ const estilos = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  textoFab: { color: '#FFF', fontSize: 28, fontWeight: '300', marginTop: -2 },
+  textoFab: { color: COLORES.textoClaro, fontSize: 28, fontWeight: '300', marginTop: -2 },
   fondoModal: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
@@ -478,6 +478,6 @@ const estilos = StyleSheet.create({
     borderRadius: BORDES.radio.sm,
     alignItems: 'center',
   },
-  textoGuardar: { color: '#FFFFFF', fontWeight: FUENTES.peso.bold, fontSize: 15 },
+  textoGuardar: { color: COLORES.textoClaro, fontWeight: FUENTES.peso.bold, fontSize: 15 },
   espacioInferior: { height: 80 },
 });

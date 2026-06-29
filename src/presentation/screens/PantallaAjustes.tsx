@@ -398,7 +398,7 @@ const estilos = StyleSheet.create({
     ...SOMBRAS.boton,
   },
   textoBotonGuardar: {
-    color: '#FFFFFF',
+    color: COLORES.textoClaro,
     fontSize: FUENTES.tamano.lg,
     fontWeight: FUENTES.peso.bold,
   },
