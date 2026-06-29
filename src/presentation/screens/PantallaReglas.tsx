@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { Feather } from '@expo/vector-icons';
 import {
   View,
   Text,
@@ -62,7 +63,7 @@ export const PantallaReglas: React.FC = () => {
   };
 
   const obtenerIconoCampo = (campo: CampoObjetivo) =>
-    campo === CampoObjetivo.REMITENTE ? '[Contact]' : '[Body]';
+    campo === CampoObjetivo.REMITENTE ? 'user' : 'message-square';
 
   const renderizarRegla = useCallback(
     ({ item }: { item: ReglaDeReenvio }) => (
@@ -87,13 +88,13 @@ export const PantallaReglas: React.FC = () => {
           </View>
           <View style={estilos.filaDetalle}>
             <Text style={estilos.iconoCampo}>
-              {obtenerIconoCampo(item.campoObjetivo)}
+              <Feather name={obtenerIconoCampo(item.campoObjetivo)} size={14} color={COLORES.primario} />
             </Text>
             <Text style={estilos.detalleRegla}>
               {item.campoObjetivo === CampoObjetivo.REMITENTE
                 ? 'Remitente'
                 : 'Cuerpo'}{' '}
-              · {item.esRegex ? '🔣 Regex' : '[Doc] Texto'}: {item.patron}
+              · {item.esRegex ? <><Feather name="hash" size={14} color={COLORES.primario} /> Regex</> : <><Feather name="file-text" size={14} color={COLORES.primario} /> Texto</>}: {item.patron}
             </Text>
           </View>
         </TouchableOpacity>
@@ -114,7 +115,7 @@ export const PantallaReglas: React.FC = () => {
             accessibilityLabel={`Eliminar regla ${item.nombre}`}
             activeOpacity={0.6}
           >
-            <Text style={estilos.textoEliminar}>[X]</Text>
+            <Feather name="x" size={16} color={COLORES.error} />
           </TouchableOpacity>
         </View>
       </View>
@@ -124,7 +125,7 @@ export const PantallaReglas: React.FC = () => {
 
   const renderizarVacio = () => (
     <View style={estilos.vacio}>
-      <Text style={estilos.iconoVacio}>[List]</Text>
+      <Feather name="list" size={48} color={COLORES.textoSutil} />
       <Text style={estilos.textoVacio}>No hay reglas configuradas</Text>
       <Text style={estilos.textoSubtitulo}>
         Crea una regla para empezar a filtrar y reenviar SMS automáticamente
@@ -146,8 +147,9 @@ export const PantallaReglas: React.FC = () => {
     <FondoGradiente>
       {reglas.length > 0 && (
         <View style={estilos.resumen}>
-          <Text style={estilos.textoResumen}>
-            [Stats] {reglas.filter((r) => r.activa).length} activas de{' '}
+          <Feather name="bar-chart-2" size={16} color={COLORES.primario} />{' '}
+            <Text style={estilos.textoResumen}>
+              {reglas.filter((r) => r.activa).length} activas de{' '}
             {reglas.length} reglas
           </Text>
         </View>
@@ -175,7 +177,8 @@ export const PantallaReglas: React.FC = () => {
           end={{ x: 1, y: 0 }}
           style={estilos.botonAgregar}
         >
-          <Text style={estilos.textoAgregar}>[+ Nueva] regla</Text>
+          <Feather name="plus" size={16} color="#FFFFFF" />
+          <Text style={estilos.textoAgregar}> Nueva regla</Text>
         </LinearGradient>
       </TouchableOpacity>
 
