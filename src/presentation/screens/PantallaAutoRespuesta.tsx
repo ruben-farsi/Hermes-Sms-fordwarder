@@ -152,7 +152,7 @@ export const PantallaAutoRespuesta: React.FC = () => {
             style={estilos.botonEliminar}
             activeOpacity={0.6}
           >
-            <Text style={estilos.iconoEliminar}>[X]</Text>
+            <Feather name="x" size={16} color={COLORES.error} />
           </TouchableOpacity>
         </View>
       </View>
@@ -162,7 +162,7 @@ export const PantallaAutoRespuesta: React.FC = () => {
 
   const renderizarVacio = () => (
     <View style={estilos.vacio}>
-      <Text style={estilos.iconoVacio}>[Bot]</Text>
+      <Feather name="message-circle" size={48} color={COLORES.textoSutil} />
       <Text style={estilos.textoVacio}>Sin reglas de auto-respuesta</Text>
       <Text style={estilos.textoSubtitulo}>
         Crea una regla para responder automáticamente mensajes de WhatsApp o Telegram
