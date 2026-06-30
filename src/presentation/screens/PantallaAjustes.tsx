@@ -145,7 +145,7 @@ export const PantallaAjustes: React.FC = () => {
             style={estilos.input}
             value={prefijoMensaje}
             onChangeText={setPrefijoMensaje}
-            placeholder="Ej: 📲 Mi teléfono personal"
+            placeholder="Ej: Mi teléfono personal"
             placeholderTextColor={COLORES.textoSutil}
             multiline
             accessibilityLabel="Prefijo del mensaje"
@@ -242,9 +242,7 @@ export const PantallaAjustes: React.FC = () => {
 
         {guardado && (
           <View style={estilos.alertaExito}>
-            <Text style={estilos.textoAlertaExito}>
-              [OK] Ajustes guardados correctamente
-            </Text>
+            <><Feather name="check-circle" size={14} color={COLORES.exito} /><Text style={estilos.textoAlertaExito}> Ajustes guardados correctamente</Text></>
           </View>
         )}
 

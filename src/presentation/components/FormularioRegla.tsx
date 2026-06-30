@@ -77,9 +77,17 @@ export const FormularioRegla: React.FC<Props> = ({
               <View style={estilos.indicador} />
             </View>
 
-            <Text style={estilos.titulo}>
-              {reglaExistente ? '[Editar] regla' : '[+ Nueva] regla'}
-            </Text>
+            {reglaExistente ? (
+              <View style={estilos.filaTitulo}>
+                <Feather name="edit" size={16} color={COLORES.texto} />
+                <Text style={estilos.titulo}> Editar regla</Text>
+              </View>
+            ) : (
+              <View style={estilos.filaTitulo}>
+                <Feather name="plus" size={16} color={COLORES.texto} />
+                <Text style={estilos.titulo}> Nueva regla</Text>
+              </View>
+            )}
 
             {/* Nombre */}
             <><Feather name="edit" size={14} color={COLORES.primario} /><Text style={estilos.etiqueta}> Nombre de la regla</Text></>
@@ -159,9 +167,8 @@ export const FormularioRegla: React.FC<Props> = ({
               }}
               activeOpacity={0.7}
             >
-              <Text style={estilos.textoAvanzado}>
-                [Config] Opciones avanzadas
-              </Text>
+              <Feather name="sliders" size={14} color={COLORES.primario} />
+              <Text style={estilos.textoAvanzado}> Opciones avanzadas</Text>
               <Feather name={avanzadoVisible ? 'chevron-up' : 'chevron-down'} size={16} color={COLORES.primario} />
             </TouchableOpacity>
 
@@ -180,10 +187,11 @@ export const FormularioRegla: React.FC<Props> = ({
                       onPress={() => setConfigTelegramId('')}
                       activeOpacity={0.7}
                     >
-                      <Text style={[
-                        estilos.textoConfig,
-                        !configTelegramId && estilos.textoConfigSeleccionado,
-                      ]}>[Web] Bot predeterminado</Text>
+                      <><Feather name="globe" size={14} color={!configTelegramId ? COLORES.textoClaro : COLORES.textoSecundario} />
+                        <Text style={[
+                          estilos.textoConfig,
+                          !configTelegramId && estilos.textoConfigSeleccionado,
+                        ]}> Bot predeterminado</Text></>
                     </TouchableOpacity>
                     {configuraciones.map((cfg) => (
                       <TouchableOpacity
@@ -195,16 +203,17 @@ export const FormularioRegla: React.FC<Props> = ({
                         onPress={() => setConfigTelegramId(cfg.id)}
                         activeOpacity={0.7}
                       >
+                        <><Feather name="message-circle" size={14} color={configTelegramId === cfg.id ? COLORES.textoClaro : COLORES.textoSecundario} />
                         <Text style={[
                           estilos.textoConfig,
                           configTelegramId === cfg.id && estilos.textoConfigSeleccionado,
-                        ]}>[Bot] {cfg.nombre}</Text>
+                        ]}> {cfg.nombre}</Text></>
                       </TouchableOpacity>
                     ))}
                   </View>
                 )}
 
-                <Text style={estilos.etiqueta}>🕐 Horario activo</Text>
+                <><Feather name="clock" size={14} color={COLORES.primario} /><Text style={estilos.etiqueta}> Horario activo</Text></>
                 <View style={estilos.filaBotones}>
                   <TextInput
                     style={[estilos.input, { flex: 1 }]}
@@ -224,7 +233,7 @@ export const FormularioRegla: React.FC<Props> = ({
                   />
                 </View>
 
-                <Text style={estilos.etiqueta}>📅 Días activos</Text>
+                <><Feather name="calendar" size={14} color={COLORES.primario} /><Text style={estilos.etiqueta}> Días activos</Text></>
                 <View style={estilos.filaDias}>
                   {DIAS_SEMANA.map((dia, indice) => (
                     <TouchableOpacity
@@ -258,7 +267,7 @@ export const FormularioRegla: React.FC<Props> = ({
             <View style={estilos.contenedorSwitches}>
               <View style={estilos.filaSwitch}>
                 <View style={estilos.infoSwitch}>
-                  <Text style={estilos.etiquetaSwitch}>🔣 Expresión regular</Text>
+                  <><Feather name="code" size={14} color={COLORES.primario} /><Text style={estilos.etiquetaSwitch}> Expresión regular</Text></>
                   <Text style={estilos.ayudaSwitch}>
                     Permite patrones avanzados como \d{'{'}6{'}'}
                   </Text>
@@ -351,10 +360,15 @@ const estilos = StyleSheet.create({
     backgroundColor: COLORES.textoSutil,
     borderRadius: 2,
   },
+  filaTitulo: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
   titulo: {
     fontSize: 20,
     fontWeight: '700',
-    marginBottom: 20,
     textAlign: 'center',
     color: COLORES.texto,
   },

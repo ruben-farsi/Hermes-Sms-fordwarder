@@ -124,20 +124,18 @@ export const PantallaAutoRespuesta: React.FC = () => {
             </View>
             {item.delaySegundos > 0 && (
               <View style={estilos.badge}>
-                <Text style={estilos.badgeTexto}>⏱️ {item.delaySegundos}s</Text>
+                <><Feather name="clock" size={12} color={COLORES.primario} /><Text style={estilos.badgeTexto}> {item.delaySegundos}s</Text></>
               </View>
             )}
           </View>
 
           {item.identificador ? (
-            <Text style={estilos.textoDetalle}>[Me] {item.identificador}</Text>
+            <><Feather name="user" size={12} color={COLORES.acento} /><Text style={estilos.textoDetalle}> {item.identificador}</Text></>
           ) : null}
           {item.condicion ? (
-            <Text style={estilos.textoDetalle}>[Key] Si contiene: "{item.condicion}"</Text>
+            <><Feather name="search" size={12} color={COLORES.primario} /><Text style={estilos.textoDetalle}> Si contiene: "{item.condicion}"</Text></>
           ) : null}
-          <Text style={estilos.textoRespuesta} numberOfLines={2}>
-            [Chat] {item.respuesta}
-          </Text>
+          <><Feather name="message-circle" size={12} color={COLORES.primario} /><Text style={estilos.textoRespuesta} numberOfLines={2}> {item.respuesta}</Text></>
         </TouchableOpacity>
 
         <View style={estilos.acciones}>
@@ -196,14 +194,14 @@ export const PantallaAutoRespuesta: React.FC = () => {
               Toca aquí para habilitar el acceso a notificaciones
             </Text>
           </View>
-          <Text style={estilos.bannerFlecha}>›</Text>
+          <Feather name="chevron-right" size={20} color={COLORES.advertencia} />
         </TouchableOpacity>
       )}
 
       {tienePermiso && reglas.length > 0 && (
         <View style={estilos.resumen}>
           <Text style={estilos.textoResumen}>
-            [OK] {reglas.filter((r) => r.activa).length} activas de {reglas.length} reglas
+            <Feather name="check-circle" size={14} color={COLORES.exito} /> {reglas.filter((r) => r.activa).length} activas de {reglas.length} reglas
           </Text>
         </View>
       )}
@@ -232,7 +230,7 @@ export const PantallaAutoRespuesta: React.FC = () => {
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
         >
-          <Text style={estilos.fabTexto}>+</Text>
+          <Feather name="plus" size={28} color={COLORES.textoClaro} />
         </LinearGradient>
       </TouchableOpacity>
 
