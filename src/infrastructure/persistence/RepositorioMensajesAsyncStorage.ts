@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { DeviceEventEmitter } from 'react-native';
 import { MensajeSms } from '../../domain/entities/MensajeSms';
 import { IRepositorioMensajes } from '../../domain/ports/IRepositorioMensajes';
 
@@ -9,6 +10,7 @@ export class RepositorioMensajesAsyncStorage implements IRepositorioMensajes {
     const mensajes = await this.obtenerTodos();
     mensajes.push(mensaje);
     await AsyncStorage.setItem(CLAVE, JSON.stringify(mensajes));
+    DeviceEventEmitter.emit('onMensajesActualizados');
   }
 
   async obtenerTodos(): Promise<MensajeSms[]> {
@@ -34,6 +36,7 @@ export class RepositorioMensajesAsyncStorage implements IRepositorioMensajes {
     if (indice >= 0) {
       mensajes[indice] = mensaje;
       await AsyncStorage.setItem(CLAVE, JSON.stringify(mensajes));
+      DeviceEventEmitter.emit('onMensajesActualizados');
     }
   }
 }

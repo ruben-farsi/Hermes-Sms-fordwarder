@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { NativeModules, PermissionsAndroid, Platform, Alert } from 'react-native';
+import { NativeModules, PermissionsAndroid, Platform, Alert, DeviceEventEmitter } from 'react-native';
 import { MensajeSms } from '../../domain/entities/MensajeSms';
 import { ContenedorDeDependencias } from '../../infrastructure/container/ContenedorDeDependencias';
 
@@ -60,6 +60,12 @@ export const useMensajes = () => {
     } else {
       setServicioActivo(controlarServicioSms.estaActivo());
     }
+
+    const suscripcion = DeviceEventEmitter.addListener('onMensajesActualizados', () => {
+      cargarMensajes();
+    });
+
+    return () => suscripcion.remove();
   }, [cargarMensajes, controlarServicioSms]);
 
   const alternarServicio = useCallback(async () => {
