@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Feather } from '@expo/vector-icons';
 import {
   View,
   Text,
@@ -26,15 +27,15 @@ interface Props {
 }
 
 const PLATAFORMAS: { valor: PlataformaAutoRespuesta; etiqueta: string; icono: string }[] = [
-  { valor: PlataformaAutoRespuesta.CUALQUIERA, etiqueta: 'Cualquiera', icono: '[All]' },
-  { valor: PlataformaAutoRespuesta.WHATSAPP,   etiqueta: 'WhatsApp',   icono: '[Chat]' },
-  { valor: PlataformaAutoRespuesta.TELEGRAM,   etiqueta: 'Telegram',   icono: '[TG]' },
+  { valor: PlataformaAutoRespuesta.CUALQUIERA, etiqueta: 'Cualquiera', icono: 'globe' },
+  { valor: PlataformaAutoRespuesta.WHATSAPP,   etiqueta: 'WhatsApp',   icono: 'message-square' },
+  { valor: PlataformaAutoRespuesta.TELEGRAM,   etiqueta: 'Telegram',   icono: 'send' },
 ];
 
 const TIPOS: { valor: TipoDestinatario; etiqueta: string; icono: string }[] = [
-  { valor: TipoDestinatario.CUALQUIERA, etiqueta: 'Cualquiera', icono: '[All]' },
-  { valor: TipoDestinatario.CONTACTO,   etiqueta: 'Contacto',   icono: '[Me]' },
-  { valor: TipoDestinatario.GRUPO,      etiqueta: 'Grupo',      icono: '[Group]' },
+  { valor: TipoDestinatario.CUALQUIERA, etiqueta: 'Cualquiera', icono: 'globe' },
+  { valor: TipoDestinatario.CONTACTO,   etiqueta: 'Contacto',   icono: 'user' },
+  { valor: TipoDestinatario.GRUPO,      etiqueta: 'Grupo',      icono: 'users' },
 ];
 
 export const FormularioAutoRespuesta: React.FC<Props> = ({
@@ -96,9 +97,13 @@ export const FormularioAutoRespuesta: React.FC<Props> = ({
             colors={[...GRADIENTES.header]}
             style={estilos.encabezado}
           >
-            <Text style={estilos.titulo}>
-              {reglaExistente ? '[Editar] regla' : '[+ Nueva] regla'}
-            </Text>
+            <View style={estilos.filaTitulo}>
+              {reglaExistente ? (
+                <><Feather name="edit" size={16} color={COLORES.textoClaro} /><Text style={estilos.titulo}> Editar regla</Text></>
+              ) : (
+                <><Feather name="plus" size={16} color={COLORES.textoClaro} /><Text style={estilos.titulo}> Nueva regla</Text></>
+              )}
+            </View>
           </LinearGradient>
 
           <ScrollView style={estilos.cuerpo} showsVerticalScrollIndicator={false}>
@@ -125,7 +130,7 @@ export const FormularioAutoRespuesta: React.FC<Props> = ({
                   onPress={() => setPlataforma(p.valor)}
                   activeOpacity={0.7}
                 >
-                  <Text style={estilos.chipTexto}>{p.icono} {p.etiqueta}</Text>
+                  <Text style={estilos.chipTexto}><Feather name={p.icono as any} size={14} color={COLORES.primario} /> {p.etiqueta}</Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -143,7 +148,7 @@ export const FormularioAutoRespuesta: React.FC<Props> = ({
                   onPress={() => setTipo(t.valor)}
                   activeOpacity={0.7}
                 >
-                  <Text style={estilos.chipTexto}>{t.icono} {t.etiqueta}</Text>
+                  <Text style={estilos.chipTexto}><Feather name={t.icono as any} size={14} color={COLORES.primario} /> {t.etiqueta}</Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -251,6 +256,11 @@ const estilos = StyleSheet.create({
     color: COLORES.textoClaro,
     fontSize: 18,
     fontWeight: '700',
+  },
+  filaTitulo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   cuerpo: {
     padding: 20,
