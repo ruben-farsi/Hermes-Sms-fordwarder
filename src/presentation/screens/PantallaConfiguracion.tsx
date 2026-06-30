@@ -203,7 +203,7 @@ export const PantallaConfiguracion: React.FC = () => {
           end={{ x: 1, y: 0 }}
           style={estilos.fab}
         >
-          <Text style={estilos.textoFab}>＋</Text>
+          <Feather name="plus" size={28} color={COLORES.textoClaro} />
         </LinearGradient>
       </TouchableOpacity>
 
