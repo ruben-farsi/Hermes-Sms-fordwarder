@@ -200,9 +200,10 @@ export const PantallaAutoRespuesta: React.FC = () => {
 
       {tienePermiso && reglas.length > 0 && (
         <View style={estilos.resumen}>
-          <Text style={estilos.textoResumen}>
-            <Feather name="check-circle" size={14} color={COLORES.exito} /> {reglas.filter((r) => r.activa).length} activas de {reglas.length} reglas
-          </Text>
+          <View style={estilos.filaResumen}>
+            <Feather name="check-circle" size={14} color={COLORES.exito} />
+            <Text style={estilos.textoResumen}> {reglas.filter((r) => r.activa).length} activas de {reglas.length} reglas</Text>
+          </View>
         </View>
       )}
 
@@ -286,6 +287,10 @@ const estilos = StyleSheet.create({
     marginHorizontal: 16,
     marginTop: 12,
     marginBottom: 4,
+  },
+  filaResumen: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   textoResumen: {
     color: COLORES.textoSecundario,
