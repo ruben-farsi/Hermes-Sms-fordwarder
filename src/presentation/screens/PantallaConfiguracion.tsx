@@ -220,9 +220,9 @@ export const PantallaConfiguracion: React.FC = () => {
             <View style={estilos.barraModal}>
               <View style={estilos.indicadorModal} />
             </View>
-            <Text style={estilos.tituloModal}>
-              {editando ? <Text><Feather name="edit" size={16} color={COLORES.primario} /> Editar configuración</Text> : <Text><Feather name="plus" size={16} color={COLORES.primario} /> Nueva configuración</Text>}
-            </Text>
+            <View style={estilos.filaTituloModal}>
+                          {editando ? <><Feather name="edit" size={16} color={COLORES.primario} /><Text style={estilos.tituloModal}> Editar configuración</Text></> : <><Feather name="plus" size={16} color={COLORES.primario} /><Text style={estilos.tituloModal}> Nueva configuración</Text></>}
+                        </View>
 
             <Text style={estilos.etiqueta}>Nombre</Text>
             <TextInput
@@ -431,8 +431,13 @@ const estilos = StyleSheet.create({
     fontSize: FUENTES.tamano.xl,
     fontWeight: FUENTES.peso.bold,
     textAlign: 'center',
-    marginBottom: 16,
     color: COLORES.texto,
+  },
+  filaTituloModal: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
   },
   etiqueta: {
     fontSize: FUENTES.tamano.md,
