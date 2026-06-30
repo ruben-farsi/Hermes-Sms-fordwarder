@@ -37,7 +37,7 @@ export class ContenedorDeDependencias {
   readonly gestionarAutoRespuestas: GestionarAutoRespuestas;
   readonly sincronizadorAutoRespuestasNativo: SincronizadorAutoRespuestasNativo;
 
-  // @ts-expect-error stored for cleanup reference
+  // stored for cleanup reference
   private cancelarMonitoreoRed: (() => void) | null = null;
 
   private constructor() {
