@@ -52,4 +52,9 @@ export class ReceptorSmsNativo implements IReceptorSms {
   ): void {
     SmsListener.actualizarConfiguracion(token, chatId, reglas, todasConfigs);
   }
+
+  async obtenerLogsNativos(): Promise<string> {
+    if (!SmsListener.obtenerLogsNativos) return '[]';
+    return await SmsListener.obtenerLogsNativos();
+  }
 }

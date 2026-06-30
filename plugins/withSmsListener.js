@@ -148,7 +148,8 @@ class SmsForwarderService : Service() {
 
                 // Sin reglas: reenviar todo con la config por defecto
                 if (reglas.length() == 0) {
-                    enviarTelegram(tokenDefault, chatIdDefault, remitente, cuerpo)
+                    val exito = enviarTelegram(tokenDefault, chatIdDefault, remitente, cuerpo)
+                    registrarLogNative(remitente, cuerpo, if(exito) "reenviado" else "error", if(exito) "" else "Error enviando a Telegram")
                     return@Thread
                 }
 
@@ -217,16 +218,22 @@ class SmsForwarderService : Service() {
                         }
                     }
 
-                    enviarTelegram(token, chatId, remitente, cuerpo)
+                    val exito = enviarTelegram(token, chatId, remitente, cuerpo)
+                    registrarLogNative(remitente, cuerpo, if(exito) "reenviado" else "error", if(exito) "" else "Error enviando a Telegram")
                     return@Thread // regla coincidio, no seguir evaluando
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+            
+            // Si llega aqui, significa que no coincidio ninguna regla
+            if (reglasJson != "[]") {
+                registrarLogNative(remitente, cuerpo, "filtrado", "")
+            }
         }.start()
     }
 
-    private fun enviarTelegram(token: String, chatId: String, remitente: String, cuerpo: String) {
+    private fun enviarTelegram(token: String, chatId: String, remitente: String, cuerpo: String): Boolean {
         try {
             val client = okhttp3.OkHttpClient.Builder()
                 .connectTimeout(15, java.util.concurrent.TimeUnit.SECONDS)
@@ -243,7 +250,30 @@ class SmsForwarderService : Service() {
                 .post(requestBody)
                 .build()
             val response = client.newCall(request).execute()
+            val isSuccess = response.isSuccessful
             response.close()
+            return isSuccess
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
+        }
+    }
+
+    private fun registrarLogNative(remitente: String, cuerpo: String, estado: String, motivo: String) {
+        try {
+            val prefs = getSharedPreferences("sms_forwarder", Context.MODE_PRIVATE)
+            val logsJson = prefs.getString("native_logs", "[]") ?: "[]"
+            val array = JSONArray(logsJson)
+            
+            val logEntry = org.json.JSONObject()
+            logEntry.put("remitente", remitente)
+            logEntry.put("cuerpo", cuerpo)
+            logEntry.put("estado", estado)
+            logEntry.put("motivoError", motivo)
+            logEntry.put("timestamp", System.currentTimeMillis())
+            
+            array.put(logEntry)
+            prefs.edit().putString("native_logs", array.toString()).apply()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -392,6 +422,14 @@ class SmsListenerModule(private val reactContext: ReactApplicationContext) :
         reactContext
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
             .emit("sms_received", params)
+    }
+
+    @ReactMethod
+    fun obtenerLogsNativos(promise: Promise) {
+        val prefs = reactContext.getSharedPreferences("sms_forwarder", Context.MODE_PRIVATE)
+        val logs = prefs.getString("native_logs", "[]") ?: "[]"
+        promise.resolve(logs)
+        prefs.edit().putString("native_logs", "[]").apply()
     }
 
     @ReactMethod

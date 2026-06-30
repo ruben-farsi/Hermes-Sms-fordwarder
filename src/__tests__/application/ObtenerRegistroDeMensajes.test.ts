@@ -13,9 +13,12 @@ const crearMensajeDePrueba = (
   estado: EstadoMensaje.REENVIADO,
 });
 
+import { IReceptorSms } from '../../domain/ports/IReceptorSms';
+
 describe('ObtenerRegistroDeMensajes', () => {
   let casoDeUso: ObtenerRegistroDeMensajes;
   let repositorioMensajes: jest.Mocked<IRepositorioMensajes>;
+  let receptorSms: jest.Mocked<IReceptorSms>;
 
   beforeEach(() => {
     repositorioMensajes = {
@@ -23,7 +26,13 @@ describe('ObtenerRegistroDeMensajes', () => {
       obtenerTodos: jest.fn(),
       actualizar: jest.fn(),
     };
-    casoDeUso = new ObtenerRegistroDeMensajes(repositorioMensajes);
+    receptorSms = {
+      iniciarEscucha: jest.fn(),
+      detenerEscucha: jest.fn(),
+      estaEscuchando: jest.fn(),
+      obtenerLogsNativos: jest.fn().mockResolvedValue('[]'),
+    };
+    casoDeUso = new ObtenerRegistroDeMensajes(repositorioMensajes, receptorSms);
   });
 
   it('debe retornar los mensajes ordenados del mas reciente al mas antiguo', async () => {

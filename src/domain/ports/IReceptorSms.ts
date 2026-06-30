@@ -4,4 +4,5 @@ export interface IReceptorSms {
   iniciarEscucha(callback: CallbackSms): void;
   detenerEscucha(): void;
   estaEscuchando(): boolean;
+  obtenerLogsNativos?(): Promise<string>;
 }

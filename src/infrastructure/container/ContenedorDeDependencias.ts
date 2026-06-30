@@ -93,6 +93,7 @@ export class ContenedorDeDependencias {
 
     this.obtenerRegistroDeMensajes = new ObtenerRegistroDeMensajes(
       repositorioMensajes,
+      receptorSms,
     );
 
     this.controlarServicioSms = new ControlarServicioSms(
