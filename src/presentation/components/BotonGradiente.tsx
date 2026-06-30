@@ -58,7 +58,6 @@ const estilos = StyleSheet.create({
     borderRadius: BORDES.radio.sm,
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 4,
     ...SOMBRAS.boton,
   },
 });
