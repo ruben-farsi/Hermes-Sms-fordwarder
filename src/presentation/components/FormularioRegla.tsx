@@ -1,11 +1,9 @@
 import React from 'react';
-import { Feather } from '@expo/vector-icons';
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
-  Switch,
   StyleSheet,
   Modal,
   ScrollView,
@@ -15,10 +13,14 @@ import {
   LayoutAnimation,
   UIManager,
 } from 'react-native';
-import { CampoObjetivo } from '../../domain/entities/ReglaDeReenvio';
+import { Feather } from '@expo/vector-icons';
 import { useFormularioRegla } from '../hooks/useFormularioRegla';
 import { COLORES, BORDES } from '../theme/colores';
-import { FUENTES } from '../theme/tipografia';
+import { EncabezadoFormulario } from './EncabezadoFormulario';
+import { SelectorCampoObjetivo } from './SelectorCampoObjetivo';
+import { OpcionesAvanzadas } from './OpcionesAvanzadas';
+import { SeccionSwitches } from './SeccionSwitches';
+import { BotonesAccion } from './BotonesAccion';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -72,25 +74,13 @@ export const FormularioRegla: React.FC<Props> = ({
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
           >
-            {/* Barra indicadora */}
-            <View style={estilos.barraIndicadora}>
-              <View style={estilos.indicador} />
-            </View>
-
-            {reglaExistente ? (
-              <View style={estilos.filaTitulo}>
-                <Feather name="edit" size={16} color={COLORES.texto} />
-                <Text style={estilos.titulo}> Editar regla</Text>
-              </View>
-            ) : (
-              <View style={estilos.filaTitulo}>
-                <Feather name="plus" size={16} color={COLORES.texto} />
-                <Text style={estilos.titulo}> Nueva regla</Text>
-              </View>
-            )}
+            <EncabezadoFormulario esEdicion={!!reglaExistente} />
 
             {/* Nombre */}
-            <><Feather name="edit" size={14} color={COLORES.primario} /><Text style={estilos.etiqueta}> Nombre de la regla</Text></>
+            <View style={estilos.filaEtiqueta}>
+              <Feather name="edit" size={14} color={COLORES.primario} />
+              <Text style={estilos.etiqueta}> Nombre de la regla</Text>
+            </View>
             <TextInput
               style={estilos.input}
               value={nombre}
@@ -100,54 +90,16 @@ export const FormularioRegla: React.FC<Props> = ({
               accessibilityLabel="Nombre de la regla"
             />
 
-            {/* Campo objetivo */}
-            <><Feather name="crosshair" size={14} color={COLORES.primario} /><Text style={estilos.etiqueta}> Aplicar sobre</Text></>
-            <View style={estilos.filaBotones}>
-              <TouchableOpacity
-                style={[
-                  estilos.botonOpcion,
-                  campoObjetivo === CampoObjetivo.REMITENTE &&
-                    estilos.botonSeleccionado,
-                ]}
-                onPress={() => setCampoObjetivo(CampoObjetivo.REMITENTE)}
-                activeOpacity={0.7}
-              >
-                <Feather name="user" size={16} color={COLORES.primario} />
-                <Text
-                  style={[
-                    estilos.textoOpcion,
-                    campoObjetivo === CampoObjetivo.REMITENTE &&
-                      estilos.textoSeleccionado,
-                  ]}
-                >
-                  Remitente
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[
-                  estilos.botonOpcion,
-                  campoObjetivo === CampoObjetivo.CUERPO &&
-                    estilos.botonSeleccionado,
-                ]}
-                onPress={() => setCampoObjetivo(CampoObjetivo.CUERPO)}
-                activeOpacity={0.7}
-              >
-                <Feather name="message-square" size={16} color={COLORES.primario} />
-                <Text
-                  style={[
-                    estilos.textoOpcion,
-                    campoObjetivo === CampoObjetivo.CUERPO &&
-                      estilos.textoSeleccionado,
-                  ]}
-                >
-                  Cuerpo
-                </Text>
-              </TouchableOpacity>
-            </View>
+            <SelectorCampoObjetivo
+              valor={campoObjetivo}
+              onChange={setCampoObjetivo}
+            />
 
             {/* Patrón */}
-            <><Feather name="search" size={14} color={COLORES.primario} /><Text style={estilos.etiqueta}> Patrón de búsqueda</Text></>
+            <View style={estilos.filaEtiqueta}>
+              <Feather name="search" size={14} color={COLORES.primario} />
+              <Text style={estilos.etiqueta}> Patrón de búsqueda</Text>
+            </View>
             <TextInput
               style={estilos.input}
               value={patron}
@@ -173,161 +125,33 @@ export const FormularioRegla: React.FC<Props> = ({
             </TouchableOpacity>
 
             {avanzadoVisible && (
-              <View style={estilos.contenedorAvanzado}>
-                <><Feather name="message-circle" size={14} color={COLORES.primario} /><Text style={estilos.etiqueta}> Bot de Telegram</Text></>
-                {configuraciones.length === 0 ? (
-                  <Text style={estilos.sinConfigs}>No hay bots configurados. Ve a Config para añadir uno.</Text>
-                ) : (
-                  <View style={estilos.listaConfigs}>
-                    <TouchableOpacity
-                      style={[
-                        estilos.botonConfig,
-                        !configTelegramId && estilos.botonConfigSeleccionado,
-                      ]}
-                      onPress={() => setConfigTelegramId('')}
-                      activeOpacity={0.7}
-                    >
-                      <><Feather name="globe" size={14} color={!configTelegramId ? COLORES.textoClaro : COLORES.textoSecundario} />
-                        <Text style={[
-                          estilos.textoConfig,
-                          !configTelegramId && estilos.textoConfigSeleccionado,
-                        ]}> Bot predeterminado</Text></>
-                    </TouchableOpacity>
-                    {configuraciones.map((cfg) => (
-                      <TouchableOpacity
-                        key={cfg.id}
-                        style={[
-                          estilos.botonConfig,
-                          configTelegramId === cfg.id && estilos.botonConfigSeleccionado,
-                        ]}
-                        onPress={() => setConfigTelegramId(cfg.id)}
-                        activeOpacity={0.7}
-                      >
-                        <><Feather name="message-circle" size={14} color={configTelegramId === cfg.id ? COLORES.textoClaro : COLORES.textoSecundario} />
-                        <Text style={[
-                          estilos.textoConfig,
-                          configTelegramId === cfg.id && estilos.textoConfigSeleccionado,
-                        ]}> {cfg.nombre}</Text></>
-                      </TouchableOpacity>
-                    ))}
-                  </View>
-                )}
-
-                <><Feather name="clock" size={14} color={COLORES.primario} /><Text style={estilos.etiqueta}> Horario activo</Text></>
-                <View style={estilos.filaBotones}>
-                  <TextInput
-                    style={[estilos.input, { flex: 1 }]}
-                    value={horarioInicio}
-                    onChangeText={setHorarioInicio}
-                    placeholder="Desde (HH:MM)"
-                    placeholderTextColor={COLORES.textoSutil}
-                    keyboardType="numeric"
-                  />
-                  <TextInput
-                    style={[estilos.input, { flex: 1 }]}
-                    value={horarioFin}
-                    onChangeText={setHorarioFin}
-                    placeholder="Hasta (HH:MM)"
-                    placeholderTextColor={COLORES.textoSutil}
-                    keyboardType="numeric"
-                  />
-                </View>
-
-                <><Feather name="calendar" size={14} color={COLORES.primario} /><Text style={estilos.etiqueta}> Días activos</Text></>
-                <View style={estilos.filaDias}>
-                  {DIAS_SEMANA.map((dia, indice) => (
-                    <TouchableOpacity
-                      key={indice}
-                      style={[
-                        estilos.botonDia,
-                        diasActivos.includes(indice) && estilos.botonDiaActivo,
-                      ]}
-                      onPress={() => toggleDia(indice)}
-                      accessible={true}
-                      accessibilityRole="button"
-                      accessibilityLabel={`${dia} ${diasActivos.includes(indice) ? 'seleccionado' : 'no seleccionado'}`}
-                      accessibilityState={{ selected: diasActivos.includes(indice) }}
-                      hitSlop={{ top: 6, bottom: 6, left: 4, right: 4 }}
-                    >
-                      <Text
-                        style={[
-                          estilos.textoDia,
-                          diasActivos.includes(indice) && estilos.textoDiaActivo,
-                        ]}
-                      >
-                        {dia}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              </View>
+              <OpcionesAvanzadas
+                configuraciones={configuraciones}
+                configTelegramId={configTelegramId}
+                onConfigTelegramChange={setConfigTelegramId}
+                horarioInicio={horarioInicio}
+                onHorarioInicioChange={setHorarioInicio}
+                horarioFin={horarioFin}
+                onHorarioFinChange={setHorarioFin}
+                diasActivos={diasActivos}
+                onToggleDia={toggleDia}
+                DIAS_SEMANA={DIAS_SEMANA}
+              />
             )}
 
-            {/* Switches */}
-            <View style={estilos.contenedorSwitches}>
-              <View style={estilos.filaSwitch}>
-                <View style={estilos.infoSwitch}>
-                  <><Feather name="code" size={14} color={COLORES.primario} /><Text style={estilos.etiquetaSwitch}> Expresión regular</Text></>
-                  <Text style={estilos.ayudaSwitch}>
-                    Permite patrones avanzados como \d{'{'}6{'}'}
-                  </Text>
-                </View>
-                <Switch
-                  value={esRegex}
-                  onValueChange={setEsRegex}
-                  trackColor={{ false: COLORES.switchTrackInactivo, true: COLORES.switchTrackActivo }}
-                  thumbColor={esRegex ? COLORES.switchThumbActivo : COLORES.switchThumbInactivo}
-                />
-              </View>
+            <SeccionSwitches
+              esRegex={esRegex}
+              onEsRegexChange={setEsRegex}
+              activa={activa}
+              onActivaChange={setActiva}
+            />
 
-              <View style={estilos.separador} />
-
-              <View style={estilos.filaSwitch}>
-                <View style={estilos.infoSwitch}>
-                  <><Feather name="zap" size={14} color={COLORES.acento} /><Text style={estilos.etiquetaSwitch}> Regla activa</Text></>
-                  <Text style={estilos.ayudaSwitch}>
-                    Solo las reglas activas filtran SMS
-                  </Text>
-                </View>
-                <Switch
-                  value={activa}
-                  onValueChange={setActiva}
-                  trackColor={{ false: COLORES.switchTrackInactivo, true: 'rgba(0, 230, 118, 0.3)' }}
-                  thumbColor={activa ? COLORES.acento : COLORES.switchThumbInactivo}
-                />
-              </View>
-            </View>
-
-            {/* Botones de acción */}
-            {error && (
-              <View style={estilos.contenedorError}>
-                <Text style={estilos.textoError}>{error}</Text>
-              </View>
-            )}
-
-            <View style={estilos.filaBotones}>
-              <TouchableOpacity
-                style={estilos.botonCancelar}
-                onPress={onCancelar}
-                accessible={true}
-                accessibilityRole="button"
-                accessibilityLabel="Cancelar"
-                activeOpacity={0.7}
-              >
-                <Text style={estilos.textoCancelar}>Cancelar</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[estilos.botonGuardar, error && { opacity: 0.5 }]}
-                onPress={manejarGuardado}
-                accessible={true}
-                accessibilityRole="button"
-                accessibilityLabel="Guardar regla"
-                activeOpacity={0.8}
-              >
-                <><Feather name="save" size={16} color={COLORES.textoClaro} /><Text style={estilos.textoGuardar}> Guardar</Text></>
-              </TouchableOpacity>
-            </View>
+            <BotonesAccion
+              onGuardar={manejarGuardado}
+              onCancelar={onCancelar}
+              error={error}
+              deshabilitarGuardado={!!error}
+            />
           </ScrollView>
         </View>
       </KeyboardAvoidingView>
@@ -350,33 +174,15 @@ const estilos = StyleSheet.create({
     borderTopRightRadius: BORDES.radio.xl,
     padding: 20,
   },
-  barraIndicadora: {
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  indicador: {
-    width: 40,
-    height: 4,
-    backgroundColor: COLORES.textoSutil,
-    borderRadius: 2,
-  },
-  filaTitulo: {
+  filaEtiqueta: {
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
-  },
-  titulo: {
-    fontSize: 20,
-    fontWeight: '700',
-    textAlign: 'center',
-    color: COLORES.texto,
+    marginTop: 14,
+    marginBottom: 6,
   },
   etiqueta: {
     fontSize: 14,
     fontWeight: '600',
-    marginBottom: 6,
-    marginTop: 14,
     color: COLORES.textoSecundario,
   },
   input: {
@@ -387,68 +193,6 @@ const estilos = StyleSheet.create({
     fontSize: 15,
     backgroundColor: COLORES.inputFondo,
     color: COLORES.texto,
-  },
-  filaBotones: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-  botonOpcion: {
-    flex: 1,
-    padding: 12,
-    borderRadius: BORDES.radio.sm,
-    borderWidth: 1,
-    borderColor: COLORES.inputBorde,
-    alignItems: 'center',
-    backgroundColor: COLORES.inputFondo,
-  },
-  botonSeleccionado: {
-    backgroundColor: COLORES.primario,
-    borderColor: COLORES.primario,
-  },
-  iconoOpcion: {
-    fontSize: 18,
-    marginBottom: 4,
-  },
-  textoOpcion: {
-    color: COLORES.textoSecundario,
-    fontWeight: '600',
-    fontSize: 13,
-  },
-  textoSeleccionado: {
-    color: COLORES.textoClaro,
-  },
-  contenedorSwitches: {
-    backgroundColor: COLORES.inputFondo,
-    borderRadius: BORDES.radio.sm,
-    padding: 12,
-    marginTop: 16,
-    borderWidth: 1,
-    borderColor: COLORES.inputBorde,
-  },
-  filaSwitch: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 4,
-  },
-  infoSwitch: {
-    flex: 1,
-    marginRight: 12,
-  },
-  etiquetaSwitch: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: COLORES.textoSecundario,
-  },
-  ayudaSwitch: {
-    fontSize: FUENTES.tamano.xs,
-    color: COLORES.textoSutil,
-    marginTop: 2,
-  },
-  separador: {
-    height: 1,
-    backgroundColor: COLORES.separador,
-    marginVertical: 8,
   },
   botonAvanzado: {
     flexDirection: 'row',
@@ -462,119 +206,9 @@ const estilos = StyleSheet.create({
     backgroundColor: COLORES.inputFondo,
   },
   textoAvanzado: {
+    flex: 1,
     fontSize: 14,
     fontWeight: '600',
     color: COLORES.textoSecundario,
-  },
-  flechaAvanzado: {
-    fontSize: 12,
-    color: COLORES.primario,
-    fontWeight: '700',
-  },
-  contenedorAvanzado: {
-    marginTop: 4,
-    paddingTop: 4,
-  },
-  filaBotonesAccion: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 24,
-    marginBottom: 12,
-    gap: 10,
-  },
-  botonCancelar: {
-    flex: 1,
-    padding: 14,
-    borderRadius: BORDES.radio.sm,
-    borderWidth: 1,
-    borderColor: COLORES.inputBorde,
-    alignItems: 'center',
-    backgroundColor: COLORES.inputFondo,
-  },
-  textoCancelar: {
-    color: COLORES.textoSecundario,
-    fontWeight: '600',
-    fontSize: 15,
-  },
-  contenedorError: {
-    backgroundColor: COLORES.errorFondo,
-    padding: 12,
-    borderRadius: BORDES.radio.sm,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: COLORES.error,
-  },
-  textoError: {
-    color: COLORES.error,
-    fontSize: 13,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-  botonGuardar: {
-    flex: 1,
-    padding: 14,
-    borderRadius: BORDES.radio.sm,
-    backgroundColor: COLORES.primario,
-    alignItems: 'center',
-    elevation: 4,
-  },
-  textoGuardar: {
-    color: COLORES.textoClaro,
-    fontWeight: '700',
-    fontSize: 15,
-  },
-  listaConfigs: {
-    gap: 6,
-  },
-  botonConfig: {
-    padding: 12,
-    borderRadius: BORDES.radio.sm,
-    borderWidth: 1,
-    borderColor: COLORES.inputBorde,
-    backgroundColor: COLORES.inputFondo,
-  },
-  botonConfigSeleccionado: {
-    backgroundColor: COLORES.primario,
-    borderColor: COLORES.primario,
-  },
-  textoConfig: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: COLORES.textoSecundario,
-  },
-  textoConfigSeleccionado: {
-    color: COLORES.textoClaro,
-  },
-  sinConfigs: {
-    fontSize: 13,
-    color: COLORES.textoSutil,
-    fontStyle: 'italic',
-    paddingVertical: 8,
-  },
-  filaDias: {
-    flexDirection: 'row' as const,
-    justifyContent: 'space-between' as const,
-    gap: 4,
-  },
-  botonDia: {
-    flex: 1,
-    paddingVertical: 8,
-    borderRadius: BORDES.radio.sm,
-    borderWidth: 1,
-    borderColor: COLORES.inputBorde,
-    alignItems: 'center' as const,
-    backgroundColor: COLORES.inputFondo,
-  },
-  botonDiaActivo: {
-    backgroundColor: COLORES.primario,
-    borderColor: COLORES.primario,
-  },
-  textoDia: {
-    fontSize: 12,
-    fontWeight: '600' as const,
-    color: COLORES.textoSecundario,
-  },
-  textoDiaActivo: {
-    color: COLORES.textoClaro,
   },
 });
