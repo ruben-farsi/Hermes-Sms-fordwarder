@@ -42,8 +42,8 @@ export const COLORES = {
   separador: 'rgba(255, 255, 255, 0.06)',
 
   // ─── Glassmorphism tokens ───────────────────────
-  glassFondo: 'rgba(26, 39, 51, 0.72)',
-  glassBorde: 'rgba(255, 255, 255, 0.10)',
+  glassFondo: 'rgba(255, 255, 255, 0.1)',
+  glassBorde: 'rgba(255, 255, 255, 0.25)',
   glassBordeActivo: 'rgba(46, 204, 113, 0.20)',
   glassSombra: 'rgba(0, 0, 0, 0.25)',
 
