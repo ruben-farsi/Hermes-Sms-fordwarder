@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { BlurView } from 'expo-blur';
 import { Feather } from '@expo/vector-icons';
 import { MensajeSms, EstadoMensaje } from '../../domain/entities/MensajeSms';
 import { COLORES, SOMBRAS, BORDES } from '../theme/colores';
@@ -32,7 +33,7 @@ export const TarjetaMensaje: React.FC<Props> = ({ mensaje, onReintentar }) => {
   const estado = COLORES_ESTADO[mensaje.estado];
 
   return (
-    <View style={estilos.contenedor}>
+    <BlurView intensity={50} tint="light" style={estilos.contenedor}>
       {/* Glass highlight overlay */}
       <View style={estilos.brillo} pointerEvents="none" />
 
@@ -85,27 +86,20 @@ export const TarjetaMensaje: React.FC<Props> = ({ mensaje, onReintentar }) => {
           )}
         </View>
       )}
-    </View>
+    </BlurView>
   );
 };
 
 const estilos = StyleSheet.create({
   contenedor: {
-    backgroundColor: COLORES.neumorphBase,
     borderRadius: BORDES.radio.md,
     padding: 16,
     marginHorizontal: 16,
     marginVertical: 6,
     borderWidth: 1,
     borderColor: COLORES.glassBorde,
-    // Neumorphic extrusion
-    ...SOMBRAS.neumorphExtruido,
-    // Light top-left shadow
-    shadowColor: COLORES.neumorphLuces,
-    shadowOffset: { width: -2, height: -2 },
-    shadowOpacity: 0.4,
-    shadowRadius: 4,
-    elevation: 6,
+    // Glassmorphism shadow
+    ...SOMBRAS.glass,
     overflow: 'hidden',
   },
   brillo: {

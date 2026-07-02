@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { BlurView } from 'expo-blur';
 import { COLORES, SOMBRAS, BORDES } from '../theme/colores';
 import { FUENTES } from '../theme/tipografia';
 import { BotonGradiente } from './BotonGradiente';
@@ -11,7 +12,7 @@ interface Props {
 
 export const IndicadorServicio = React.memo<Props>(({ activo, onAlternar }) => {
   return (
-    <View style={estilos.contenedor}>
+    <BlurView intensity={50} tint="light" style={estilos.contenedor}>
       {/* Glass highlight */}
       <View style={estilos.brillo} pointerEvents="none" />
       <View style={estilos.indicador}>
@@ -38,7 +39,7 @@ export const IndicadorServicio = React.memo<Props>(({ activo, onAlternar }) => {
           {activo ? '⏹ Detener' : '▶ Iniciar'}
         </Text>
       </BotonGradiente>
-    </View>
+    </BlurView>
   );
 });
 
@@ -47,7 +48,6 @@ const estilos = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: COLORES.neumorphBase,
     padding: 16,
     marginHorizontal: 16,
     marginTop: 14,
@@ -55,13 +55,8 @@ const estilos = StyleSheet.create({
     borderRadius: BORDES.radio.md,
     borderWidth: 1,
     borderColor: COLORES.glassBorde,
-    // Neumorphic extrusion
-    ...SOMBRAS.neumorphExtruido,
-    shadowColor: COLORES.neumorphLuces,
-    shadowOffset: { width: -2, height: -2 },
-    shadowOpacity: 0.4,
-    shadowRadius: 4,
-    elevation: 6,
+    // Glassmorphism shadow
+    ...SOMBRAS.glass,
     overflow: 'hidden',
   },
   brillo: {
