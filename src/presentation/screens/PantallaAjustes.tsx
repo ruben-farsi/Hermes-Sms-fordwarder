@@ -275,12 +275,12 @@ const estilos = StyleSheet.create({
     alignItems: 'center',
   },
   seccion: {
-    backgroundColor: COLORES.tarjeta,
+    backgroundColor: COLORES.glassFondo,
     marginHorizontal: 16,
     marginTop: 12,
     borderRadius: BORDES.radio.md,
     borderWidth: 1,
-    borderColor: COLORES.tarjetaBorde,
+    borderColor: COLORES.glassBorde,
     overflow: 'hidden',
   },
   seccionHeader: {
@@ -324,11 +324,11 @@ const estilos = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: COLORES.inputBorde,
+    borderColor: COLORES.glassInputBorde,
     borderRadius: BORDES.radio.sm,
     padding: 12,
     fontSize: FUENTES.tamano.md,
-    backgroundColor: COLORES.inputFondo,
+    backgroundColor: COLORES.glassInput,
     color: COLORES.texto,
     marginTop: 12,
     minHeight: 48,

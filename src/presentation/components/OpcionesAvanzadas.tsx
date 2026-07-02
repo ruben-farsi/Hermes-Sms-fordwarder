@@ -202,20 +202,14 @@ const estilos = StyleSheet.create({
   listaConfigs: {
     gap: 6,
   },
-  // ─── Neumorphic config buttons ──
+  // ─── Glass config buttons ──
   botonConfig: {
     padding: 12,
     borderRadius: BORDES.radio.xs,
-    backgroundColor: COLORES.neumorphBase,
+    backgroundColor: COLORES.glassFondo,
     borderWidth: 1,
     borderColor: COLORES.glassBorde,
-    // Neumorphic extrusion
-    ...SOMBRAS.neumorphExtruido,
-    shadowColor: COLORES.neumorphLuces,
-    shadowOffset: { width: -2, height: -2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3,
-    elevation: 3,
+    ...SOMBRAS.glass,
   },
   botonConfigSeleccionado: {
     backgroundColor: COLORES.primarioOscuro,
@@ -245,18 +239,13 @@ const estilos = StyleSheet.create({
     flexDirection: 'row',
     gap: 10,
   },
-  // ─── Neumorphic time inputs (inset) ──
+  // ─── Glass time inputs ──
   inputNeumorph: {
     flex: 1,
-    backgroundColor: COLORES.neumorphHundido,
+    backgroundColor: COLORES.glassInput,
     borderRadius: BORDES.radio.xs,
     borderWidth: 1,
-    borderColor: COLORES.neumorphBase,
-    shadowColor: '#000000',
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 2,
+    borderColor: COLORES.glassInputBorde,
   },
   inputHorario: {
     padding: 12,
@@ -276,16 +265,10 @@ const estilos = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: BORDES.radio.xs,
     alignItems: 'center',
-    backgroundColor: COLORES.neumorphBase,
+    backgroundColor: COLORES.glassFondo,
     borderWidth: 1,
     borderColor: COLORES.glassBorde,
-    // Neumorphic extrusion
-    ...SOMBRAS.neumorphExtruido,
-    shadowColor: COLORES.neumorphLuces,
-    shadowOffset: { width: -1, height: -1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 3,
+    ...SOMBRAS.glass,
   },
   botonDiaActivo: {
     backgroundColor: COLORES.primarioOscuro,

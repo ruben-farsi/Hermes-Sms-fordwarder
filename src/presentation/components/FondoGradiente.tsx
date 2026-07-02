@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { COLORES } from '../theme/colores';
 
 interface Props {
   children: React.ReactNode;
@@ -11,18 +10,16 @@ interface Props {
 export const FondoGradiente: React.FC<Props> = ({ children, style }) => (
   <View style={[estilos.contenedor, style]}>
     <LinearGradient
-      colors={['#7C4DFF', '#E040FB', '#FF6B6B', '#FF8E53']}
+      colors={['#0f2027', '#203a43', '#2c5364']}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       style={estilos.gradiente}
     >
-      {/* Círculos difuminados para simular fondo abstracto 3D */}
+      {/* Círculo difuminado superior derecho */}
       <View style={[estilos.circulo, estilos.circulo1]} />
+      {/* Círculo difuminado inferior izquierdo */}
       <View style={[estilos.circulo, estilos.circulo2]} />
-      <View style={[estilos.circulo, estilos.circulo3]} />
-      <View style={estilos.overlay}>
-        {children}
-      </View>
+      {children}
     </LinearGradient>
   </View>
 );
@@ -38,50 +35,31 @@ const estilos = StyleSheet.create({
   circulo: {
     position: 'absolute',
     borderRadius: 9999,
-    opacity: 0.3,
   },
   circulo1: {
-    width: 280,
-    height: 280,
-    backgroundColor: '#FF6B6B',
-    top: -60,
-    right: -80,
-    opacity: 0.25,
-    // shadow solo para darle más difuminado visual
-    shadowColor: '#FF6B6B',
+    width: 300,
+    height: 300,
+    backgroundColor: '#2c5364',
+    top: -80,
+    right: -100,
+    opacity: 0.35,
+    shadowColor: '#2c5364',
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.6,
+    shadowOpacity: 0.5,
     shadowRadius: 120,
     elevation: 0,
   },
   circulo2: {
-    width: 200,
-    height: 200,
-    backgroundColor: '#7C4DFF',
-    bottom: 60,
-    left: -50,
-    opacity: 0.2,
-    shadowColor: '#7C4DFF',
+    width: 220,
+    height: 220,
+    backgroundColor: '#0f2027',
+    bottom: 40,
+    left: -60,
+    opacity: 0.3,
+    shadowColor: '#0f2027',
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.5,
+    shadowOpacity: 0.6,
     shadowRadius: 100,
     elevation: 0,
-  },
-  circulo3: {
-    width: 160,
-    height: 160,
-    backgroundColor: '#E040FB',
-    top: '30%',
-    left: '20%',
-    opacity: 0.15,
-    shadowColor: '#E040FB',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.4,
-    shadowRadius: 80,
-    elevation: 0,
-  },
-  overlay: {
-    flex: 1,
-    backgroundColor: COLORES.glassFondo,
   },
 });

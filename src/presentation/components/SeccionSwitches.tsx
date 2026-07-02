@@ -60,20 +60,13 @@ export const SeccionSwitches: React.FC<Props> = ({
 
 const estilos = StyleSheet.create({
   contenedor: {
-    backgroundColor: COLORES.neumorphBase,
+    backgroundColor: COLORES.glassFondo,
     borderRadius: BORDES.radio.sm,
     padding: 12,
     marginTop: 16,
     borderWidth: 1,
     borderColor: COLORES.glassBorde,
-    // Neumorphic extrusion: dark bottom-right
-    ...SOMBRAS.neumorphExtruido,
-    // Light top-left for depth
-    shadowColor: COLORES.neumorphLuces,
-    shadowOffset: { width: -2, height: -2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    elevation: 4,
+    ...SOMBRAS.glass,
   },
   filaSwitch: {
     flexDirection: 'row',

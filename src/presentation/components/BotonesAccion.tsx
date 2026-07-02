@@ -78,38 +78,30 @@ const estilos = StyleSheet.create({
     marginBottom: 12,
     gap: 10,
   },
-  // ─── Cancel: Neumorphic extrusion ──
+  // ─── Cancel: Glass ──
   botonCancelar: {
     flex: 1,
     borderRadius: BORDES.radio.sm,
-    backgroundColor: COLORES.neumorphBase,
-    // Dark shadow bottom-right
-    ...SOMBRAS.neumorphExtruido,
-    // Light shadow top-left
-    shadowColor: COLORES.neumorphLuces,
-    shadowOffset: { width: -2, height: -2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    elevation: 4,
+    backgroundColor: COLORES.glassFondo,
+    ...SOMBRAS.glass,
   },
   cancelarInterior: {
     padding: 14,
     borderRadius: BORDES.radio.sm,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.04)',
+    borderColor: COLORES.glassBorde,
   },
   textoCancelar: {
     color: COLORES.textoSecundario,
     fontWeight: '600',
     fontSize: 15,
   },
-  // ─── Save: Neumorphic extrusion with Verde Esmeralda ──
+  // ─── Save: Glass with Verde Esmeralda ──
   botonGuardar: {
     flex: 1,
     borderRadius: BORDES.radio.sm,
     backgroundColor: COLORES.primarioOscuro,
-    // Dark shadow with green tint
     shadowColor: COLORES.primario,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,

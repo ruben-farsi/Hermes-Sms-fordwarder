@@ -3,6 +3,8 @@ export const COLORES = {
   fondoSecundario: '#1A2733',
   fondoTerciario: '#243442',
 
+  // ─── Cards & containers ahora usan glass ──
+  /** @deprecated Usar glassFondo en su lugar */
   tarjeta: '#1A2733',
   tarjetaBorde: 'rgba(255, 255, 255, 0.06)',
   tarjetaSombra: 'rgba(0, 0, 0, 0.3)',
@@ -42,33 +44,37 @@ export const COLORES = {
   separador: 'rgba(255, 255, 255, 0.06)',
 
   // ─── Glassmorphism tokens ───────────────────────
-  glassFondo: 'rgba(255, 255, 255, 0.1)',
-  glassBorde: 'rgba(255, 255, 255, 0.25)',
-  glassBordeActivo: 'rgba(46, 204, 113, 0.20)',
-  glassSombra: 'rgba(0, 0, 0, 0.25)',
+  /** Fondo glass para tarjetas, contenedores y modales */
+  glassFondo: 'rgba(15, 25, 35, 0.75)',
+  /** Borde sutil para elementos glass */
+  glassBorde: 'rgba(255, 255, 255, 0.15)',
+  /** Borde activo con acento verde */
+  glassBordeActivo: 'rgba(46, 204, 113, 0.25)',
+  /** Sombra profunda para glass */
+  glassSombra: 'rgba(0, 0, 0, 0.35)',
+  /** Fondo glass para inputs (más translúcido) */
+  glassInput: 'rgba(0, 0, 0, 0.3)',
+  /** Borde glass para inputs */
+  glassInputBorde: 'rgba(255, 255, 255, 0.08)',
 
-  // ─── Neumorphism tokens ─────────────────────────
-  /** Sombra clara arriba/izquierda (simula luz incidente) */
-  neumorphLuces: 'rgba(255, 255, 255, 0.06)',
-  /** Sombra oscura abajo/derecha (simula profundidad) */
+  // ─── Neumorphism tokens (legacy, mantenidos para compatibilidad) ──
+  neumorphLuces: 'rgba(255, 255, 255, 0.04)',
   neumorphSombras: 'rgba(0, 0, 0, 0.35)',
-  /** Sombra clara para estado presionado / invertido */
   neumorphLucesFuerte: 'rgba(46, 204, 113, 0.12)',
-  /** Fondo base para elementos neumórficos extrudos */
   neumorphBase: '#1E2D3D',
-  /** Fondo base para elementos neumórficos hundidos */
   neumorphHundido: '#16212E',
 };
 
 export const GRADIENTES = {
-  principal: ['#0F1923', '#1A2733', '#0F1923'] as const,
+  /** Fondo principal — azul profundo premium */
+  principal: ['#0f2027', '#203a43', '#2c5364'] as const,
   header: ['#1A2733', '#243442'] as const,
   boton: ['#2ECC71', '#27AE60'] as const,
   botonExito: ['#00E676', '#00C853'] as const,
   botonError: ['#FF5252', '#D32F2F'] as const,
   acento: ['#7C4DFF', '#E040FB'] as const,
-  // ─── Glassmorphism overlay ──
-  glass: ['rgba(26, 39, 51, 0.5)', 'rgba(15, 25, 35, 0.6)'] as const,
+  /** Overlay glass oscuro */
+  glass: ['rgba(15, 25, 35, 0.6)', 'rgba(26, 39, 51, 0.4)'] as const,
 };
 
 export const SOMBRAS = {
@@ -93,7 +99,7 @@ export const SOMBRAS = {
     shadowRadius: 12,
     elevation: 6,
   },
-  // ─── Neumorphism extrudo (botones, tarjetas) ──
+  // ─── Neumorphism (legacy) ──
   neumorphExtruido: {
     shadowColor: '#000000',
     shadowOffset: { width: 2, height: 4 },
@@ -101,7 +107,6 @@ export const SOMBRAS = {
     shadowRadius: 8,
     elevation: 6,
   },
-  /** Sombra clara para el efecto neumorph (luz arriba/izq) */
   neumorphLuz: {
     shadowColor: 'rgba(255, 255, 255, 0.06)',
     shadowOffset: { width: -2, height: -2 },
@@ -109,7 +114,6 @@ export const SOMBRAS = {
     shadowRadius: 4,
     elevation: 0,
   },
-  /** Sombra oscura para el efecto neumorph (sombra abajo/der) */
   neumorphSombra: {
     shadowColor: 'rgba(0, 0, 0, 0.35)',
     shadowOffset: { width: 3, height: 4 },
@@ -121,7 +125,7 @@ export const SOMBRAS = {
   glass: {
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.3,
     shadowRadius: 24,
     elevation: 12,
   },

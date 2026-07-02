@@ -241,10 +241,13 @@ const estilos = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   contenedor: {
-    backgroundColor: COLORES.fondoSecundario,
+    backgroundColor: COLORES.glassFondo,
     borderTopLeftRadius: BORDES.radio.xl,
     borderTopRightRadius: BORDES.radio.xl,
     maxHeight: '92%',
+    borderWidth: 1,
+    borderColor: COLORES.glassBorde,
+    borderBottomWidth: 0,
   },
   encabezado: {
     padding: 20,
@@ -281,9 +284,9 @@ const estilos = StyleSheet.create({
     marginTop: -4,
   },
   input: {
-    backgroundColor: COLORES.inputFondo,
+    backgroundColor: COLORES.glassInput,
     borderWidth: 1,
-    borderColor: COLORES.inputBorde,
+    borderColor: COLORES.glassInputBorde,
     borderRadius: BORDES.radio.sm,
     paddingHorizontal: 14,
     paddingVertical: 10,
@@ -304,12 +307,12 @@ const estilos = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: BORDES.radio.sm,
     borderWidth: 1,
-    borderColor: COLORES.inputBorde,
-    backgroundColor: COLORES.inputFondo,
+    borderColor: COLORES.glassInputBorde,
+    backgroundColor: COLORES.glassInput,
   },
   chipActivo: {
     borderColor: COLORES.primario,
-    backgroundColor: 'rgba(0, 217, 255, 0.12)',
+    backgroundColor: COLORES.glassFondo,
   },
   chipTexto: {
     color: COLORES.texto,
@@ -326,7 +329,7 @@ const estilos = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: BORDES.radio.md,
     borderWidth: 1,
-    borderColor: COLORES.separador,
+    borderColor: COLORES.glassBorde,
     alignItems: 'center',
   },
   textoCancelar: {
