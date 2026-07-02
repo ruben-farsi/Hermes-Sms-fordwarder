@@ -67,9 +67,9 @@ const estilos = StyleSheet.create({
     padding: 12,
     borderRadius: BORDES.radio.sm,
     borderWidth: 1,
-    borderColor: COLORES.inputBorde,
+    borderColor: COLORES.glassInputBorde,
     alignItems: 'center',
-    backgroundColor: COLORES.inputFondo,
+    backgroundColor: COLORES.glassInput,
   },
   botonSeleccionado: {
     backgroundColor: COLORES.primario,

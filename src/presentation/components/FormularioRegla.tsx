@@ -204,16 +204,10 @@ const estilos = StyleSheet.create({
   },
   // ─── Neumorphic Input ──
   inputNeumorph: {
-    backgroundColor: COLORES.neumorphHundido,
+    backgroundColor: COLORES.glassInput,
     borderRadius: BORDES.radio.sm,
-    // Inset/emboss effect: dark top-left, lighter bottom-right
     borderWidth: 1,
-    borderColor: COLORES.neumorphBase,
-    shadowColor: '#000000',
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 2,
+    borderColor: COLORES.glassInputBorde,
   },
   input: {
     padding: 12,
@@ -231,14 +225,8 @@ const estilos = StyleSheet.create({
     borderRadius: BORDES.radio.sm,
     borderWidth: 1,
     borderColor: COLORES.glassBorde,
-    backgroundColor: COLORES.neumorphBase,
-    // Neumorphic extrusion
-    ...SOMBRAS.neumorphExtruido,
-    shadowColor: COLORES.neumorphLuces,
-    shadowOffset: { width: -2, height: -2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    elevation: 4,
+    backgroundColor: COLORES.glassFondo,
+    ...SOMBRAS.glass,
   },
   textoAvanzado: {
     flex: 1,

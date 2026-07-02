@@ -284,9 +284,14 @@ const estilos = StyleSheet.create({
     fontWeight: '300',
   },
   resumen: {
+    backgroundColor: COLORES.glassFondo,
     marginHorizontal: 16,
     marginTop: 12,
     marginBottom: 4,
+    padding: 10,
+    borderRadius: BORDES.radio.sm,
+    borderWidth: 1,
+    borderColor: COLORES.glassBorde,
   },
   filaResumen: {
     flexDirection: 'row',
@@ -301,15 +306,15 @@ const estilos = StyleSheet.create({
     paddingBottom: 100,
   },
   tarjeta: {
-    backgroundColor: COLORES.tarjeta,
+    backgroundColor: COLORES.glassFondo,
     borderRadius: BORDES.radio.lg,
     borderWidth: 1,
-    borderColor: COLORES.tarjetaBorde,
+    borderColor: COLORES.glassBorde,
     marginBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
     overflow: 'hidden',
-    ...SOMBRAS.tarjeta,
+    ...SOMBRAS.glass,
   },
   infoRegla: {
     flex: 1,
@@ -350,7 +355,7 @@ const estilos = StyleSheet.create({
     marginBottom: 8,
   },
   badge: {
-    backgroundColor: COLORES.fondoTerciario,
+    backgroundColor: COLORES.glassFondo,
     borderRadius: 6,
     paddingHorizontal: 8,
     paddingVertical: 3,

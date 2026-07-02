@@ -14,7 +14,7 @@ import { IndicadorServicio } from '../components/IndicadorServicio';
 import { TarjetaMensaje } from '../components/TarjetaMensaje';
 import { FondoGradiente } from '../components/FondoGradiente';
 import { MensajeSms, EstadoMensaje } from '../../domain/entities/MensajeSms';
-import { COLORES, BORDES } from '../theme/colores';
+import { COLORES, BORDES, SOMBRAS } from '../theme/colores';
 import { FUENTES } from '../theme/tipografia';
 
 type FiltroEstado = 'todos' | EstadoMensaje;
@@ -168,12 +168,13 @@ const estilos = StyleSheet.create({
     paddingVertical: 9,
     paddingHorizontal: 4,
     borderRadius: BORDES.radio.sm,
-    backgroundColor: COLORES.tarjeta,
+    backgroundColor: COLORES.glassFondo,
     borderWidth: 1,
-    borderColor: COLORES.tarjetaBorde,
+    borderColor: COLORES.glassBorde,
+    ...SOMBRAS.glass,
   },
   botonFiltroActivo: {
-    backgroundColor: COLORES.fondoTerciario,
+    backgroundColor: COLORES.glassFondo,
     borderColor: COLORES.primario,
   },
 
