@@ -1,44 +1,46 @@
-name: Build Android APK
+name: Android Fast Build (Debug)
 
 on:
+  workflow_dispatch: # Permite ejecutar el build manualmente desde GitHub
   push:
     branches:
       - main
-  workflow_dispatch: # Permite ejecutar el build manualmente desde la pestaña "Actions"
 
 jobs:
   build:
-    name: Build APK
     runs-on: ubuntu-latest
-    
+
     steps:
-      - name: Checkout Repository
+      - name: Descargar Código
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24
-          cache: 'npm'
+          node-version: '20'
 
-      - name: Setup Java
+      - name: Instalar Dependencias (NPM)
+        run: npm install
+
+      - name: Configurar Java 17
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Install dependencies
-        run: npm install
+      - name: Generar carpeta nativa (Expo Prebuild)
+        run: npx expo prebuild -p android
 
-      - name: Expo Prebuild
-        run: npx expo prebuild --platform android --clean
+      - name: Dar permisos de ejecución a Gradle
+        run: chmod +x android/gradlew
 
-      - name: Build Android APK
-        working-directory: android
-        run: ./gradlew assembleDebug
+      - name: Compilar APK (Standalone Debug)
+        run: |
+          cd android
+          ./gradlew assembleDebug
 
-      - name: Upload Artifact
+      - name: Subir APK para Descargar
         uses: actions/upload-artifact@v4
         with:
-          name: sms-forwarder-apk
+          name: app-debug-standalone
           path: android/app/build/outputs/apk/debug/app-debug.apk
