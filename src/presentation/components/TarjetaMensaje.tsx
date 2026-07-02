@@ -33,6 +33,9 @@ export const TarjetaMensaje: React.FC<Props> = ({ mensaje, onReintentar }) => {
 
   return (
     <View style={estilos.contenedor}>
+      {/* Glass highlight overlay */}
+      <View style={estilos.brillo} pointerEvents="none" />
+
       <View style={estilos.encabezado}>
         <View style={estilos.infoRemitente}>
           <View style={estilos.avatarRemitente}>
@@ -88,14 +91,31 @@ export const TarjetaMensaje: React.FC<Props> = ({ mensaje, onReintentar }) => {
 
 const estilos = StyleSheet.create({
   contenedor: {
-    backgroundColor: COLORES.tarjeta,
+    backgroundColor: COLORES.neumorphBase,
     borderRadius: BORDES.radio.md,
     padding: 16,
     marginHorizontal: 16,
     marginVertical: 6,
     borderWidth: 1,
-    borderColor: COLORES.tarjetaBorde,
-    ...SOMBRAS.suave,
+    borderColor: COLORES.glassBorde,
+    // Neumorphic extrusion
+    ...SOMBRAS.neumorphExtruido,
+    // Light top-left shadow
+    shadowColor: COLORES.neumorphLuces,
+    shadowOffset: { width: -2, height: -2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    elevation: 6,
+    overflow: 'hidden',
+  },
+  brillo: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(255, 255, 255, 0.02)',
+    borderTopLeftRadius: BORDES.radio.md,
+    borderTopRightRadius: BORDES.radio.md,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    height: '50%',
   },
   encabezado: {
     flexDirection: 'row',
@@ -144,6 +164,7 @@ const estilos = StyleSheet.create({
   pieDetarjeta: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 8,
   },
   fecha: {
     fontSize: FUENTES.tamano.xs,
@@ -152,7 +173,7 @@ const estilos = StyleSheet.create({
   contenedorError: {
     backgroundColor: COLORES.errorFondo,
     padding: 10,
-    borderRadius: BORDES.radio.sm,
+    borderRadius: BORDES.radio.xs,
     marginTop: 10,
   },
   error: {
@@ -164,7 +185,7 @@ const estilos = StyleSheet.create({
     backgroundColor: COLORES.error,
     paddingVertical: 7,
     paddingHorizontal: 14,
-    borderRadius: BORDES.radio.sm,
+    borderRadius: BORDES.radio.xs,
     alignSelf: 'flex-start',
   },
   textoReintentar: {

@@ -12,6 +12,8 @@ interface Props {
 export const IndicadorServicio = React.memo<Props>(({ activo, onAlternar }) => {
   return (
     <View style={estilos.contenedor}>
+      {/* Glass highlight */}
+      <View style={estilos.brillo} pointerEvents="none" />
       <View style={estilos.indicador}>
         <View style={[estilos.punto, activo ? estilos.puntoActivo : estilos.puntoInactivo]} />
         <View style={{ flex: 1 }}>
@@ -45,15 +47,29 @@ const estilos = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: COLORES.tarjeta,
+    backgroundColor: COLORES.neumorphBase,
     padding: 16,
     marginHorizontal: 16,
     marginTop: 14,
     marginBottom: 6,
     borderRadius: BORDES.radio.md,
     borderWidth: 1,
-    borderColor: COLORES.tarjetaBorde,
-    ...SOMBRAS.suave,
+    borderColor: COLORES.glassBorde,
+    // Neumorphic extrusion
+    ...SOMBRAS.neumorphExtruido,
+    shadowColor: COLORES.neumorphLuces,
+    shadowOffset: { width: -2, height: -2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    elevation: 6,
+    overflow: 'hidden',
+  },
+  brillo: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(255, 255, 255, 0.02)',
+    borderTopLeftRadius: BORDES.radio.md,
+    borderTopRightRadius: BORDES.radio.md,
+    height: '50%',
   },
   indicador: {
     flexDirection: 'row',
@@ -68,6 +84,12 @@ const estilos = StyleSheet.create({
   },
   puntoActivo: {
     backgroundColor: COLORES.exito,
+    // Glow effect for active state
+    shadowColor: COLORES.exito,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.8,
+    shadowRadius: 6,
+    elevation: 4,
   },
   puntoInactivo: {
     backgroundColor: COLORES.error,

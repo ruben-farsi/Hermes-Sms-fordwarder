@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import { COLORES } from '../theme/colores';
+import { COLORES, BORDES, SOMBRAS } from '../theme/colores';
 
 interface Props {
   onGuardar: () => void;
@@ -24,6 +24,7 @@ export const BotonesAccion: React.FC<Props> = ({
     )}
 
     <View style={estilos.filaBotones}>
+      {/* Neumorphic Cancel button — extruded */}
       <TouchableOpacity
         style={estilos.botonCancelar}
         onPress={onCancelar}
@@ -32,9 +33,12 @@ export const BotonesAccion: React.FC<Props> = ({
         accessibilityLabel="Cancelar"
         activeOpacity={0.7}
       >
-        <Text style={estilos.textoCancelar}>Cancelar</Text>
+        <View style={estilos.cancelarInterior}>
+          <Text style={estilos.textoCancelar}>Cancelar</Text>
+        </View>
       </TouchableOpacity>
 
+      {/* Neumorphic Save button — extruded with accent */}
       <TouchableOpacity
         style={[estilos.botonGuardar, deshabilitarGuardado && { opacity: 0.5 }]}
         onPress={onGuardar}
@@ -43,7 +47,7 @@ export const BotonesAccion: React.FC<Props> = ({
         accessibilityLabel="Guardar regla"
         activeOpacity={0.8}
       >
-        <View style={estilos.filaGuardar}>
+        <View style={estilos.guardarInterior}>
           <Feather name="save" size={16} color={COLORES.textoClaro} />
           <Text style={estilos.textoGuardar}> Guardar</Text>
         </View>
@@ -56,7 +60,7 @@ const estilos = StyleSheet.create({
   contenedorError: {
     backgroundColor: COLORES.errorFondo,
     padding: 12,
-    borderRadius: 8,
+    borderRadius: BORDES.radio.xs,
     marginBottom: 12,
     borderWidth: 1,
     borderColor: COLORES.error,
@@ -74,35 +78,57 @@ const estilos = StyleSheet.create({
     marginBottom: 12,
     gap: 10,
   },
+  // ─── Cancel: Neumorphic extrusion ──
   botonCancelar: {
     flex: 1,
+    borderRadius: BORDES.radio.sm,
+    backgroundColor: COLORES.neumorphBase,
+    // Dark shadow bottom-right
+    ...SOMBRAS.neumorphExtruido,
+    // Light shadow top-left
+    shadowColor: COLORES.neumorphLuces,
+    shadowOffset: { width: -2, height: -2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 4,
+  },
+  cancelarInterior: {
     padding: 14,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: COLORES.inputBorde,
+    borderRadius: BORDES.radio.sm,
     alignItems: 'center',
-    backgroundColor: COLORES.inputFondo,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.04)',
   },
   textoCancelar: {
     color: COLORES.textoSecundario,
     fontWeight: '600',
     fontSize: 15,
   },
+  // ─── Save: Neumorphic extrusion with Verde Esmeralda ──
   botonGuardar: {
     flex: 1,
+    borderRadius: BORDES.radio.sm,
+    backgroundColor: COLORES.primarioOscuro,
+    // Dark shadow with green tint
+    shadowColor: COLORES.primario,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 6,
+  },
+  guardarInterior: {
     padding: 14,
-    borderRadius: 8,
-    backgroundColor: COLORES.primario,
+    borderRadius: BORDES.radio.sm,
     alignItems: 'center',
-    elevation: 4,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: COLORES.primario,
+    borderWidth: 1,
+    borderColor: 'rgba(46, 204, 113, 0.3)',
   },
   textoGuardar: {
     color: COLORES.textoClaro,
     fontWeight: '700',
     fontSize: 15,
-  },
-  filaGuardar: {
-    flexDirection: 'row',
-    alignItems: 'center',
   },
 });
