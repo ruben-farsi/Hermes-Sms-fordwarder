@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { ConfiguracionTelegram } from '../../domain/entities/ConfiguracionTelegram';
-import { COLORES, BORDES } from '../theme/colores';
+import { COLORES, BORDES, SOMBRAS } from '../theme/colores';
 
 interface Props {
   configuraciones: ConfiguracionTelegram[];
@@ -152,22 +152,26 @@ export const OpcionesAvanzadas: React.FC<Props> = ({
 
     <FilaEtiqueta icono="clock" texto="Horario activo" />
     <View style={estilos.filaHorarios}>
-      <TextInput
-        style={estilos.inputHorario}
-        value={horarioInicio}
-        onChangeText={onHorarioInicioChange}
-        placeholder="Desde (HH:MM)"
-        placeholderTextColor={COLORES.textoSutil}
-        keyboardType="numeric"
-      />
-      <TextInput
-        style={estilos.inputHorario}
-        value={horarioFin}
-        onChangeText={onHorarioFinChange}
-        placeholder="Hasta (HH:MM)"
-        placeholderTextColor={COLORES.textoSutil}
-        keyboardType="numeric"
-      />
+      <View style={estilos.inputNeumorph}>
+        <TextInput
+          style={estilos.inputHorario}
+          value={horarioInicio}
+          onChangeText={onHorarioInicioChange}
+          placeholder="Desde (HH:MM)"
+          placeholderTextColor={COLORES.textoSutil}
+          keyboardType="numeric"
+        />
+      </View>
+      <View style={estilos.inputNeumorph}>
+        <TextInput
+          style={estilos.inputHorario}
+          value={horarioFin}
+          onChangeText={onHorarioFinChange}
+          placeholder="Hasta (HH:MM)"
+          placeholderTextColor={COLORES.textoSutil}
+          keyboardType="numeric"
+        />
+      </View>
     </View>
 
     <FilaEtiqueta icono="calendar" texto="Días activos" />
@@ -198,16 +202,26 @@ const estilos = StyleSheet.create({
   listaConfigs: {
     gap: 6,
   },
+  // ─── Neumorphic config buttons ──
   botonConfig: {
     padding: 12,
-    borderRadius: BORDES.radio.sm,
+    borderRadius: BORDES.radio.xs,
+    backgroundColor: COLORES.neumorphBase,
     borderWidth: 1,
-    borderColor: COLORES.inputBorde,
-    backgroundColor: COLORES.inputFondo,
+    borderColor: COLORES.glassBorde,
+    // Neumorphic extrusion
+    ...SOMBRAS.neumorphExtruido,
+    shadowColor: COLORES.neumorphLuces,
+    shadowOffset: { width: -2, height: -2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3,
+    elevation: 3,
   },
   botonConfigSeleccionado: {
-    backgroundColor: COLORES.primario,
+    backgroundColor: COLORES.primarioOscuro,
     borderColor: COLORES.primario,
+    shadowColor: COLORES.primario,
+    shadowOpacity: 0.25,
   },
   filaConfig: {
     flexDirection: 'row',
@@ -231,16 +245,27 @@ const estilos = StyleSheet.create({
     flexDirection: 'row',
     gap: 10,
   },
-  inputHorario: {
+  // ─── Neumorphic time inputs (inset) ──
+  inputNeumorph: {
     flex: 1,
+    backgroundColor: COLORES.neumorphHundido,
+    borderRadius: BORDES.radio.xs,
     borderWidth: 1,
-    borderColor: COLORES.inputBorde,
-    borderRadius: BORDES.radio.sm,
+    borderColor: COLORES.neumorphBase,
+    shadowColor: '#000000',
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  inputHorario: {
     padding: 12,
     fontSize: 15,
-    backgroundColor: COLORES.inputFondo,
     color: COLORES.texto,
+    borderRadius: BORDES.radio.xs,
+    backgroundColor: 'transparent',
   },
+  // ─── Neumorphic day buttons ──
   filaDias: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -249,15 +274,26 @@ const estilos = StyleSheet.create({
   botonDia: {
     flex: 1,
     paddingVertical: 8,
-    borderRadius: BORDES.radio.sm,
-    borderWidth: 1,
-    borderColor: COLORES.inputBorde,
+    borderRadius: BORDES.radio.xs,
     alignItems: 'center',
-    backgroundColor: COLORES.inputFondo,
+    backgroundColor: COLORES.neumorphBase,
+    borderWidth: 1,
+    borderColor: COLORES.glassBorde,
+    // Neumorphic extrusion
+    ...SOMBRAS.neumorphExtruido,
+    shadowColor: COLORES.neumorphLuces,
+    shadowOffset: { width: -1, height: -1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 3,
   },
   botonDiaActivo: {
-    backgroundColor: COLORES.primario,
+    backgroundColor: COLORES.primarioOscuro,
     borderColor: COLORES.primario,
+    shadowColor: COLORES.primario,
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 4,
   },
   textoDia: {
     fontSize: 12,

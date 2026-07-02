@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Switch, StyleSheet } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import { COLORES } from '../theme/colores';
+import { COLORES, BORDES, SOMBRAS } from '../theme/colores';
 import { FUENTES } from '../theme/tipografia';
 
 interface Props {
@@ -60,12 +60,20 @@ export const SeccionSwitches: React.FC<Props> = ({
 
 const estilos = StyleSheet.create({
   contenedor: {
-    backgroundColor: COLORES.inputFondo,
-    borderRadius: 8,
+    backgroundColor: COLORES.neumorphBase,
+    borderRadius: BORDES.radio.sm,
     padding: 12,
     marginTop: 16,
     borderWidth: 1,
-    borderColor: COLORES.inputBorde,
+    borderColor: COLORES.glassBorde,
+    // Neumorphic extrusion: dark bottom-right
+    ...SOMBRAS.neumorphExtruido,
+    // Light top-left for depth
+    shadowColor: COLORES.neumorphLuces,
+    shadowOffset: { width: -2, height: -2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 4,
   },
   filaSwitch: {
     flexDirection: 'row',

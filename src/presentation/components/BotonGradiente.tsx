@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { TouchableOpacity, StyleSheet, ViewStyle, StyleProp } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { GRADIENTES, BORDES, SOMBRAS } from '../theme/colores';
+import { GRADIENTES, BORDES, SOMBRAS, COLORES } from '../theme/colores';
 
 interface Props {
   children: React.ReactNode;
@@ -37,8 +37,8 @@ export const BotonGradiente = React.memo<Props>(({
       accessibilityLabel={accessibilityLabel}
       accessibilityState={{ disabled }}
       activeOpacity={0.8}
-      hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-      style={[style, disabled && { opacity: 0.5 }]}
+      hitSlop={{ top: 8, bottom: 8, left: 8, right: 8, }}
+      style={[estilos.sombraExterior, style, disabled && { opacity: 0.5 }]}
     >
       <LinearGradient
         colors={colors}
@@ -53,11 +53,27 @@ export const BotonGradiente = React.memo<Props>(({
 });
 
 const estilos = StyleSheet.create({
+  sombraExterior: {
+    // Neumorphic extrusion: dark shadow bottom-right, light top-left
+    shadowColor: COLORES.neumorphSombras,
+    shadowOffset: { width: 3, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 6,
+    elevation: 6,
+    borderRadius: BORDES.radio.sm,
+  },
   boton: {
     padding: 14,
     borderRadius: BORDES.radio.sm,
     alignItems: 'center',
     justifyContent: 'center',
-    ...SOMBRAS.boton,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.08)',
+    // Light shadow (top-left) for neumorphic depth
+    shadowColor: COLORES.neumorphLuces,
+    shadowOffset: { width: -2, height: -2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 0,
   },
 });

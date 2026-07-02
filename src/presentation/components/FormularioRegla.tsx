@@ -14,8 +14,9 @@ import {
   UIManager,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { BlurView } from 'expo-blur';
 import { useFormularioRegla } from '../hooks/useFormularioRegla';
-import { COLORES, BORDES } from '../theme/colores';
+import { COLORES, BORDES, SOMBRAS } from '../theme/colores';
 import { EncabezadoFormulario } from './EncabezadoFormulario';
 import { SelectorCampoObjetivo } from './SelectorCampoObjetivo';
 import { OpcionesAvanzadas } from './OpcionesAvanzadas';
@@ -62,12 +63,35 @@ export const FormularioRegla: React.FC<Props> = ({
     if (datos) onGuardar(datos);
   };
 
+  const renderInput = (
+    valor: string,
+    onChange: (v: string) => void,
+    placeholder: string,
+    accLabel: string,
+    extra?: { autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters' }
+  ) => (
+    <View style={estilos.inputNeumorph}>
+      <TextInput
+        style={estilos.input}
+        value={valor}
+        onChangeText={onChange}
+        placeholder={placeholder}
+        placeholderTextColor={COLORES.textoSutil}
+        autoCapitalize={extra?.autoCapitalize}
+        accessibilityLabel={accLabel}
+      />
+    </View>
+  );
+
   return (
     <Modal visible={visible} animationType="slide" transparent>
       <KeyboardAvoidingView
         style={estilos.fondo}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
+        {Platform.OS === 'ios' && (
+          <BlurView intensity={25} tint="dark" style={StyleSheet.absoluteFill} />
+        )}
         <View style={estilos.contenedorExterior}>
           <ScrollView
             style={estilos.contenedor}
@@ -81,14 +105,7 @@ export const FormularioRegla: React.FC<Props> = ({
               <Feather name="edit" size={14} color={COLORES.primario} />
               <Text style={estilos.etiqueta}> Nombre de la regla</Text>
             </View>
-            <TextInput
-              style={estilos.input}
-              value={nombre}
-              onChangeText={setNombre}
-              placeholder="Ej: Alertas del banco"
-              placeholderTextColor={COLORES.textoSutil}
-              accessibilityLabel="Nombre de la regla"
-            />
+            {renderInput(nombre, setNombre, 'Ej: Alertas del banco', 'Nombre de la regla')}
 
             <SelectorCampoObjetivo
               valor={campoObjetivo}
@@ -100,15 +117,12 @@ export const FormularioRegla: React.FC<Props> = ({
               <Feather name="search" size={14} color={COLORES.primario} />
               <Text style={estilos.etiqueta}> Patrón de búsqueda</Text>
             </View>
-            <TextInput
-              style={estilos.input}
-              value={patron}
-              onChangeText={setPatron}
-              placeholder={esRegex ? 'Ej: \\d{6}' : 'Ej: banco'}
-              placeholderTextColor={COLORES.textoSutil}
-              autoCapitalize="none"
-              accessibilityLabel={esRegex ? 'Patrón regex' : 'Patrón de búsqueda'}
-            />
+            {renderInput(
+              patron, setPatron,
+              esRegex ? 'Ej: \\d{6}' : 'Ej: banco',
+              esRegex ? 'Patrón regex' : 'Patrón de búsqueda',
+              { autoCapitalize: 'none' }
+            )}
 
             {/* Opciones avanzadas */}
             <TouchableOpacity
@@ -162,17 +176,20 @@ export const FormularioRegla: React.FC<Props> = ({
 const estilos = StyleSheet.create({
   fondo: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     justifyContent: 'flex-end',
   },
   contenedorExterior: {
     maxHeight: '85%',
   },
   contenedor: {
-    backgroundColor: COLORES.fondoSecundario,
+    backgroundColor: COLORES.glassFondo,
     borderTopLeftRadius: BORDES.radio.xl,
     borderTopRightRadius: BORDES.radio.xl,
     padding: 20,
+    borderWidth: 1,
+    borderColor: COLORES.glassBordeActivo,
+    borderBottomWidth: 0,
   },
   filaEtiqueta: {
     flexDirection: 'row',
@@ -185,14 +202,25 @@ const estilos = StyleSheet.create({
     fontWeight: '600',
     color: COLORES.textoSecundario,
   },
-  input: {
-    borderWidth: 1,
-    borderColor: COLORES.inputBorde,
+  // ─── Neumorphic Input ──
+  inputNeumorph: {
+    backgroundColor: COLORES.neumorphHundido,
     borderRadius: BORDES.radio.sm,
+    // Inset/emboss effect: dark top-left, lighter bottom-right
+    borderWidth: 1,
+    borderColor: COLORES.neumorphBase,
+    shadowColor: '#000000',
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  input: {
     padding: 12,
     fontSize: 15,
-    backgroundColor: COLORES.inputFondo,
     color: COLORES.texto,
+    borderRadius: BORDES.radio.sm,
+    backgroundColor: 'transparent',
   },
   botonAvanzado: {
     flexDirection: 'row',
@@ -202,8 +230,15 @@ const estilos = StyleSheet.create({
     padding: 14,
     borderRadius: BORDES.radio.sm,
     borderWidth: 1,
-    borderColor: COLORES.inputBorde,
-    backgroundColor: COLORES.inputFondo,
+    borderColor: COLORES.glassBorde,
+    backgroundColor: COLORES.neumorphBase,
+    // Neumorphic extrusion
+    ...SOMBRAS.neumorphExtruido,
+    shadowColor: COLORES.neumorphLuces,
+    shadowOffset: { width: -2, height: -2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 4,
   },
   textoAvanzado: {
     flex: 1,
