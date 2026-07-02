@@ -7,8 +7,8 @@ export const COLORES = {
   tarjetaBorde: 'rgba(255, 255, 255, 0.06)',
   tarjetaSombra: 'rgba(0, 0, 0, 0.3)',
 
-  primario: '#00D9FF',
-  primarioOscuro: '#00B8D9',
+  primario: '#2ECC71',
+  primarioOscuro: '#27AE60',
   secundario: '#7C4DFF',
   acento: '#00E676',
 
@@ -28,15 +28,15 @@ export const COLORES = {
 
   inputFondo: 'rgba(255, 255, 255, 0.05)',
   inputBorde: 'rgba(255, 255, 255, 0.1)',
-  inputBordeActivo: 'rgba(0, 217, 255, 0.5)',
+  inputBordeActivo: 'rgba(46, 204, 113, 0.5)',
 
-  switchTrackActivo: 'rgba(0, 217, 255, 0.3)',
-  switchThumbActivo: '#00D9FF',
+  switchTrackActivo: 'rgba(46, 204, 113, 0.3)',
+  switchThumbActivo: '#2ECC71',
   switchTrackInactivo: 'rgba(255, 255, 255, 0.08)',
   switchThumbInactivo: '#546E7A',
 
   tabBarFondo: '#0F1923',
-  tabBarActivo: '#00D9FF',
+  tabBarActivo: '#2ECC71',
   tabBarInactivo: '#546E7A',
 
   separador: 'rgba(255, 255, 255, 0.06)',
@@ -45,7 +45,7 @@ export const COLORES = {
 export const GRADIENTES = {
   principal: ['#0F1923', '#1A2733', '#0F1923'] as const,
   header: ['#1A2733', '#243442'] as const,
-  boton: ['#00D9FF', '#7C4DFF'] as const,
+  boton: ['#2ECC71', '#27AE60'] as const,
   botonExito: ['#00E676', '#00C853'] as const,
   botonError: ['#FF5252', '#D32F2F'] as const,
   acento: ['#7C4DFF', '#E040FB'] as const,
@@ -67,7 +67,7 @@ export const SOMBRAS = {
     elevation: 4,
   },
   boton: {
-    shadowColor: '#00D9FF',
+    shadowColor: '#2ECC71',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 12,
