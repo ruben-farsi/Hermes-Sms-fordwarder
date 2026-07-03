@@ -15,9 +15,9 @@ export const COLORES = {
   acento: '#00E676',
 
   texto: '#ECEFF1',
-  textoSecundario: '#90A4AE',
+  textoSecundario: '#B0BEC5',
   textoClaro: '#FFFFFF',
-  textoSutil: '#8E9AAB',
+  textoSutil: '#B0BEC5',
 
   exito: '#00E676',
   exitoFondo: 'rgba(0, 230, 118, 0.12)',

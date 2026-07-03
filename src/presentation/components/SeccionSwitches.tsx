@@ -21,8 +21,7 @@ export const SeccionSwitches: React.FC<Props> = ({
     <View style={estilos.filaSwitch}>
       <View style={estilos.infoSwitch}>
         <View style={estilos.filaEtiqueta}>
-          <Feather name="code" size={14} color={COLORES.primario} />
-          <Text style={estilos.etiquetaSwitch}> Expresión regular</Text>
+          <Text style={estilos.etiquetaSwitch}>Expresión regular</Text>
         </View>
         <Text style={estilos.ayudaSwitch}>
           Permite patrones avanzados como {'{'}6{'}'}
@@ -41,8 +40,7 @@ export const SeccionSwitches: React.FC<Props> = ({
     <View style={estilos.filaSwitch}>
       <View style={estilos.infoSwitch}>
         <View style={estilos.filaEtiqueta}>
-          <Feather name="zap" size={14} color={COLORES.acento} />
-          <Text style={estilos.etiquetaSwitch}> Regla activa</Text>
+          <Text style={estilos.etiquetaSwitch}>Regla activa</Text>
         </View>
         <Text style={estilos.ayudaSwitch}>
           Solo las reglas activas filtran SMS

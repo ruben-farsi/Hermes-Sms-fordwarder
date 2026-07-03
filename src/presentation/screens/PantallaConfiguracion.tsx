@@ -221,8 +221,8 @@ export const PantallaConfiguracion: React.FC = () => {
               <View style={estilos.indicadorModal} />
             </View>
             <View style={estilos.filaTituloModal}>
-                          {editando ? <><Feather name="edit" size={16} color={COLORES.primario} /><Text style={estilos.tituloModal}> Editar configuración</Text></> : <><Feather name="plus" size={16} color={COLORES.primario} /><Text style={estilos.tituloModal}> Nueva configuración</Text></>}
-                        </View>
+              <Text style={estilos.tituloModal}>{editando ? 'Editar configuración' : 'Nueva configuración'}</Text>
+            </View>
 
             <Text style={estilos.etiqueta}>Nombre</Text>
             <TextInput

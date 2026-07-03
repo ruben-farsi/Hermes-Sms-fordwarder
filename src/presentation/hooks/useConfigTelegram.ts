@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { ConfiguracionTelegram } from '../../domain/entities/ConfiguracionTelegram';
 import { ContenedorDeDependencias } from '../../infrastructure/container/ContenedorDeDependencias';
 
@@ -8,6 +8,7 @@ export const useConfigTelegram = () => {
   const [enviandoPrueba, setEnviandoPrueba] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [exito, setExito] = useState<string | null>(null);
+  const temporizadorExito = useRef<ReturnType<typeof setTimeout>>();
 
   const { configurarTelegram, sincronizadorConfigNativa } =
     ContenedorDeDependencias.obtenerInstancia();
@@ -37,6 +38,8 @@ export const useConfigTelegram = () => {
         await cargarConfiguraciones();
         await sincronizadorConfigNativa.sincronizar();
         setExito('Configuración guardada correctamente');
+        if (temporizadorExito.current) clearTimeout(temporizadorExito.current);
+        temporizadorExito.current = setTimeout(() => setExito(null), 3000);
       } catch {
         setError('Error al guardar configuración');
       }
@@ -53,6 +56,8 @@ export const useConfigTelegram = () => {
         await cargarConfiguraciones();
         await sincronizadorConfigNativa.sincronizar();
         setExito('Configuración eliminada');
+        if (temporizadorExito.current) clearTimeout(temporizadorExito.current);
+        temporizadorExito.current = setTimeout(() => setExito(null), 3000);
       } catch {
         setError('Error al eliminar configuración');
       }
@@ -67,6 +72,8 @@ export const useConfigTelegram = () => {
     try {
       await configurarTelegram.enviarMensajeDePrueba(configId);
       setExito('Mensaje de prueba enviado correctamente');
+        if (temporizadorExito.current) clearTimeout(temporizadorExito.current);
+        temporizadorExito.current = setTimeout(() => setExito(null), 3000);
     } catch (e) {
       setError(
         e instanceof Error ? e.message : 'Error al enviar prueba',

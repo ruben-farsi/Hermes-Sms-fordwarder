@@ -145,16 +145,6 @@ export const PantallaReglas: React.FC = () => {
 
   return (
     <FondoGradiente>
-      {reglas.length > 0 && (
-        <View style={estilos.resumen}>
-          <Feather name="bar-chart-2" size={16} color={COLORES.primario} />{' '}
-            <Text style={estilos.textoResumen}>
-              {reglas.filter((r) => r.activa).length} activas de{' '}
-            {reglas.length} reglas
-          </Text>
-        </View>
-      )}
-
       <FlatList
         data={reglas}
         keyExtractor={(item) => item.id}
@@ -169,16 +159,15 @@ export const PantallaReglas: React.FC = () => {
       <TouchableOpacity
         onPress={abrirFormularioNuevo}
         activeOpacity={0.8}
-        style={estilos.contenedorBotonAgregar}
+        style={estilos.fabContenedor}
       >
         <LinearGradient
           colors={[...GRADIENTES.boton]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          style={estilos.botonAgregar}
+          style={estilos.fab}
         >
-          <Feather name="plus" size={16} color="#FFFFFF" />
-          <Text style={[estilos.textoAgregar, { color: COLORES.textoClaro }]}> Nueva regla</Text>
+          <Feather name="plus" size={28} color={COLORES.textoClaro} />
         </LinearGradient>
       </TouchableOpacity>
 
@@ -289,22 +278,18 @@ const estilos = StyleSheet.create({
   textoEliminar: {
     fontSize: FUENTES.tamano.xl,
   },
-  contenedorBotonAgregar: {
-    marginHorizontal: 16,
-    marginBottom: 16,
-    marginTop: 4,
-    borderRadius: BORDES.radio.md,
+  fabContenedor: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
     ...SOMBRAS.boton,
   },
-  botonAgregar: {
-    padding: 16,
-    borderRadius: BORDES.radio.md,
+  fab: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    justifyContent: 'center',
     alignItems: 'center',
-  },
-  textoAgregar: {
-    color: COLORES.textoClaro,
-    fontSize: FUENTES.tamano.lg,
-    fontWeight: FUENTES.peso.bold,
   },
   vacio: {
     flex: 1,

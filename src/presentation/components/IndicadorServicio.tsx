@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { COLORES, SOMBRAS, BORDES } from '../theme/colores';
 import { FUENTES } from '../theme/tipografia';
@@ -30,15 +30,24 @@ export const IndicadorServicio = React.memo<Props>(({ activo, onAlternar }) => {
         </View>
       </View>
 
-      <BotonGradiente
-        variante={activo ? 'error' : 'exito'}
-        onPress={onAlternar}
-        accessibilityLabel={activo ? 'Detener servicio SMS' : 'Iniciar servicio SMS'}
-      >
-        <Text style={estilos.textoBoton}>
-          {activo ? '⏹ Detener' : '▶ Iniciar'}
-        </Text>
-      </BotonGradiente>
+      {activo ? (
+        <TouchableOpacity
+          style={estilos.botonDetener}
+          onPress={onAlternar}
+          activeOpacity={0.7}
+          accessibilityLabel="Detener servicio SMS"
+        >
+          <Text style={estilos.textoDetener}>⏹ Detener</Text>
+        </TouchableOpacity>
+      ) : (
+        <BotonGradiente
+          variante="exito"
+          onPress={onAlternar}
+          accessibilityLabel="Iniciar servicio SMS"
+        >
+          <Text style={estilos.textoIniciar}>▶ Iniciar</Text>
+        </BotonGradiente>
+      )}
     </BlurView>
   );
 });
@@ -99,7 +108,20 @@ const estilos = StyleSheet.create({
     fontWeight: FUENTES.peso.medio,
     marginTop: 2,
   },
-  textoBoton: {
+  botonDetener: {
+    paddingVertical: 10,
+    paddingHorizontal: 18,
+    borderRadius: BORDES.radio.sm,
+    borderWidth: 1.5,
+    borderColor: COLORES.error,
+    backgroundColor: 'transparent',
+  },
+  textoDetener: {
+    color: COLORES.error,
+    fontWeight: FUENTES.peso.bold,
+    fontSize: FUENTES.tamano.sm,
+  },
+  textoIniciar: {
     color: COLORES.textoClaro,
     fontWeight: FUENTES.peso.bold,
     fontSize: FUENTES.tamano.sm,

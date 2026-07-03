@@ -102,8 +102,7 @@ export const FormularioRegla: React.FC<Props> = ({
 
             {/* Nombre */}
             <View style={estilos.filaEtiqueta}>
-              <Feather name="edit" size={14} color={COLORES.primario} />
-              <Text style={estilos.etiqueta}> Nombre de la regla</Text>
+              <Text style={estilos.etiqueta}>Nombre de la regla</Text>
             </View>
             {renderInput(nombre, setNombre, 'Ej: Alertas del banco', 'Nombre de la regla')}
 
@@ -114,8 +113,7 @@ export const FormularioRegla: React.FC<Props> = ({
 
             {/* Patrón */}
             <View style={estilos.filaEtiqueta}>
-              <Feather name="search" size={14} color={COLORES.primario} />
-              <Text style={estilos.etiqueta}> Patrón de búsqueda</Text>
+              <Text style={estilos.etiqueta}>Patrón de búsqueda</Text>
             </View>
             {renderInput(
               patron, setPatron,
