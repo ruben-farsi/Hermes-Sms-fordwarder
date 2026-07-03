@@ -33,14 +33,14 @@ export const TarjetaMensaje: React.FC<Props> = ({ mensaje, onReintentar }) => {
   const estado = COLORES_ESTADO[mensaje.estado];
 
   return (
-    <BlurView intensity={50} tint="light" style={estilos.contenedor}>
+    <BlurView intensity={50} tint="dark" style={estilos.contenedor}>
       {/* Glass highlight overlay */}
       <View style={estilos.brillo} pointerEvents="none" />
 
       <View style={estilos.encabezado}>
         <View style={estilos.infoRemitente}>
           <View style={estilos.avatarRemitente}>
-            <Feather name="user" size={14} color={COLORES.textoSecundario} />
+            <Feather name="user" size={14} color={COLORES.textoSutil} />
           </View>
           <Text style={estilos.remitente} numberOfLines={1}>
             {mensaje.remitente}
@@ -96,6 +96,7 @@ const estilos = StyleSheet.create({
     padding: 16,
     marginHorizontal: 16,
     marginVertical: 6,
+    backgroundColor: '#151720',
     borderWidth: 1,
     borderColor: COLORES.glassBorde,
     // Glassmorphism shadow
@@ -134,8 +135,8 @@ const estilos = StyleSheet.create({
   },
   remitente: {
     fontSize: FUENTES.tamano.md,
-    fontWeight: FUENTES.peso.semibold,
-    color: COLORES.texto,
+    fontWeight: '700',
+    color: COLORES.textoClaro,
     flex: 1,
   },
   insigniaEstado: {
@@ -151,7 +152,7 @@ const estilos = StyleSheet.create({
   },
   cuerpo: {
     fontSize: FUENTES.tamano.sm,
-    color: COLORES.textoSecundario,
+    color: COLORES.texto,
     marginTop: 6,
     lineHeight: 18,
   },
