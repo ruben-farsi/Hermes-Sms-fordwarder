@@ -118,6 +118,7 @@ export const PantallaInicio: React.FC = () => {
 
       <FlatList
         data={mensajesFiltrados}
+        style={{ flex: 1, width: '100%' }}
         keyExtractor={(item) => item.id}
         renderItem={renderizarMensaje}
         ListEmptyComponent={renderizarVacio}
