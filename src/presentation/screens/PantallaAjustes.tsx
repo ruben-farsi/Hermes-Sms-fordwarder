@@ -391,8 +391,10 @@ const estilos = StyleSheet.create({
     marginHorizontal: 16,
     marginTop: 16,
     padding: 16,
+    minHeight: 52,
     borderRadius: BORDES.radio.md,
     alignItems: 'center',
+    justifyContent: 'center',
     ...SOMBRAS.boton,
   },
   textoBotonGuardar: {

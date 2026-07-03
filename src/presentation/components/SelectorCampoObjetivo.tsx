@@ -71,6 +71,7 @@ const estilos = StyleSheet.create({
   botonOpcion: {
     flex: 1,
     padding: 12,
+    minHeight: 52,
     borderRadius: BORDES.radio.sm,
     borderWidth: 1,
     borderColor: COLORES.glassInputBorde,
