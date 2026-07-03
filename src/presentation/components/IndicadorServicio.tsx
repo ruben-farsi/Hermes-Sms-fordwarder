@@ -109,12 +109,15 @@ const estilos = StyleSheet.create({
     marginTop: 2,
   },
   botonDetener: {
-    paddingVertical: 10,
+    paddingVertical: 14,
     paddingHorizontal: 18,
+    minHeight: 52,
     borderRadius: BORDES.radio.sm,
     borderWidth: 1.5,
     borderColor: COLORES.error,
     backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   textoDetener: {
     color: COLORES.error,
