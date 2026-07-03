@@ -85,7 +85,7 @@ export const PantallaInicio: React.FC = () => {
         onAlternar={alternarServicio}
       />
 
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={estilos.barraFiltros}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ maxHeight: 60, flexGrow: 0, marginHorizontal: 16, marginTop: 10, marginBottom: 6 }} contentContainerStyle={[estilos.barraFiltros, { marginTop: 0, marginBottom: 0 }]}>
         {OPCIONES_FILTRO.map((opcion) => (
           <TouchableOpacity
             key={opcion.clave}
@@ -159,9 +159,6 @@ const estilos = StyleSheet.create({
   },
   barraFiltros: {
     flexDirection: 'row',
-    marginHorizontal: 16,
-    marginTop: 10,
-    marginBottom: 6,
     gap: 6,
   },
   botonFiltro: {
