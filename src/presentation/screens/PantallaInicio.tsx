@@ -164,10 +164,10 @@ const estilos = StyleSheet.create({
     gap: 6,
   },
   botonFiltro: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    alignSelf: 'flex-start',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: BORDES.radio.sm,
