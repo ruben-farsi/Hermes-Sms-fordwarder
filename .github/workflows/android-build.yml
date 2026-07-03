@@ -41,7 +41,8 @@ jobs:
 
       - name: Firmar APK para Instalación Local
         run: |
-          APK_PATH="android/app/build/outputs/apk/release/app-release-unsigned.apk"
+          APK_PATH=$(ls android/app/build/outputs/apk/release/*.apk | head -n 1)
+          echo "APK encontrado en: $APK_PATH"
           # Generar keystore temporal
           keytool -genkey -v -keystore temp-debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
           # Buscar apksigner y firmar
