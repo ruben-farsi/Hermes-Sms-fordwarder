@@ -84,89 +84,88 @@ export const FormularioRegla: React.FC<Props> = ({
   );
 
   return (
-    <Modal visible={visible} animationType="slide" transparent>
-      <KeyboardAvoidingView
-        style={estilos.fondo}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
-        {Platform.OS === 'ios' && (
-          <BlurView intensity={25} tint="dark" style={StyleSheet.absoluteFill} />
-        )}
-        <View style={estilos.contenedorExterior}>
-          <ScrollView
-            style={estilos.contenedor}
-            showsVerticalScrollIndicator={false}
-            keyboardShouldPersistTaps="handled"
-          >
-            <EncabezadoFormulario esEdicion={!!reglaExistente} />
-
-            {/* Nombre */}
-            <View style={estilos.filaEtiqueta}>
-              <Text style={estilos.etiqueta}>Nombre de la regla</Text>
-            </View>
-            {renderInput(nombre, setNombre, 'Ej: Alertas del banco', 'Nombre de la regla')}
-
-            <SelectorCampoObjetivo
-              valor={campoObjetivo}
-              onChange={setCampoObjetivo}
-            />
-
-            {/* Patrón */}
-            <View style={estilos.filaEtiqueta}>
-              <Text style={estilos.etiqueta}>Patrón de búsqueda</Text>
-            </View>
-            {renderInput(
-              patron, setPatron,
-              esRegex ? 'Ej: \\d{6}' : 'Ej: banco',
-              esRegex ? 'Patrón regex' : 'Patrón de búsqueda',
-              { autoCapitalize: 'none' }
-            )}
-
-            {/* Opciones avanzadas */}
-            <TouchableOpacity
-              style={estilos.botonAvanzado}
-              onPress={() => {
-                LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-                setAvanzadoVisible(!avanzadoVisible);
-              }}
-              activeOpacity={0.7}
+    <Modal visible={visible} animationType="slide" presentationStyle="overFullScreen">
+      <BlurView intensity={80} tint="dark" style={StyleSheet.absoluteFill}>
+        <KeyboardAvoidingView
+          style={estilos.fondo}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+          <View style={estilos.contenedorExterior}>
+            <ScrollView
+              style={estilos.contenedor}
+              showsVerticalScrollIndicator={false}
+              keyboardShouldPersistTaps="handled"
             >
-              <Feather name="sliders" size={14} color={COLORES.primario} />
-              <Text style={estilos.textoAvanzado}> Opciones avanzadas</Text>
-              <Feather name={avanzadoVisible ? 'chevron-up' : 'chevron-down'} size={16} color={COLORES.primario} />
-            </TouchableOpacity>
+              <EncabezadoFormulario esEdicion={!!reglaExistente} />
 
-            {avanzadoVisible && (
-              <OpcionesAvanzadas
-                configuraciones={configuraciones}
-                configTelegramId={configTelegramId}
-                onConfigTelegramChange={setConfigTelegramId}
-                horarioInicio={horarioInicio}
-                onHorarioInicioChange={setHorarioInicio}
-                horarioFin={horarioFin}
-                onHorarioFinChange={setHorarioFin}
-                diasActivos={diasActivos}
-                onToggleDia={toggleDia}
-                DIAS_SEMANA={DIAS_SEMANA}
+              {/* Nombre */}
+              <View style={estilos.filaEtiqueta}>
+                <Text style={estilos.etiqueta}>Nombre de la regla</Text>
+              </View>
+              {renderInput(nombre, setNombre, 'Ej: Alertas del banco', 'Nombre de la regla')}
+
+              <SelectorCampoObjetivo
+                valor={campoObjetivo}
+                onChange={setCampoObjetivo}
               />
-            )}
 
-            <SeccionSwitches
-              esRegex={esRegex}
-              onEsRegexChange={setEsRegex}
-              activa={activa}
-              onActivaChange={setActiva}
-            />
+              {/* Patrón */}
+              <View style={estilos.filaEtiqueta}>
+                <Text style={estilos.etiqueta}>Patrón de búsqueda</Text>
+              </View>
+              {renderInput(
+                patron, setPatron,
+                esRegex ? 'Ej: \\d{6}' : 'Ej: banco',
+                esRegex ? 'Patrón regex' : 'Patrón de búsqueda',
+                { autoCapitalize: 'none' }
+              )}
 
-            <BotonesAccion
-              onGuardar={manejarGuardado}
-              onCancelar={onCancelar}
-              error={error}
-              deshabilitarGuardado={!!error}
-            />
-          </ScrollView>
-        </View>
-      </KeyboardAvoidingView>
+              {/* Opciones avanzadas */}
+              <TouchableOpacity
+                style={estilos.botonAvanzado}
+                onPress={() => {
+                  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                  setAvanzadoVisible(!avanzadoVisible);
+                }}
+                activeOpacity={0.7}
+              >
+                <Feather name="sliders" size={14} color={COLORES.primario} />
+                <Text style={estilos.textoAvanzado}> Opciones avanzadas</Text>
+                <Feather name={avanzadoVisible ? 'chevron-up' : 'chevron-down'} size={16} color={COLORES.primario} />
+              </TouchableOpacity>
+
+              {avanzadoVisible && (
+                <OpcionesAvanzadas
+                  configuraciones={configuraciones}
+                  configTelegramId={configTelegramId}
+                  onConfigTelegramChange={setConfigTelegramId}
+                  horarioInicio={horarioInicio}
+                  onHorarioInicioChange={setHorarioInicio}
+                  horarioFin={horarioFin}
+                  onHorarioFinChange={setHorarioFin}
+                  diasActivos={diasActivos}
+                  onToggleDia={toggleDia}
+                  DIAS_SEMANA={DIAS_SEMANA}
+                />
+              )}
+
+              <SeccionSwitches
+                esRegex={esRegex}
+                onEsRegexChange={setEsRegex}
+                activa={activa}
+                onActivaChange={setActiva}
+              />
+
+              <BotonesAccion
+                onGuardar={manejarGuardado}
+                onCancelar={onCancelar}
+                error={error}
+                deshabilitarGuardado={!!error}
+              />
+            </ScrollView>
+          </View>
+        </KeyboardAvoidingView>
+      </BlurView>
     </Modal>
   );
 };
@@ -174,11 +173,10 @@ export const FormularioRegla: React.FC<Props> = ({
 const estilos = StyleSheet.create({
   fondo: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     justifyContent: 'flex-end',
   },
   contenedorExterior: {
-    maxHeight: '85%',
+    maxHeight: '92%',
   },
   contenedor: {
     backgroundColor: COLORES.glassFondo,
@@ -200,7 +198,7 @@ const estilos = StyleSheet.create({
     fontWeight: '600',
     color: COLORES.textoSecundario,
   },
-  // ─── Neumorphic Input ──
+  // ─── Midnight Glass Input ──
   inputNeumorph: {
     backgroundColor: COLORES.glassInput,
     borderRadius: BORDES.radio.sm,

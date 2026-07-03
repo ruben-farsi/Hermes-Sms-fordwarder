@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Feather } from '@expo/vector-icons';
+import { BlurView } from 'expo-blur';
 import {
   View,
   Text,
@@ -207,7 +208,8 @@ export const PantallaConfiguracion: React.FC = () => {
         </LinearGradient>
       </TouchableOpacity>
 
-      <Modal visible={modalVisible} animationType="slide" transparent>
+      <Modal visible={modalVisible} animationType="slide" presentationStyle="overFullScreen">
+        <BlurView intensity={80} tint="dark" style={StyleSheet.absoluteFill}>
         <KeyboardAvoidingView
           style={estilos.fondoModal}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -287,6 +289,7 @@ export const PantallaConfiguracion: React.FC = () => {
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
+        </BlurView>
       </Modal>
     </FondoGradiente>
   );

@@ -165,8 +165,8 @@ const estilos = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 9,
-    paddingHorizontal: 4,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: BORDES.radio.sm,
     backgroundColor: COLORES.glassFondo,
     borderWidth: 1,
@@ -182,6 +182,7 @@ const estilos = StyleSheet.create({
     fontSize: FUENTES.tamano.xs,
     fontWeight: FUENTES.peso.semibold,
     color: COLORES.textoSutil,
+    marginLeft: 8,
   },
   textoFiltroActivo: {
     color: COLORES.primario,
