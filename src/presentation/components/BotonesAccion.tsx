@@ -87,8 +87,10 @@ const estilos = StyleSheet.create({
   },
   cancelarInterior: {
     padding: 14,
+    minHeight: 52,
     borderRadius: BORDES.radio.sm,
     alignItems: 'center',
+    justifyContent: 'center',
     borderWidth: 1,
     borderColor: COLORES.glassBorde,
   },
@@ -110,13 +112,14 @@ const estilos = StyleSheet.create({
   },
   guardarInterior: {
     padding: 14,
+    minHeight: 52,
     borderRadius: BORDES.radio.sm,
     alignItems: 'center',
-    flexDirection: 'row',
     justifyContent: 'center',
+    flexDirection: 'row',
     backgroundColor: COLORES.primario,
     borderWidth: 1,
-    borderColor: 'rgba(46, 204, 113, 0.3)',
+    borderColor: 'rgba(10, 132, 255, 0.3)',
   },
   textoGuardar: {
     color: COLORES.textoClaro,

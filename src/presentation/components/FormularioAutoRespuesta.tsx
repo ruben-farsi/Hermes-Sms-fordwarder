@@ -342,10 +342,12 @@ const estilos = StyleSheet.create({
   botonCancelar: {
     flex: 1,
     paddingVertical: 14,
+    minHeight: 52,
     borderRadius: BORDES.radio.md,
     borderWidth: 1,
     borderColor: COLORES.glassBorde,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   textoCancelar: {
     color: COLORES.textoSecundario,
@@ -355,8 +357,10 @@ const estilos = StyleSheet.create({
   botonGuardar: {
     flex: 1,
     paddingVertical: 14,
+    minHeight: 52,
     borderRadius: BORDES.radio.md,
     alignItems: 'center',
+    justifyContent: 'center',
     minWidth: 140,
   },
   textoGuardar: {
