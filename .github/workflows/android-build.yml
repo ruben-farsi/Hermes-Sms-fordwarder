@@ -34,13 +34,24 @@ jobs:
       - name: Dar permisos de ejecución a Gradle
         run: chmod +x android/gradlew
 
-      - name: Compilar APK (Standalone Debug)
+      - name: Compilar APK (Release Independiente)
         run: |
           cd android
-          ./gradlew assembleDebug
+          ./gradlew assembleRelease
+
+      - name: Firmar APK para Instalación Local
+        run: |
+          APK_PATH="android/app/build/outputs/apk/release/app-release-unsigned.apk"
+          # Generar keystore temporal
+          keytool -genkey -v -keystore temp-debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          # Buscar apksigner y firmar
+          APKSIGNER=$(find $ANDROID_HOME/build-tools -name apksigner | sort -r | head -n 1)
+          $APKSIGNER sign --ks temp-debug.keystore --ks-pass pass:android --key-pass pass:android $APK_PATH
+          # Renombrar
+          mv $APK_PATH android/app/build/outputs/apk/release/app-final.apk
 
       - name: Subir APK para Descargar
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug-standalone
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: app-release-final
+          path: android/app/build/outputs/apk/release/app-final.apk
