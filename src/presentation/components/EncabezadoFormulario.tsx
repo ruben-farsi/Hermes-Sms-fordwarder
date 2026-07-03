@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Feather } from '@expo/vector-icons';
 import { COLORES } from '../theme/colores';
 
 interface Props {
@@ -14,13 +13,8 @@ export const EncabezadoFormulario: React.FC<Props> = ({ esEdicion }) => (
       <View style={estilos.indicador} />
     </View>
     <View style={estilos.filaTitulo}>
-      <Feather
-        name={esEdicion ? 'edit' : 'plus'}
-        size={16}
-        color={COLORES.texto}
-      />
       <Text style={estilos.titulo}>
-        {' '}{esEdicion ? 'Editar regla' : 'Nueva regla'}
+        {esEdicion ? 'Editar regla' : 'Nueva regla'}
       </Text>
     </View>
   </View>

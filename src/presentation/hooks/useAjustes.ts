@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { Ajustes } from '../../domain/entities/Ajustes';
 import { ContenedorDeDependencias } from '../../infrastructure/container/ContenedorDeDependencias';
 
@@ -6,6 +6,7 @@ export const useAjustes = () => {
   const [ajustes, setAjustes] = useState<Ajustes | null>(null);
   const [cargando, setCargando] = useState(true);
   const [guardado, setGuardado] = useState(false);
+  const temporizadorGuardado = useRef<ReturnType<typeof setTimeout>>();
 
   const { gestionarAjustes } =
     ContenedorDeDependencias.obtenerInstancia();
@@ -27,6 +28,8 @@ export const useAjustes = () => {
       await gestionarAjustes.guardarAjustes(nuevosAjustes);
       setAjustes(nuevosAjustes);
       setGuardado(true);
+      if (temporizadorGuardado.current) clearTimeout(temporizadorGuardado.current);
+      temporizadorGuardado.current = setTimeout(() => setGuardado(false), 3000);
     },
     [gestionarAjustes],
   );

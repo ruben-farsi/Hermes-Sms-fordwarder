@@ -121,12 +121,10 @@ const SelectorDias: React.FC<{
 );
 
 const FilaEtiqueta: React.FC<{
-  icono: React.ComponentProps<typeof Feather>['name'];
   texto: string;
-}> = ({ icono, texto }) => (
+}> = ({ texto }) => (
   <View style={estilos.filaEtiqueta}>
-    <Feather name={icono} size={14} color={COLORES.primario} />
-    <Text style={estilos.etiqueta}> {texto}</Text>
+    <Text style={estilos.etiqueta}>{texto}</Text>
   </View>
 );
 
@@ -143,14 +141,14 @@ export const OpcionesAvanzadas: React.FC<Props> = ({
   DIAS_SEMANA,
 }) => (
   <View style={estilos.contenedor}>
-    <FilaEtiqueta icono="message-circle" texto="Bot de Telegram" />
+    <FilaEtiqueta texto="Bot de Telegram" />
     <SelectorConfigTelegram
       configuraciones={configuraciones}
       configTelegramId={configTelegramId}
       onChange={onConfigTelegramChange}
     />
 
-    <FilaEtiqueta icono="clock" texto="Horario activo" />
+    <FilaEtiqueta texto="Horario activo" />
     <View style={estilos.filaHorarios}>
       <View style={estilos.inputNeumorph}>
         <TextInput
@@ -174,7 +172,7 @@ export const OpcionesAvanzadas: React.FC<Props> = ({
       </View>
     </View>
 
-    <FilaEtiqueta icono="calendar" texto="Días activos" />
+    <FilaEtiqueta texto="Días activos" />
     <SelectorDias
       diasActivos={diasActivos}
       onToggle={onToggleDia}
