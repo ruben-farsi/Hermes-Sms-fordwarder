@@ -3,6 +3,7 @@ import { Feather } from '@expo/vector-icons';
 import {
   View,
   FlatList,
+  ScrollView,
   Text,
   StyleSheet,
   ActivityIndicator,
@@ -84,7 +85,7 @@ export const PantallaInicio: React.FC = () => {
         onAlternar={alternarServicio}
       />
 
-      <View style={estilos.barraFiltros}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={estilos.barraFiltros}>
         {OPCIONES_FILTRO.map((opcion) => (
           <TouchableOpacity
             key={opcion.clave}
@@ -102,6 +103,8 @@ export const PantallaInicio: React.FC = () => {
           >
             <Feather name={ICONOS_FILTRO[opcion.clave].name} size={14} color={ICONOS_FILTRO[opcion.clave].color} />
             <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit={true}
               style={[
                 estilos.textoFiltro,
                 filtroActivo === opcion.clave && estilos.textoFiltroActivo,
@@ -111,7 +114,7 @@ export const PantallaInicio: React.FC = () => {
             </Text>
           </TouchableOpacity>
         ))}
-      </View>
+      </ScrollView>
 
       <FlatList
         data={mensajesFiltrados}
