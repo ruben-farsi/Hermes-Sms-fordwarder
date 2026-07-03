@@ -84,18 +84,18 @@ export const FormularioRegla: React.FC<Props> = ({
   );
 
   return (
-    <Modal visible={visible} animationType="slide" presentationStyle="overFullScreen">
+    <Modal visible={visible} animationType="slide" transparent={true}>
       <BlurView intensity={80} tint="dark" style={StyleSheet.absoluteFill}>
         <KeyboardAvoidingView
           style={estilos.fondo}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         >
-          <View style={estilos.contenedorExterior}>
-            <ScrollView
-              style={estilos.contenedor}
-              showsVerticalScrollIndicator={false}
-              keyboardShouldPersistTaps="handled"
-            >
+          <ScrollView
+            contentContainerStyle={estilos.contenedorScroll}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+          >
+            <View style={estilos.contenedor}>
               <EncabezadoFormulario esEdicion={!!reglaExistente} />
 
               {/* Nombre */}
@@ -162,8 +162,8 @@ export const FormularioRegla: React.FC<Props> = ({
                 error={error}
                 deshabilitarGuardado={!!error}
               />
-            </ScrollView>
-          </View>
+            </View>
+          </ScrollView>
         </KeyboardAvoidingView>
       </BlurView>
     </Modal>
@@ -173,19 +173,19 @@ export const FormularioRegla: React.FC<Props> = ({
 const estilos = StyleSheet.create({
   fondo: {
     flex: 1,
-    justifyContent: 'flex-end',
   },
-  contenedorExterior: {
-    maxHeight: '92%',
+  contenedorScroll: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 60,
   },
   contenedor: {
     backgroundColor: COLORES.glassFondo,
-    borderTopLeftRadius: BORDES.radio.xl,
-    borderTopRightRadius: BORDES.radio.xl,
+    borderRadius: BORDES.radio.md,
     padding: 20,
     borderWidth: 1,
-    borderColor: COLORES.glassBordeActivo,
-    borderBottomWidth: 0,
+    borderColor: COLORES.glassBorde,
   },
   filaEtiqueta: {
     flexDirection: 'row',
