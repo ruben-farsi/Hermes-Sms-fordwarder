@@ -17,31 +17,37 @@ const OPCIONES: { valor: CampoObjetivo; icono: React.ComponentProps<typeof Feath
 export const SelectorCampoObjetivo: React.FC<Props> = ({ valor, onChange }) => (
   <>
     <View style={estilos.filaEtiqueta}>
-      <Feather name="crosshair" size={14} color={COLORES.primario} />
-      <Text style={estilos.etiqueta}> Aplicar sobre</Text>
+      <Text style={estilos.etiqueta}>Aplicar sobre</Text>
     </View>
     <View style={estilos.filaBotones}>
-      {OPCIONES.map((opcion) => (
-        <TouchableOpacity
-          key={opcion.valor}
-          style={[
-            estilos.botonOpcion,
-            valor === opcion.valor && estilos.botonSeleccionado,
-          ]}
-          onPress={() => onChange(opcion.valor)}
-          activeOpacity={0.7}
-        >
-          <Feather name={opcion.icono} size={16} color={COLORES.primario} />
-          <Text
+      {OPCIONES.map((opcion) => {
+        const activo = valor === opcion.valor;
+        return (
+          <TouchableOpacity
+            key={opcion.valor}
             style={[
-              estilos.textoOpcion,
-              valor === opcion.valor && estilos.textoSeleccionado,
+              estilos.botonOpcion,
+              activo && estilos.botonSeleccionado,
             ]}
+            onPress={() => onChange(opcion.valor)}
+            activeOpacity={0.7}
           >
-            {opcion.texto}
-          </Text>
-        </TouchableOpacity>
-      ))}
+            <Feather
+              name={opcion.icono}
+              size={16}
+              color={activo ? COLORES.textoClaro : COLORES.primario}
+            />
+            <Text
+              style={[
+                estilos.textoOpcion,
+                activo && estilos.textoSeleccionado,
+              ]}
+            >
+              {opcion.texto}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
     </View>
   </>
 );

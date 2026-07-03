@@ -1,142 +1,139 @@
 export const COLORES = {
-  fondoPrincipal: '#0F1923',
-  fondoSecundario: '#1A2733',
-  fondoTerciario: '#243442',
+  // ─── Midnight OLED Base ────────────────────────
+  fondoPrincipal: '#000000',
+  fondoSecundario: '#0A0B10',
+  fondoTerciario: '#12141C',
 
-  // ─── Cards & containers ahora usan glass ──
-  /** @deprecated Usar glassFondo en su lugar */
-  tarjeta: '#1A2733',
-  tarjetaBorde: 'rgba(255, 255, 255, 0.06)',
-  tarjetaSombra: 'rgba(0, 0, 0, 0.3)',
+  // ─── Cards & containers — glass midnight ──
+  tarjeta: '#0A0B10',
+  tarjetaBorde: 'rgba(255, 255, 255, 0.08)',
+  tarjetaSombra: 'rgba(0, 0, 0, 0.5)',
 
-  primario: '#2ECC71',
-  primarioOscuro: '#27AE60',
-  secundario: '#7C4DFF',
-  acento: '#00E676',
+  // ─── Electric Blue / Cyan accent ────────────────
+  primario: '#0A84FF',
+  primarioOscuro: '#0066D6',
+  secundario: '#00F0FF',
+  acento: '#00F0FF',
 
-  texto: '#ECEFF1',
+  // ─── Text ──────────────────────────────────────
+  texto: '#F0F2F8',
   textoSecundario: '#B0BEC5',
   textoClaro: '#FFFFFF',
-  textoSutil: '#B0BEC5',
+  textoSutil: '#8E99A4',
 
-  exito: '#00E676',
-  exitoFondo: 'rgba(0, 230, 118, 0.12)',
-  error: '#FF5252',
-  errorFondo: 'rgba(255, 82, 82, 0.12)',
-  advertencia: '#FFD740',
-  advertenciaFondo: 'rgba(255, 215, 64, 0.12)',
-  filtrado: '#78909C',
-  filtradoFondo: 'rgba(120, 144, 156, 0.12)',
+  // ─── State ─────────────────────────────────────
+  exito: '#30D158',
+  exitoFondo: 'rgba(48, 209, 88, 0.12)',
+  error: '#FF453A',
+  errorFondo: 'rgba(255, 69, 58, 0.12)',
+  advertencia: '#FFD60A',
+  advertenciaFondo: 'rgba(255, 214, 10, 0.12)',
+  filtrado: '#8E99A4',
+  filtradoFondo: 'rgba(142, 153, 164, 0.12)',
 
+  // ─── Input — midnight glass ─────────────────────
   inputFondo: 'rgba(255, 255, 255, 0.05)',
   inputBorde: 'rgba(255, 255, 255, 0.1)',
-  inputBordeActivo: 'rgba(46, 204, 113, 0.5)',
+  inputBordeActivo: 'rgba(10, 132, 255, 0.5)',
 
-  switchTrackActivo: 'rgba(46, 204, 113, 0.3)',
-  switchThumbActivo: '#2ECC71',
+  // ─── Switch ────────────────────────────────────
+  switchTrackActivo: 'rgba(10, 132, 255, 0.3)',
+  switchThumbActivo: '#0A84FF',
   switchTrackInactivo: 'rgba(255, 255, 255, 0.08)',
-  switchThumbInactivo: '#546E7A',
+  switchThumbInactivo: '#3A3A3C',
 
-  tabBarFondo: '#0F1923',
-  tabBarActivo: '#2ECC71',
-  tabBarInactivo: '#546E7A',
+  // ─── Tab bar ───────────────────────────────────
+  tabBarFondo: '#000000',
+  tabBarActivo: '#0A84FF',
+  tabBarInactivo: '#3A3A3C',
 
   separador: 'rgba(255, 255, 255, 0.06)',
 
   // ─── Glassmorphism tokens ───────────────────────
-  /** Fondo glass para tarjetas, contenedores y modales */
-  glassFondo: 'rgba(15, 25, 35, 0.75)',
-  /** Borde sutil para elementos glass */
-  glassBorde: 'rgba(255, 255, 255, 0.15)',
-  /** Borde activo con acento verde */
-  glassBordeActivo: 'rgba(46, 204, 113, 0.25)',
-  /** Sombra profunda para glass */
-  glassSombra: 'rgba(0, 0, 0, 0.35)',
-  /** Fondo glass para inputs (más translúcido) */
-  glassInput: 'rgba(0, 0, 0, 0.3)',
-  /** Borde glass para inputs */
-  glassInputBorde: 'rgba(255, 255, 255, 0.08)',
+  glassFondo: 'rgba(10, 11, 16, 0.75)',
+  glassBorde: 'rgba(255, 255, 255, 0.10)',
+  glassBordeActivo: 'rgba(10, 132, 255, 0.25)',
+  glassSombra: 'rgba(0, 0, 0, 0.5)',
+  glassInput: 'rgba(255, 255, 255, 0.04)',
+  glassInputBorde: 'rgba(255, 255, 255, 0.07)',
 
-  // ─── Neumorphism tokens (legacy, mantenidos para compatibilidad) ──
-  neumorphLuces: 'rgba(255, 255, 255, 0.04)',
-  neumorphSombras: 'rgba(0, 0, 0, 0.35)',
-  neumorphLucesFuerte: 'rgba(46, 204, 113, 0.12)',
-  neumorphBase: '#1E2D3D',
-  neumorphHundido: '#16212E',
+  // ─── Neumorphism tokens (legacy) ────────────────
+  neumorphLuces: 'rgba(255, 255, 255, 0.03)',
+  neumorphSombras: 'rgba(0, 0, 0, 0.5)',
+  neumorphLucesFuerte: 'rgba(10, 132, 255, 0.10)',
+  neumorphBase: '#0A0B10',
+  neumorphHundido: '#050508',
 };
 
 export const GRADIENTES = {
-  /** Fondo principal — azul profundo premium */
-  principal: ['#0f2027', '#203a43', '#2c5364'] as const,
-  header: ['#1A2733', '#243442'] as const,
-  boton: ['#2ECC71', '#27AE60'] as const,
-  botonExito: ['#00E676', '#00C853'] as const,
-  botonError: ['#FF5252', '#D32F2F'] as const,
-  acento: ['#7C4DFF', '#E040FB'] as const,
-  /** Overlay glass oscuro */
-  glass: ['rgba(15, 25, 35, 0.6)', 'rgba(26, 39, 51, 0.4)'] as const,
+  /** Fondo principal — Midnight profundo */
+  principal: ['#000000', '#0A0B10', '#12141C'] as const,
+  header: ['#0A0B10', '#12141C'] as const,
+  boton: ['#0A84FF', '#0066D6'] as const,
+  botonExito: ['#30D158', '#248A3D'] as const,
+  botonError: ['#FF453A', '#BF332B'] as const,
+  acento: ['#00F0FF', '#0A84FF'] as const,
+  glass: ['rgba(0, 0, 0, 0.6)', 'rgba(10, 11, 16, 0.4)'] as const,
 };
 
 export const SOMBRAS = {
   tarjeta: {
     shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
-    elevation: 8,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 16,
+    elevation: 10,
   },
   suave: {
     shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 4,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 5,
   },
   boton: {
-    shadowColor: '#2ECC71',
+    shadowColor: '#0A84FF',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 12,
     elevation: 6,
   },
-  // ─── Neumorphism (legacy) ──
   neumorphExtruido: {
     shadowColor: '#000000',
     shadowOffset: { width: 2, height: 4 },
-    shadowOpacity: 0.35,
+    shadowOpacity: 0.5,
     shadowRadius: 8,
     elevation: 6,
   },
   neumorphLuz: {
-    shadowColor: 'rgba(255, 255, 255, 0.06)',
+    shadowColor: 'rgba(255, 255, 255, 0.03)',
     shadowOffset: { width: -2, height: -2 },
     shadowOpacity: 0.5,
     shadowRadius: 4,
     elevation: 0,
   },
   neumorphSombra: {
-    shadowColor: 'rgba(0, 0, 0, 0.35)',
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
     shadowOffset: { width: 3, height: 4 },
     shadowOpacity: 0.5,
     shadowRadius: 6,
     elevation: 4,
   },
-  // ─── Glassmorphism ──
   glass: {
     shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.3,
-    shadowRadius: 24,
-    elevation: 12,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.4,
+    shadowRadius: 28,
+    elevation: 14,
   },
 };
 
 export const BORDES = {
   radio: {
-    xs: 8,
-    sm: 12,
-    md: 16,
-    lg: 20,
+    xs: 12,
+    sm: 16,
+    md: 20,
+    lg: 24,
     xl: 28,
   },
 };

@@ -10,7 +10,7 @@ interface Props {
 export const FondoGradiente: React.FC<Props> = ({ children, style }) => (
   <View style={[estilos.contenedor, style]}>
     <LinearGradient
-      colors={['#0f2027', '#203a43', '#2c5364']}
+      colors={['#000000', '#0A0B10', '#12141C']}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       style={estilos.gradiente}
@@ -21,10 +21,6 @@ export const FondoGradiente: React.FC<Props> = ({ children, style }) => (
 );
 
 const estilos = StyleSheet.create({
-  contenedor: {
-    flex: 1,
-  },
-  gradiente: {
-    flex: 1,
-  },
+  contenedor: { flex: 1 },
+  gradiente: { flex: 1 },
 });
