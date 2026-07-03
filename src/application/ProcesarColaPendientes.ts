@@ -72,7 +72,7 @@ export class ProcesarColaPendientes {
     motivoError?: string,
   ): Promise<void> {
     const mensaje: MensajeSms = {
-      id: crypto.randomUUID(),
+      id: Date.now().toString(36) + Math.random().toString(36).substring(2),
       remitente,
       cuerpo,
       fechaHora: new Date(),

@@ -18,7 +18,7 @@ export class ObtenerRegistroDeMensajes {
           const logs = JSON.parse(logsStr);
           for (const log of logs) {
             const mensaje: MensajeSms = {
-              id: crypto.randomUUID(),
+              id: Date.now().toString(36) + Math.random().toString(36).substring(2),
               remitente: log.remitente,
               cuerpo: log.cuerpo,
               estado: log.estado as EstadoMensaje,
