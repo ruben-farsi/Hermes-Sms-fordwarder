@@ -211,7 +211,7 @@ export const PantallaConfiguracion: React.FC = () => {
       <Modal visible={modalVisible} animationType="slide" transparent={true}>
         <BlurView intensity={80} tint="dark" style={StyleSheet.absoluteFill}>
         <ScrollView
-          contentContainerStyle={estilos.contenidoScrollModal}
+          contentContainerStyle={estilos.contenedorScrollModal}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
@@ -281,6 +281,7 @@ export const PantallaConfiguracion: React.FC = () => {
                 </LinearGradient>
               </TouchableOpacity>
             </View>
+          </View>
           </ScrollView>
         </BlurView>
       </Modal>
