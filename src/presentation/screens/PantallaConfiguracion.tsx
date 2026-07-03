@@ -208,20 +208,14 @@ export const PantallaConfiguracion: React.FC = () => {
         </LinearGradient>
       </TouchableOpacity>
 
-      <Modal visible={modalVisible} animationType="slide" presentationStyle="overFullScreen">
+      <Modal visible={modalVisible} animationType="slide" transparent={true}>
         <BlurView intensity={80} tint="dark" style={StyleSheet.absoluteFill}>
-        <KeyboardAvoidingView
-          style={estilos.fondoModal}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        <ScrollView
+          contentContainerStyle={estilos.contenidoScrollModal}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
         >
-          <ScrollView
-            style={estilos.contenedorModal}
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={false}
-          >
-            <View style={estilos.barraModal}>
-              <View style={estilos.indicadorModal} />
-            </View>
+          <View style={estilos.contenedorModal}>
             <View style={estilos.filaTituloModal}>
               <Text style={estilos.tituloModal}>{editando ? 'Editar configuración' : 'Nueva configuración'}</Text>
             </View>
@@ -288,7 +282,6 @@ export const PantallaConfiguracion: React.FC = () => {
               </TouchableOpacity>
             </View>
           </ScrollView>
-        </KeyboardAvoidingView>
         </BlurView>
       </Modal>
     </FondoGradiente>
@@ -408,30 +401,18 @@ const estilos = StyleSheet.create({
     alignItems: 'center',
   },
   textoFab: { color: COLORES.textoClaro, fontSize: 28, fontWeight: '300', marginTop: -2 },
-  fondoModal: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    justifyContent: 'flex-end',
+  contenedorScrollModal: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 60,
   },
   contenedorModal: {
     backgroundColor: COLORES.glassFondo,
-    borderTopLeftRadius: BORDES.radio.xl,
-    borderTopRightRadius: BORDES.radio.xl,
+    borderRadius: BORDES.radio.md,
     padding: 20,
-    maxHeight: '85%',
     borderWidth: 1,
     borderColor: COLORES.glassBorde,
-    borderBottomWidth: 0,
-  },
-  barraModal: {
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  indicadorModal: {
-    width: 40,
-    height: 4,
-    backgroundColor: COLORES.textoSutil,
-    borderRadius: 2,
   },
   tituloModal: {
     fontSize: FUENTES.tamano.xl,

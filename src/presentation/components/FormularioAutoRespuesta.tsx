@@ -91,9 +91,13 @@ export const FormularioAutoRespuesta: React.FC<Props> = ({
   };
 
   return (
-    <Modal visible={visible} animationType="slide" presentationStyle="overFullScreen">
+    <Modal visible={visible} animationType="slide" transparent={true}>
       <BlurView intensity={80} tint="dark" style={StyleSheet.absoluteFill}>
-        <View style={estilos.overlay}>
+        <ScrollView
+          contentContainerStyle={estilos.contenedorScroll}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+        >
           <View style={estilos.contenedor}>
             <LinearGradient
               colors={[...GRADIENTES.header]}
@@ -108,7 +112,7 @@ export const FormularioAutoRespuesta: React.FC<Props> = ({
               </View>
             </LinearGradient>
 
-            <ScrollView style={estilos.cuerpo} showsVerticalScrollIndicator={false}>
+            <View style={estilos.cuerpo}>
               {/* Nombre */}
               <Text style={estilos.etiqueta}>Nombre de la regla *</Text>
               <TextInput
@@ -237,32 +241,30 @@ export const FormularioAutoRespuesta: React.FC<Props> = ({
                   </LinearGradient>
                 </TouchableOpacity>
               </View>
-            </ScrollView>
+            </View>
           </View>
-        </View>
+        </ScrollView>
       </BlurView>
     </Modal>
   );
 };
 
 const estilos = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    justifyContent: 'flex-end',
+  contenedorScroll: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 60,
   },
   contenedor: {
     backgroundColor: COLORES.glassFondo,
-    borderTopLeftRadius: BORDES.radio.xl,
-    borderTopRightRadius: BORDES.radio.xl,
-    maxHeight: '92%',
+    borderRadius: BORDES.radio.md,
     borderWidth: 1,
     borderColor: COLORES.glassBorde,
-    borderBottomWidth: 0,
+    overflow: 'hidden',
   },
   encabezado: {
     padding: 20,
-    borderTopLeftRadius: BORDES.radio.xl,
-    borderTopRightRadius: BORDES.radio.xl,
     alignItems: 'center',
   },
   titulo: {
