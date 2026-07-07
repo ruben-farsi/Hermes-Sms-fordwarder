@@ -42,3 +42,8 @@ yarn-error.*
 
 # Ignorar la carpeta de agentes
 .agents/
+
+# Build and deploy artifacts
+*.html
+eas_log.txt
+coverage/
